@@ -35,8 +35,11 @@ ext {
   retrofitAdapterVersion = '2.1.0'
   retrofitFastJsonConverterVersion = '2.1.0'
   jsuopVersion = '1.9.2'
-  materialBottomBarVersion = '1.4.0.1'
+  materialBottomBarVersion = '2.0.2'
 
+  // qy client
+  flyBannerVersion = '1.3'
+  navigationtabstrip = '1.0.4'
 
   androidDependencies =
       [libAppcompat   : "com.android.support:appcompat-v7:${androidSupportLibraryVersion}",
@@ -74,7 +77,10 @@ ext {
                             retrofitFastJsonConverter: "org.ligboy.retrofit2:converter-fastjson-android:${retrofitFastJsonConverterVersion}",
 
                             jsoup                    : "org.jsoup:jsoup:${jsuopVersion}",
-                            materialBottomBar        : "com.roughike:bottom-bar:${materialBottomBarVersion}"]
+                            bottomBar        : "com.roughike:bottom-bar:${materialBottomBarVersion}",
+                            flyBanner                : "com.recker.flybanner:flybanner:${flyBannerVersion}",
+                            tabBar                   : "com.github.devlight.navigationtabstrip:navigationtabstrip:${navigationtabstrip}"
 
+  ]
   testDependencies = [junit: "junit:junit:${jUnitVersion}"]
 }

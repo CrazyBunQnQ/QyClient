@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootScroll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.i7676.qyclient.MainActivity"
+    >
+
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      >
+
+    <com.recker.flybanner.FlyBanner
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_below="@id/toolbar"
+        />
+
+    <com.gigamole.navigationtabstrip.NavigationTabStrip
+        android:id="@+id/nts"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_below="@id/banner"
+        app:nts_active_color="@color/colorAccent"
+        app:nts_color="@color/colorAccent"
+        app:nts_gravity="bottom"
+        app:nts_inactive_color="@android:color/darker_gray"
+        app:nts_size="14sp"
+        app:nts_type="line"
+        />
+
+    <com.i7676.qyclient.widgets.NonScrollableRecyclerView
+        android:id="@+id/gameList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/nts"
+        />
+  </RelativeLayout>
+</ScrollView>

@@ -65,5 +65,7 @@ dependencies {
   compile thirdPartyLib.retrofitAdapters
   compile thirdPartyLib.recyclerAdapter
   compile thirdPartyLib.jsoup
-  compile thirdPartyLib.materialBottomBar
+  compile thirdPartyLib.bottomBar
+  compile thirdPartyLib.flyBanner
+  compile thirdPartyLib.tabBar
 }

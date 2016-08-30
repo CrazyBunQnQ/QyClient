@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+  <tab
+      icon="@drawable/ic_videogame_asset_grey_700_24dp"
+      id="@+id/game"
+      title="游戏"/>
+  <tab
+      icon="@drawable/ic_star_grey_700_24dp"
+      id="@+id/activities"
+      title="活动"/>
+  <tab
+      icon="@drawable/ic_card_giftcard_grey_700_24dp"
+      id="@+id/gifts"
+      title="礼包"/>
+  <tab
+      icon="@drawable/ic_person_grey_700_24dp"
+      id="@+id/profile"
+      title="我的"/>
+</tabs>
