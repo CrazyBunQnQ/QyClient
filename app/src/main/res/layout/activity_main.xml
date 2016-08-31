@@ -1,20 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="com.i7676.qyclient.MainActivity"
     >
-
-  <android.support.v7.widget.Toolbar
-      android:id="@+id/toolbar"
-      android:layout_width="match_parent"
-      android:layout_height="?attr/actionBarSize"
-      />
-
 
   <FrameLayout
       android:id="@+id/contentView"
@@ -22,11 +14,20 @@
       android:layout_height="match_parent"
       />
 
+  <android.support.v7.widget.Toolbar
+      android:id="@+id/toolbar"
+      android:layout_width="match_parent"
+      android:layout_height="?attr/actionBarSize"
+      android:background="@color/colorPrimary"
+      />
+
   <com.roughike.bottombar.BottomBar
       android:id="@+id/bottomBar"
       android:layout_width="match_parent"
       android:layout_height="?attr/actionBarSize"
-      app:bb_behavior="underNavbar"
+      android:layout_above="@id/contentView"
+      android:layout_alignParentBottom="true"
       app:bb_tabXmlResource="@xml/bottom_bar"
       />
-</LinearLayout>
+
+</RelativeLayout>

@@ -8,6 +8,13 @@
       icon="@drawable/ic_star_grey_700_24dp"
       id="@+id/activities"
       title="活动"/>
+
+  <tab
+      icon="@drawable/ic_add_box_amber_900_48dp"
+      id="@+id/btn_hi"
+      title="Hi"
+      />
+
   <tab
       icon="@drawable/ic_card_giftcard_grey_700_24dp"
       id="@+id/gifts"
