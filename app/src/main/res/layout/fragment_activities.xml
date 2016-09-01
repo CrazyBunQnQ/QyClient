@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#BDBDBD"
+    android:orientation="vertical"
+    android:paddingTop="?attr/actionBarSize"
+    >
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="?attr/actionBarSize"
+      android:layout_marginTop="8dp"
+      android:background="#ffffff"
+      android:gravity="center_vertical"
+      >
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="16dp"
+        android:src="@drawable/ic_star_grey_700_24dp"
+        />
+    <TextView
+        android:id="@+id/guildText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
+        android:text="当前活动"
+        android:textColor="@color/colorAccent"
+        android:textSize="16.5sp"
+        />
+  </LinearLayout>
+
+  <android.support.v7.widget.RecyclerView
+      android:id="@+id/activities_recyclerView"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_marginLeft="8dp"
+      android:layout_marginRight="8dp"
+      android:layout_marginTop="16dp"
+      android:background="@android:color/transparent"
+      />
+
+</LinearLayout>

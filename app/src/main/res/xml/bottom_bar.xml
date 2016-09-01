@@ -2,25 +2,25 @@
 <tabs>
   <tab
       icon="@drawable/ic_videogame_asset_grey_700_24dp"
-      id="@+id/game"
+      id="@+id/bottom_game"
       title="游戏"/>
   <tab
       icon="@drawable/ic_star_grey_700_24dp"
-      id="@+id/activities"
+      id="@+id/bottom_activities"
       title="活动"/>
 
   <tab
       icon="@drawable/ic_add_box_amber_900_48dp"
-      id="@+id/btn_hi"
+      id="@+id/bottom_hi"
       title="Hi"
       />
 
   <tab
       icon="@drawable/ic_card_giftcard_grey_700_24dp"
-      id="@+id/gifts"
+      id="@+id/_bottom_gifts"
       title="礼包"/>
   <tab
       icon="@drawable/ic_person_grey_700_24dp"
-      id="@+id/profile"
+      id="@+id/bottom_profile"
       title="我的"/>
 </tabs>

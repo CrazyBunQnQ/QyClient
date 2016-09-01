@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".LoginActivity"
+    >
+  <ImageView
+      android:id="@+id/img_login_wx"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentLeft="true"
+      android:layout_alignParentStart="true"
+      android:layout_centerVertical="true"
+      android:layout_marginLeft="118dp"
+      android:layout_marginStart="118dp"
+      android:onClick="wxLogin"
+      android:src="@drawable/ic_login_wx"
+      />
+
+  <ImageView
+      android:id="@+id/img_login_zfb"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignTop="@+id/img_login_wx"
+      android:layout_marginLeft="57dp"
+      android:layout_marginStart="57dp"
+      android:layout_toEndOf="@+id/img_login_wx"
+      android:layout_toRightOf="@+id/img_login_wx"
+      android:onClick="zfbLogin"
+      android:src="@drawable/ic_login_zfb"
+      />
+</RelativeLayout>

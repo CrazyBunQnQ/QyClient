@@ -3,7 +3,6 @@ package com.i7676.qyclient.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +12,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.gigamole.navigationtabstrip.NavigationTabStrip;
 import com.i7676.qyclient.R;
+import com.i7676.qyclient.interfaces.ToolbarAgent;
 import com.i7676.qyclient.widgets.NonScrollableRecyclerView;
 import com.i7676.qyclient.widgets.ObservableScrollView;
 import com.recker.flybanner.FlyBanner;
@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/8/30.
  */
-public class GameFragment extends Fragment {
+public class GameFragment extends BaseFragment {
 
   private static final String TAG = GameFragment.class.getSimpleName();
 
@@ -44,10 +44,11 @@ public class GameFragment extends Fragment {
   private int primaryColor = 0xFFFF6F00;// 4294930176
   private int totalOffset = 0x7F000000;
   private int offset = 0x1000000;
-  private ToolbarAlphaHelper toolbarAlphaHelper;
 
-  public void setToolbarAlphaHelper(ToolbarAlphaHelper toolbarAlphaHelper) {
-    this.toolbarAlphaHelper = toolbarAlphaHelper;
+  private ToolbarAgent mToolbarAgent;
+
+  public void registerToolbarAgent(ToolbarAgent mToolbarAgent) {
+    this.mToolbarAgent = mToolbarAgent;
   }
 
   @Nullable @Override
@@ -59,6 +60,11 @@ public class GameFragment extends Fragment {
   }
 
   private void initViews(View rootView) {
+    if (mToolbarAgent != null) {
+      mToolbarAgent.setTitleText("");
+      mToolbarAgent.setBgColor(transparentColor);
+    }
+
     mNavigationTabStrip = (NavigationTabStrip) rootView.findViewById(R.id.nts);
     mNavigationTabStrip.setTitles("热力推荐", "最新上线");
     mNavigationTabStrip.setTabIndex(0);
@@ -84,24 +90,24 @@ public class GameFragment extends Fragment {
     mScrollView.setmScrollChangedListener((l, r, oldl, oldr) -> {
       Log.d(TAG, "initViews: >>> {l:" + l + ",r:" + r + ",oldl:" + oldl + ",oldr:" + oldr + "}");
 
-      if (toolbarAlphaHelper != null) {
+      if (mToolbarAgent != null) {
         boolean scrollDown = r - oldr > 0;
         if (r <= 0) {
-          toolbarAlphaHelper.setBgColor(transparentColor);
+          mToolbarAgent.setBgColor(transparentColor);
         } else if (r > 0 && r < 360) {
           float percent = r / 360f;
           int tempColor = new Float(totalOffset * percent).intValue();
           Log.d(TAG, "percent:" + percent + "%, tempColor:" + tempColor);
           // 下滑
           if (scrollDown) {
-            toolbarAlphaHelper.setBgColor(transparentColor + calcColorOffset(tempColor, offset));
+            mToolbarAgent.setBgColor(transparentColor + calcColorOffset(tempColor, offset));
           }
           // 上拉
           else {
-            toolbarAlphaHelper.setBgColor(transparentColor - calcColorOffset(tempColor, offset));
+            mToolbarAgent.setBgColor(transparentColor - calcColorOffset(tempColor, offset));
           }
         } else if (r >= 360) {
-          toolbarAlphaHelper.setBgColor(primaryColor);
+          mToolbarAgent.setBgColor(primaryColor);
         }
       }
     });
