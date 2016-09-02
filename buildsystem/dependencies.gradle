@@ -77,9 +77,12 @@ ext {
                             retrofitFastJsonConverter: "org.ligboy.retrofit2:converter-fastjson-android:${retrofitFastJsonConverterVersion}",
 
                             jsoup                    : "org.jsoup:jsoup:${jsuopVersion}",
-                            bottomBar        : "com.roughike:bottom-bar:${materialBottomBarVersion}",
+                            bottomBar                : "com.roughike:bottom-bar:${materialBottomBarVersion}",
                             flyBanner                : "com.recker.flybanner:flybanner:${flyBannerVersion}",
-                            tabBar                   : "com.github.devlight.navigationtabstrip:navigationtabstrip:${navigationtabstrip}"
+                            tabBar                   : "com.github.devlight.navigationtabstrip:navigationtabstrip:${navigationtabstrip}",
+
+                            jjwtTool                 : "io.jsonwebtoken:jjwt:0.6.0",
+                            jackson                  : "com.fasterxml.jackson.core:jackson-databind:2.4.2"
 
   ]
   testDependencies = [junit: "junit:junit:${jUnitVersion}"]

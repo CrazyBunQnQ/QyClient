@@ -1,5 +1,6 @@
 package com.i7676.qyclient;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -42,6 +43,8 @@ public class MainActivity extends BaseActivity {
         case R.id._bottom_gifts:
           break;
         case R.id.bottom_profile:
+          Intent mIntent = new Intent(this, LoginActivity.class);
+          startActivity(mIntent);
           break;
       }
     });
