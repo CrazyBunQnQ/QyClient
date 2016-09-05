@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import com.i7676.qyclient.fragments.ActivitiesFragment;
-import com.i7676.qyclient.fragments.BaseFragment;
+import com.i7676.qyclient.fragments.ToolbarInteractorFragment;
 import com.i7676.qyclient.fragments.GameFragment;
 import com.roughike.bottombar.BottomBar;
 
@@ -15,6 +15,10 @@ public class MainActivity extends BaseActivity {
   private Toolbar mToolbar;
 
   private BottomBar mBottomBar;
+
+  // fragments
+  private GameFragment gameFragment;
+  private ActivitiesFragment activitiesFragment;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -29,13 +33,17 @@ public class MainActivity extends BaseActivity {
       switch (tabId) {
         case R.id.bottom_game:
         default:
-          GameFragment gameFragment = new GameFragment();
-          gameFragment.registerToolbarAgent(this);
+          if (gameFragment == null) {
+            gameFragment = new GameFragment();
+            gameFragment.registerToolbarAgent(this);
+          }
           transactionCommit(gameFragment);
           break;
         case R.id.bottom_activities:
-          ActivitiesFragment activitiesFragment = new ActivitiesFragment();
-          activitiesFragment.registerToolbarAgent(this);
+          if (activitiesFragment == null) {
+            activitiesFragment = new ActivitiesFragment();
+            activitiesFragment.registerToolbarAgent(this);
+          }
           transactionCommit(activitiesFragment);
           break;
         case R.id.bottom_hi:
@@ -64,7 +72,7 @@ public class MainActivity extends BaseActivity {
     mToolbar.setTitleTextColor(Color.WHITE);
   }
 
-  private void transactionCommit(BaseFragment fragment) {
+  private void transactionCommit(ToolbarInteractorFragment fragment) {
     getSupportFragmentManager().beginTransaction()
         .replace(R.id.contentView, fragment, fragment.getClass().getName())
         .commit();

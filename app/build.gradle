@@ -71,4 +71,5 @@ dependencies {
   compile testLibs.junit
   compile files('libs/open_sdk_r5756_lite.jar')
   compile files('libs/libammsdk.jar')
+  compile files('libs/wftsdk2.2.0.jar')
 }

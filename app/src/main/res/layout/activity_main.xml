@@ -14,12 +14,32 @@
       android:layout_height="match_parent"
       />
 
-  <android.support.v7.widget.Toolbar
-      android:id="@+id/toolbar"
+
+  <RelativeLayout
       android:layout_width="match_parent"
       android:layout_height="?attr/actionBarSize"
-      android:background="@color/colorPrimary"
-      />
+      >
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        />
+
+    <EditText
+        android:layout_width="188dp"
+        android:layout_height="32dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/selector_search_text"
+        android:drawableLeft="@drawable/ic_search_white_24dp"
+        android:drawableStart="@drawable/ic_search_white_24dp"
+        android:gravity="center_vertical"
+        android:hint="    倚天屠龙"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#AAFFFFFF"
+        android:textSize="15sp"
+        />
+  </RelativeLayout>
 
   <com.roughike.bottombar.BottomBar
       android:id="@+id/bottomBar"

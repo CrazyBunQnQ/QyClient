@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <com.i7676.qyclient.widgets.ObservableScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rootScroll"
     android:layout_width="match_parent"
@@ -21,24 +19,19 @@
         android:layout_below="@id/toolbar"
         />
 
-    <com.gigamole.navigationtabstrip.NavigationTabStrip
-        android:id="@+id/nts"
+    <com.i7676.qyclient.widgets.NonScrollableRecyclerView
+        android:id="@+id/categoryList"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="wrap_content"
         android:layout_below="@id/banner"
-        app:nts_active_color="@color/colorAccent"
-        app:nts_color="@color/colorAccent"
-        app:nts_gravity="bottom"
-        app:nts_inactive_color="@android:color/darker_gray"
-        app:nts_size="14sp"
-        app:nts_type="line"
+        android:background="#ffffff"
         />
 
     <com.i7676.qyclient.widgets.NonScrollableRecyclerView
-        android:id="@+id/gameList"
+        android:id="@+id/contentList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/nts"
+        android:layout_below="@id/categoryList"
         android:paddingBottom="?attr/actionBarSize"
         />
   </RelativeLayout>

@@ -64,6 +64,8 @@
         android:configChanges="orientation|keyboardHidden|screenSize"
         android:theme="@android:style/Theme.Translucent.NoTitleBar"
         />
+
+    <activity android:name=".wft.PayMainActivity"/>
   </application>
 
 </manifest>

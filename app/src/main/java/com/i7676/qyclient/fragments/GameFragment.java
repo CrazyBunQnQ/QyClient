@@ -1,18 +1,17 @@
 package com.i7676.qyclient.fragments;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.gigamole.navigationtabstrip.NavigationTabStrip;
 import com.i7676.qyclient.R;
-import com.i7676.qyclient.interfaces.ToolbarAgent;
+import com.i7676.qyclient.annotations.Layout;
 import com.i7676.qyclient.widgets.NonScrollableRecyclerView;
 import com.i7676.qyclient.widgets.ObservableScrollView;
 import com.recker.flybanner.FlyBanner;
@@ -22,7 +21,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/8/30.
  */
-public class GameFragment extends BaseFragment {
+@Layout(R.layout.fragment_game) public class GameFragment extends ToolbarInteractorFragment {
 
   private static final String TAG = GameFragment.class.getSimpleName();
 
@@ -34,10 +33,13 @@ public class GameFragment extends BaseFragment {
     }
   };
 
-  private NavigationTabStrip mNavigationTabStrip;
-  private NonScrollableRecyclerView mGameList;
+  private View rootView;
   private FlyBanner mBanner;
   private ObservableScrollView mScrollView;
+
+  // 最新上线，网络游戏，小游戏，专题游戏
+  private NonScrollableRecyclerView categoryList;
+  private NonScrollableRecyclerView contentList;
 
   // toolbar 透明度计算
   private int transparentColor = 0x00FF6F00;// 16740096
@@ -45,51 +47,286 @@ public class GameFragment extends BaseFragment {
   private int totalOffset = 0x7F000000;
   private int offset = 0x1000000;
 
-  private ToolbarAgent mToolbarAgent;
-
-  public void registerToolbarAgent(ToolbarAgent mToolbarAgent) {
-    this.mToolbarAgent = mToolbarAgent;
-  }
-
-  @Nullable @Override
-  public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-      @Nullable Bundle savedInstanceState) {
-    View rootView = inflater.inflate(R.layout.fragment_game, container, false);
-    initViews(rootView);
-    return rootView;
-  }
-
-  private void initViews(View rootView) {
-    if (mToolbarAgent != null) {
-      mToolbarAgent.setTitleText("");
-      mToolbarAgent.setBgColor(transparentColor);
-    }
-
-    mNavigationTabStrip = (NavigationTabStrip) rootView.findViewById(R.id.nts);
-    mNavigationTabStrip.setTitles("热力推荐", "最新上线");
-    mNavigationTabStrip.setTabIndex(0);
+  @Override protected void initView(View rootView) {
+    this.rootView = rootView;
 
     mBanner = (FlyBanner) rootView.findViewById(R.id.banner);
     mBanner.setImagesUrl(IMAGE_URLS);
 
-    mGameList = (NonScrollableRecyclerView) rootView.findViewById(R.id.gameList);
-    mGameList.setLayoutManager(new GridLayoutManager(getContext(), 2));
-    ArrayList<GameEntity> games = new ArrayList<>();
-    for (int i = 0; i < 20; i++) {
-      games.add(new GameEntity("", "青游" + i, (i % 2 == 0 ? "网游" : "小游戏"), i + ""));
-    }
-    mGameList.setAdapter(new GameListAdapter(getContext(), R.layout.item_game_list, games));
-    mGameList.setHasFixedSize(true);
-
     mScrollView = (ObservableScrollView) rootView.findViewById(R.id.rootScroll);
     mScrollView.smoothScrollTo(0, 0);
+
+    initCategoryList();
+    initContentList();
+  }
+
+  //********************************************************************** Start of category
+
+  private class CategoryEntity {
+    private String imageURL;
+    private String categoryText;
+
+    public CategoryEntity(String imageURL, String categoryText) {
+      this.imageURL = imageURL;
+      this.categoryText = categoryText;
+    }
+
+    public String getImageURL() {
+      return imageURL;
+    }
+
+    public String getCategoryText() {
+      return categoryText;
+    }
+  }
+
+  private ArrayList<CategoryEntity> categoryEntities = new ArrayList<CategoryEntity>() {
+    {
+      add(new CategoryEntity("http://cdn-img.easyicon.net/png/11324/1132448.gif", "最新上线"));
+      add(new CategoryEntity("http://cdn-img.easyicon.net/png/11324/1132435.gif", "网络游戏"));
+      add(new CategoryEntity("http://cdn-img.easyicon.net/png/11324/1132444.gif", "小游戏"));
+      add(new CategoryEntity("http://cdn-img.easyicon.net/png/11324/1132433.gif", "专题游戏"));
+    }
+  };
+
+  private void initCategoryList() {
+    categoryList = (NonScrollableRecyclerView) rootView.findViewById(R.id.categoryList);
+    categoryList.setLayoutManager(new GridLayoutManager(getContext(), 4));
+    categoryList.setHasFixedSize(true);
+    categoryList.setAdapter(
+        new CategoryAdapter(getContext(), R.layout.item_game_category, categoryEntities));
+  }
+
+  private class CategoryAdapter extends BaseQuickAdapter<CategoryEntity> {
+
+    public CategoryAdapter(Context context, int layoutResId, List<CategoryEntity> data) {
+      super(context, layoutResId, data);
+    }
+
+    @Override protected void convert(BaseViewHolder baseViewHolder, CategoryEntity categoryEntity) {
+      baseViewHolder.setImageUrl(R.id.category_img, categoryEntity.getImageURL());
+      baseViewHolder.setText(R.id.category_text, categoryEntity.getCategoryText());
+    }
+  }
+
+  //********************************************************************** End of category
+
+  //********************************************************************** Start of GameCard
+
+  private ArrayList<GameCardEntity> fakeCards = new ArrayList<GameCardEntity>() {
+    {
+      add(new GameCardEntity("最新上线", new ArrayList<GameEntity>() {
+        {
+          add(new GameEntity("http://cdn-img.easyicon.net/png/11324/1132448.gif", false, "诛仙", "角色",
+              "399.6M", "81521", 0x00000000));
+          add(new GameEntity("http://cdn-img.easyicon.net/png/11324/1132435.gif", true, "天堂2：血盟",
+              "角色", "443.8M", "75210", 0x00000000));
+          add(new GameEntity("http://cdn-img.easyicon.net/png/11324/1132444.gif", true, "校花的贴身高手",
+              "角色", "201.8M", "73958", 0x00000000));
+          add(new GameEntity("http://cdn-img.easyicon.net/png/11324/1132433.gif", true, "口袋妖怪重制",
+              "角色", "206.6M", "73722", 0x00000001));
+          add(new GameEntity("http://cdn-img.easyicon.net/png/11324/1132448.gif", true, "迷城物语",
+              "角色", "175.1M", "73687", 0x00000002));
+        }
+      }));
+      add(new GameCardEntity("热门网络游戏", new ArrayList<GameEntity>() {
+        {
+          add(new GameEntity("http://cdn-img.easyicon.net/png/11324/1132448.gif", false, "诛仙", "角色",
+              "399.6M", "81521", 0x00000000));
+          add(new GameEntity("http://cdn-img.easyicon.net/png/11324/1132435.gif", true, "天堂2：血盟",
+              "角色", "443.8M", "75210", 0x00000000));
+          add(new GameEntity("http://cdn-img.easyicon.net/png/11324/1132444.gif", true, "校花的贴身高手",
+              "角色", "201.8M", "73958", 0x00000000));
+          add(new GameEntity("http://cdn-img.easyicon.net/png/11324/1132433.gif", true, "口袋妖怪重制",
+              "角色", "206.6M", "73722", 0x00000001));
+          add(new GameEntity("http://cdn-img.easyicon.net/png/11324/1132448.gif", true, "迷城物语",
+              "角色", "175.1M", "73687", 0x00000002));
+        }
+      }));
+      add(new GameCardEntity("热门小游戏", new ArrayList<GameEntity>() {
+        {
+          add(new GameEntity("http://cdn-img.easyicon.net/png/11324/1132448.gif", false, "诛仙", "角色",
+              "399.6M", "81521", 0x00000000));
+          add(new GameEntity("http://cdn-img.easyicon.net/png/11324/1132435.gif", true, "天堂2：血盟",
+              "角色", "443.8M", "75210", 0x00000000));
+          add(new GameEntity("http://cdn-img.easyicon.net/png/11324/1132444.gif", true, "校花的贴身高手",
+              "角色", "201.8M", "73958", 0x00000000));
+          add(new GameEntity("http://cdn-img.easyicon.net/png/11324/1132433.gif", true, "口袋妖怪重制",
+              "角色", "206.6M", "73722", 0x00000001));
+          add(new GameEntity("http://cdn-img.easyicon.net/png/11324/1132448.gif", true, "迷城物语",
+              "角色", "175.1M", "73687", 0x00000002));
+        }
+      }));
+    }
+  };
+
+  private class GameCardEntity {
+    private String type;
+    private List<GameEntity> gameEntities;
+
+    public GameCardEntity(String type, List<GameEntity> gameEntities) {
+      this.type = type;
+      this.gameEntities = gameEntities;
+    }
+
+    public List<GameEntity> getGameEntities() {
+      return gameEntities;
+    }
+
+    public String getType() {
+      return type;
+    }
+  }
+
+  private class GameEntity {
+    // logo
+    private String logoURL;
+    // 礼物标签{true:有,false:没有}
+    private boolean hasGift;
+    // 游戏名称
+    private String name;
+    // 游戏类别
+    private String category;
+    // 游戏文件大小
+    private String fileSize;
+    // 游戏排名数值
+    private String rankNum;
+    // 0:无浮动,1:上升,2:下降
+    private int rankFlag;
+
+    public GameEntity(String logoURL, boolean hasGift, String name, String category,
+        String fileSize, String rankNum, int rankFlag) {
+      this.logoURL = logoURL;
+      this.hasGift = hasGift;
+      this.name = name;
+      this.category = category;
+      this.fileSize = fileSize;
+      this.rankNum = rankNum;
+      this.rankFlag = rankFlag;
+    }
+
+    public String getLogoURL() {
+      return logoURL;
+    }
+
+    public boolean hasGift() {
+      return hasGift;
+    }
+
+    public String getName() {
+      return name;
+    }
+
+    public String getCategory() {
+      return category;
+    }
+
+    public String getFileSize() {
+      return fileSize;
+    }
+
+    public String getRankNum() {
+      return rankNum;
+    }
+
+    public int getRankFlag() {
+      return rankFlag;
+    }
+  }
+
+  private void initContentList() {
+    contentList = (NonScrollableRecyclerView) rootView.findViewById(R.id.contentList);
+    contentList.setHasFixedSize(true);
+    contentList.setLayoutManager(
+        new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+    contentList.setAdapter(new GameCardAdapter(getContext(), R.layout.item_game_card, fakeCards));
+  }
+
+  private class GameCardAdapter extends BaseQuickAdapter<GameCardEntity> {
+
+    private int innerListType = LinearLayoutManager.VERTICAL;
+    private int innerListLayoutResId = R.layout.item_game_list_vertical;
+
+    public GameCardAdapter(Context context, int layoutResId, List<GameCardEntity> data) {
+      super(context, layoutResId, data);
+    }
+
+    @Override protected void convert(BaseViewHolder baseViewHolder, GameCardEntity gameCardEntity) {
+      baseViewHolder.setText(R.id.tv_card_head_text, gameCardEntity.getType());
+      renderGameList(baseViewHolder.convertView, gameCardEntity.getGameEntities());
+    }
+
+    private void renderGameList(View rootView, List<GameEntity> gameEntities) {
+      NonScrollableRecyclerView gameList =
+          (NonScrollableRecyclerView) rootView.findViewById(R.id.rv_card_content_list);
+      gameList.setHasFixedSize(true);
+      gameList.setLayoutManager(new LinearLayoutManager(this.mContext, innerListType, false));
+      gameList.setAdapter(new ListAdapter(this.mContext, innerListLayoutResId, gameEntities));
+    }
+
+    /**
+     * ListAdapter for inner game list
+     */
+    class ListAdapter extends BaseQuickAdapter<GameEntity> {
+
+      public ListAdapter(Context context, int layoutResId, List<GameEntity> data) {
+        super(context, layoutResId, data);
+      }
+
+      @Override protected void convert(BaseViewHolder baseViewHolder, GameEntity gameEntity) {
+        // rank tag
+        baseViewHolder.setText(R.id.tv_rank_tag, baseViewHolder.getLayoutPosition() + "");
+        // game logo
+        baseViewHolder.setImageUrl(R.id.img_game_logo, gameEntity.getLogoURL());
+        // gift
+        baseViewHolder.setVisible(R.id.img_game_gift_tag, gameEntity.hasGift());
+        // name
+        baseViewHolder.setText(R.id.tv_game_text, gameEntity.getName());
+        // info
+        String gameInfo = gameEntity.getCategory() + " | " + gameEntity.getFileSize();
+        baseViewHolder.setText(R.id.tv_game_info, gameInfo);
+        // rank info
+        TextView rankInfo = (TextView) baseViewHolder.convertView.findViewById(R.id.tv_rank_info);
+        int resId;
+        String color;
+        switch (gameEntity.getRankFlag()) {
+          // 无浮动
+          case 0:
+          default:
+            color = "#757575";
+            resId = R.drawable.ic_settings_ethernet_grey_600_18dp;
+            break;
+          // 上升
+          case 1:
+            color = "#E53935";
+            resId = R.drawable.ic_arrow_upward_red_600_18dp;
+            break;
+          // 下降
+          case 2:
+            color = "#43A047";
+            resId = R.drawable.ic_arrow_downward_green_600_18dp;
+            break;
+        }
+        rankInfo.setText(gameEntity.getRankNum());
+        rankInfo.setTextColor(Color.parseColor(color));
+        Drawable rankInfoTag = mContext.getResources().getDrawable(resId);
+        rankInfo.setCompoundDrawablesWithIntrinsicBounds(null, null, rankInfoTag, null);
+      }
+    }
+  }
+
+  //********************************************************************** End of GameCard
+
+  @Override protected void initHostToolbar() {
+    super.initHostToolbar();
+    mToolbarAgent.setTitleText("主  页");
+    mToolbarAgent.setBgColor(transparentColor);
   }
 
   @Override public void onResume() {
     super.onResume();
     mScrollView.setmScrollChangedListener((l, r, oldl, oldr) -> {
       Log.d(TAG, "initViews: >>> {l:" + l + ",r:" + r + ",oldl:" + oldl + ",oldr:" + oldr + "}");
-
       if (mToolbarAgent != null) {
         boolean scrollDown = r - oldr > 0;
         if (r <= 0) {
@@ -131,52 +368,5 @@ public class GameFragment extends BaseFragment {
       ++carryFlag;
     }
     return ((tempColor / mod) + carryFlag) * mod;
-  }
-
-  private class GameListAdapter extends BaseQuickAdapter<GameFragment.GameEntity> {
-
-    public GameListAdapter(Context context, int layoutResId, List<GameEntity> data) {
-      super(context, layoutResId, data);
-    }
-
-    @Override protected void convert(BaseViewHolder baseViewHolder, GameEntity gameEntity) {
-      baseViewHolder.setText(R.id.tv_game_online_count, gameEntity.getOnlineCount() + "w人在线");
-      baseViewHolder.setText(R.id.tv_game_type, gameEntity.getGameType());
-      baseViewHolder.setText(R.id.tv_game_name, gameEntity.getGameName());
-    }
-  }
-
-  public static class GameEntity {
-    private String ImageUrl;
-    private String gameName;
-    private String gameType;
-    private String onlineCount;
-
-    public GameEntity(String imageUrl, String gameName, String gameType, String onlineCount) {
-      ImageUrl = imageUrl;
-      this.gameName = gameName;
-      this.gameType = gameType;
-      this.onlineCount = onlineCount;
-    }
-
-    public String getImageUrl() {
-      return ImageUrl;
-    }
-
-    public String getGameName() {
-      return gameName;
-    }
-
-    public String getGameType() {
-      return gameType;
-    }
-
-    public String getOnlineCount() {
-      return onlineCount;
-    }
-  }
-
-  public interface ToolbarAlphaHelper {
-    void setBgColor(int color);
   }
 }

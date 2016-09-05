@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import com.i7676.qyclient.wft.PayMainActivity;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
@@ -64,11 +65,13 @@ public class LoginActivity extends BaseActivity {
     //} catch (Exception e) {
     //  return;
     //}
-    String orderURL =
-        "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx426b3015555a46be&redirect_uri=http%3A%2F%2Fpaysdk.weixin.qq.com%2Fexample%2Fjsapi.php&response_type=code&scope=snsapi_base&state=STATE&connect_redirect=1#wechat_redirect";
-    Intent mIntent = new Intent();
+    //String orderURL =
+    //    "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx426b3015555a46be&redirect_uri=http%3A%2F%2Fpaysdk.weixin.qq.com%2Fexample%2Fjsapi.php&response_type=code&scope=snsapi_base&state=STATE&connect_redirect=1#wechat_redirect";
+    //Intent mIntent = new Intent();
     //mIntent.setDataAndType(Uri.parse(orderURL), Intent.ACTION_VIEW);
-    startActivity(mIntent);
+    //startActivity(mIntent);
+
+    startActivity(new Intent(this, PayMainActivity.class));
   }
 
   public void qqLogin(View view) {
