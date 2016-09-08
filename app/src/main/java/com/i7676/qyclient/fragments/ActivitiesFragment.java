@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.i7676.qyclient.BaseActivity;
 import com.i7676.qyclient.R;
 import com.i7676.qyclient.annotations.Layout;
 import java.util.Arrays;
@@ -30,6 +31,11 @@ import java.util.List;
   @Override protected void initHostToolbar() {
     super.initHostToolbar();
     mToolbarAgent.setTitleText("活  动");
+  }
+
+  @Override public void onResume() {
+    super.onResume();
+    ((BaseActivity) getActivity()).getBottomBar().selectTabAtPosition(1);
   }
 
   private class TestAdapter extends BaseQuickAdapter<String> {

@@ -1,104 +1,67 @@
 package com.i7676.qyclient;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
-import com.i7676.qyclient.wft.PayMainActivity;
-import com.tencent.mm.sdk.modelmsg.SendAuth;
+import com.i7676.qyclient.fragments.LoginMainFragment;
+import com.roughike.bottombar.BottomBar;
 import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
-import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
-import com.tencent.tauth.UiError;
+import java.util.List;
 
 /**
  * Created by Administrator on 2016/8/31.
  */
+
 public class LoginActivity extends BaseActivity {
 
   private static final String TAG = LoginActivity.class.getName();
 
+  public static final Intent getIntent(Context from) {
+    return new Intent(from, LoginActivity.class);
+  }
+
   // QQ
   private static final String QQ_API_ID = "1105660746";
-  private Tencent tencentInstance;
+  private Tencent mTencent;
 
   // WeiXin
   private static final String WX_APP_ID = "wx2534d167763b1f30";
   private static final String WX_APP_SECRET = "";
   private IWXAPI api;
 
+  // widgets
+  private Toolbar toolbar;
+
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_login);
 
-    setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    toolbar = (Toolbar) findViewById(R.id.toolbar);
+    toolbar.setTitle("注册登录");
+    toolbar.setTitleTextColor(Color.WHITE);
+    toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+    setSupportActionBar(toolbar);
 
-    tencentInstance = Tencent.createInstance(QQ_API_ID, this.getApplicationContext());
-    // 设置QQ登陆态,如果存在有效的登陆态的话，则无需输入账号密码进行登录验证，直接请求授权即可。
-    //tencentInstance.setOpenId(getQQOpenId());
-    //tencentInstance.setAccessToken(getQQAccessToken(),);
-    // 否则，进入正常的登录流程，然后再授权。
+    getSupportFragmentManager().beginTransaction()
+        .add(R.id.container, new LoginMainFragment(), LoginMainFragment.class.getSimpleName())
+        .commit();
   }
 
-  public void wxLogin(View view) {
-    //api注册
-    api = WXAPIFactory.createWXAPI(this, WX_APP_ID, true);
-    api.registerApp(WX_APP_ID);
-
-    SendAuth.Req req = new SendAuth.Req();
-    //授权读取用户信息
-    req.scope = "snsapi_userinfo";
-    //自定义信息
-    req.state = "wechat_sdk_demo_test";
-    //向微信发送请求
-    api.sendReq(req);
-  }
-
-  public void zfbLogin(View view) {
-    //Class clz = null;
-    //try {
-    //  clz = Class.forName("com.tencent.mm.plugin.base.stub.WXPayEntryActivity");
-    //} catch (Exception e) {
-    //  return;
-    //}
-    //String orderURL =
-    //    "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx426b3015555a46be&redirect_uri=http%3A%2F%2Fpaysdk.weixin.qq.com%2Fexample%2Fjsapi.php&response_type=code&scope=snsapi_base&state=STATE&connect_redirect=1#wechat_redirect";
-    //Intent mIntent = new Intent();
-    //mIntent.setDataAndType(Uri.parse(orderURL), Intent.ACTION_VIEW);
-    //startActivity(mIntent);
-
-    startActivity(new Intent(this, PayMainActivity.class));
-  }
-
-  public void qqLogin(View view) {
-    if (tencentInstance == null) {
-      Log.e(TAG, "qqLogin: >>> QQ SDK init failed.");
-    }
-    // context,scope,callback
-    tencentInstance.login(this, "all", new IUiListener() {
-      @Override public void onComplete(Object o) {
-        Log.i(TAG, "onComplete");
-      }
-
-      @Override public void onError(UiError uiError) {
-        Log.i(TAG, "onError");
-      }
-
-      @Override public void onCancel() {
-        Log.i(TAG, "onCancel");
-      }
-    });
-  }
-
-  private String getQQOpenId() {
+  @Override public BottomBar getBottomBar() {
     return null;
   }
 
-  private String getQQAccessToken() {
-    return null;
+  @Override public void setTitleText(String titleText) {
+    super.setTitleText(titleText);
+    toolbar.setTitle(titleText);
+  }
+
+  @Override public void onBackPressed() {
+    List<Fragment> fragments = getSupportFragmentManager().getFragments();
   }
 }

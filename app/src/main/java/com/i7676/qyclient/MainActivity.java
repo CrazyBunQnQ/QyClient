@@ -1,13 +1,12 @@
 package com.i7676.qyclient;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import com.i7676.qyclient.fragments.ActivitiesFragment;
-import com.i7676.qyclient.fragments.ToolbarInteractorFragment;
 import com.i7676.qyclient.fragments.GameFragment;
+import com.i7676.qyclient.fragments.ToolbarInteractorFragment;
 import com.roughike.bottombar.BottomBar;
 
 public class MainActivity extends BaseActivity {
@@ -51,8 +50,7 @@ public class MainActivity extends BaseActivity {
         case R.id._bottom_gifts:
           break;
         case R.id.bottom_profile:
-          Intent mIntent = new Intent(this, LoginActivity.class);
-          startActivity(mIntent);
+          startActivity(LoginActivity.getIntent(this));
           break;
       }
     });
@@ -70,6 +68,10 @@ public class MainActivity extends BaseActivity {
   @Override public void setTitleText(String titleText) {
     mToolbar.setTitle(titleText);
     mToolbar.setTitleTextColor(Color.WHITE);
+  }
+
+  @Override public BottomBar getBottomBar() {
+    return mBottomBar;
   }
 
   private void transactionCommit(ToolbarInteractorFragment fragment) {

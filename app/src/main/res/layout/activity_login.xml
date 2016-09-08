@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".LoginActivity"
     >
 
@@ -11,42 +10,13 @@
       android:id="@+id/toolbar"
       android:layout_width="match_parent"
       android:layout_height="?attr/actionBarSize"
+      android:background="@color/colorAccent"
       />
 
-  <ImageView
-      android:id="@+id/img_login_wx"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_alignParentLeft="true"
-      android:layout_alignParentStart="true"
-      android:layout_centerVertical="true"
-      android:layout_marginLeft="61dp"
-      android:layout_marginStart="61dp"
-      android:onClick="wxLogin"
-      android:src="@drawable/ic_login_wx"
+  <FrameLayout
+      android:id="@+id/container"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_below="@id/toolbar"
       />
-
-  <ImageView
-      android:id="@+id/img_login_zfb"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_alignTop="@id/img_login_wx"
-      android:layout_centerHorizontal="true"
-      android:onClick="zfbLogin"
-      android:src="@drawable/ic_login_zfb"
-      />
-
-  <ImageView
-      android:id="@+id/img_login_qq"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_alignTop="@id/img_login_zfb"
-      android:layout_marginLeft="62dp"
-      android:layout_marginStart="62dp"
-      android:layout_toEndOf="@id/img_login_zfb"
-      android:layout_toRightOf="@id/img_login_zfb"
-      android:onClick="qqLogin"
-      android:src="@drawable/ic_login_qq"
-      />
-
 </RelativeLayout>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_below="@id/toolbar"
+    android:layout_margin="16dp"
+    >
+
+  <EditText
+      android:id="@+id/et_account"
+      android:layout_width="match_parent"
+      android:layout_height="?attr/actionBarSize"
+      android:background="@drawable/selector_login_input"
+      android:drawableLeft="@drawable/ic_perm_identity_grey_500_24dp"
+      android:drawableStart="@drawable/ic_perm_identity_grey_500_24dp"
+      android:hint="请输入登录账号/手机号"
+      android:textColorHint="#9E9E9E"
+      />
+
+  <EditText
+      android:id="@+id/et_password"
+      android:layout_width="match_parent"
+      android:layout_height="?attr/actionBarSize"
+      android:layout_below="@id/et_account"
+      android:layout_marginTop="16dp"
+      android:background="@drawable/selector_login_input"
+      android:drawableLeft="@drawable/ic_lock_outline_grey_500_24dp"
+      android:drawableStart="@drawable/ic_lock_outline_grey_500_24dp"
+      android:hint="请输入密码"
+      android:inputType="textPassword"
+      android:textColorHint="#9E9E9E"
+      />
+
+  <Button
+      android:id="@+id/btn_signIn"
+      android:layout_width="match_parent"
+      android:layout_height="?attr/actionBarSize"
+      android:layout_below="@id/et_password"
+      android:layout_marginTop="16dp"
+      android:background="@drawable/selector_login_btn"
+      android:text="登  录"
+      android:textColor="#ffffff"
+      android:textSize="16sp"
+      />
+
+  <Button
+      android:id="@+id/btn_register"
+      android:layout_width="match_parent"
+      android:layout_height="?attr/actionBarSize"
+      android:layout_below="@id/btn_signIn"
+      android:layout_marginTop="16dp"
+      android:background="@drawable/selector_login_btn"
+      android:text="手 机 注 册"
+      android:textColor="#ffffff"
+      android:textSize="16sp"
+      />
+
+  <LinearLayout
+      android:id="@+id/account_more_area"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@id/btn_register"
+      android:layout_centerHorizontal="true"
+      >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="快速注册"
+        android:textColor="@color/colorAccent"
+        />
+    <View
+        android:layout_width="1px"
+        android:layout_height="match_parent"
+        android:layout_margin="16dp"
+        android:background="#000000"
+        />
+    <TextView
+        android:id="@+id/btn_fgtpass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="忘记密码"
+        />
+  </LinearLayout>
+
+  <RelativeLayout
+      android:id="@+id/other_signIn_tag"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_below="@id/account_more_area"
+      >
+    <TextView
+        android:id="@+id/tv_signIn_tag_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="其他登录"
+        />
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1px"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/tv_signIn_tag_text"
+        android:layout_toStartOf="@id/tv_signIn_tag_text"
+        android:background="#000000"
+        />
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1px"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/tv_signIn_tag_text"
+        android:layout_toRightOf="@id/tv_signIn_tag_text"
+        android:background="#000000"
+        />
+  </RelativeLayout>
+
+  <com.i7676.qyclient.widgets.NonScrollableRecyclerView
+      android:id="@+id/rv_signIn_way"
+      android:layout_width="wrap_content"
+      android:layout_height="match_parent"
+      android:layout_below="@id/other_signIn_tag"
+      android:layout_centerHorizontal="true"
+      android:paddingTop="16dp"
+      />
+
+</RelativeLayout>

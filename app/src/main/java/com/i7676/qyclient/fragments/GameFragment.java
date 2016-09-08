@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.i7676.qyclient.BaseActivity;
 import com.i7676.qyclient.R;
 import com.i7676.qyclient.annotations.Layout;
 import com.i7676.qyclient.widgets.NonScrollableRecyclerView;
@@ -275,7 +276,7 @@ import java.util.List;
 
       @Override protected void convert(BaseViewHolder baseViewHolder, GameEntity gameEntity) {
         // rank tag
-        baseViewHolder.setText(R.id.tv_rank_tag, baseViewHolder.getLayoutPosition() + "");
+        baseViewHolder.setText(R.id.tv_rank_tag, (baseViewHolder.getLayoutPosition() + 1) + "");
         // game logo
         baseViewHolder.setImageUrl(R.id.img_game_logo, gameEntity.getLogoURL());
         // gift
@@ -348,6 +349,8 @@ import java.util.List;
         }
       }
     });
+
+    ((BaseActivity) getActivity()).getBottomBar().selectTabAtPosition(0);
   }
 
   /**

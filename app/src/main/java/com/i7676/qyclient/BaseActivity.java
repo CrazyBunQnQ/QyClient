@@ -2,6 +2,7 @@ package com.i7676.qyclient;
 
 import android.support.v7.app.AppCompatActivity;
 import com.i7676.qyclient.interfaces.ToolbarAgent;
+import com.roughike.bottombar.BottomBar;
 
 /**
  * Created by Administrator on 2016/8/31.
@@ -14,4 +15,6 @@ public abstract class BaseActivity extends AppCompatActivity implements ToolbarA
   @Override public void setTitleText(String titleText) {
 
   }
+
+  public abstract BottomBar getBottomBar();
 }
