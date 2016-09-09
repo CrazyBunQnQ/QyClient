@@ -29,7 +29,7 @@
         android:layout_width="64dp"
         android:layout_height="64dp"
         >
-      <ImageView
+      <com.i7676.qyclient.widgets.AutoLoadImageView
           android:id="@+id/img_game_logo"
           android:layout_width="match_parent"
           android:layout_height="match_parent"

@@ -167,7 +167,7 @@ public class AutoLoadImageView extends ImageView {
    */
   private static class SimpleDiskCache {
 
-    private static final String BASE_IMAGE_NAME_CACHED = "Image_";
+    private static final String BASE_IMAGE_NAME_CACHED = "img_";
 
     private File cacheDir;
 

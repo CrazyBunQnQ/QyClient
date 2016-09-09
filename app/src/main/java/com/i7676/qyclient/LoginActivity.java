@@ -5,13 +5,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import com.i7676.qyclient.fragments.LoginMainFragment;
 import com.roughike.bottombar.BottomBar;
-import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.tauth.Tencent;
-import java.util.List;
 
 /**
  * Created by Administrator on 2016/8/31.
@@ -24,16 +20,6 @@ public class LoginActivity extends BaseActivity {
   public static final Intent getIntent(Context from) {
     return new Intent(from, LoginActivity.class);
   }
-
-  // QQ
-  private static final String QQ_API_ID = "1105660746";
-  private Tencent mTencent;
-
-  // WeiXin
-  private static final String WX_APP_ID = "wx2534d167763b1f30";
-  private static final String WX_APP_SECRET = "";
-  private IWXAPI api;
-
   // widgets
   private Toolbar toolbar;
 
@@ -42,13 +28,13 @@ public class LoginActivity extends BaseActivity {
     setContentView(R.layout.activity_login);
 
     toolbar = (Toolbar) findViewById(R.id.toolbar);
-    toolbar.setTitle("注册登录");
     toolbar.setTitleTextColor(Color.WHITE);
     toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
     setSupportActionBar(toolbar);
 
     getSupportFragmentManager().beginTransaction()
-        .add(R.id.container, new LoginMainFragment(), LoginMainFragment.class.getSimpleName())
+        .add(R.id.container, LoginMainFragment.create(this))
+        .addToBackStack(LoginMainFragment.class.getSimpleName())
         .commit();
   }
 
@@ -62,6 +48,11 @@ public class LoginActivity extends BaseActivity {
   }
 
   @Override public void onBackPressed() {
-    List<Fragment> fragments = getSupportFragmentManager().getFragments();
+    if (getSupportFragmentManager().getFragments().size() <= 1
+        || getSupportFragmentManager().getFragments().get(1) == null) {
+      this.finish();
+    } else {
+      super.onBackPressed();
+    }
   }
 }

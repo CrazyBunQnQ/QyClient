@@ -48,26 +48,20 @@ dependencies {
   compile androidSupport.libRecyclerView
   compile androidSupport.libDesign
   provided thirdPartyLib.javaxAnnotation
-  provided thirdPartyLib.dagger2Compiler
-  provided thirdPartyLib.butterKnifeCompiler
-  compile thirdPartyLib.dagger2
   compile thirdPartyLib.rxJava
   compile thirdPartyLib.rxAndroid
-  compile thirdPartyLib.logger
-  compile thirdPartyLib.nineOldAndroids
-  compile thirdPartyLib.okHttp
-  compile thirdPartyLib.butterKnife
   compile thirdPartyLib.fastjson
   compile thirdPartyLib.retrofit
   compile thirdPartyLib.retrofitFastJsonConverter
   compile thirdPartyLib.retrofitAdapters
   compile thirdPartyLib.recyclerAdapter
-  compile thirdPartyLib.jsoup
   compile thirdPartyLib.bottomBar
   compile thirdPartyLib.flyBanner
   compile thirdPartyLib.tabBar
   compile thirdPartyLib.jjwtTool
   compile thirdPartyLib.jackson
+  compile thirdPartyLib.logger
+  compile thirdPartyLib.nineOldAndroids
   compile testLibs.junit
   compile files('libs/open_sdk_r5756_lite.jar')
   compile files('libs/libammsdk.jar')

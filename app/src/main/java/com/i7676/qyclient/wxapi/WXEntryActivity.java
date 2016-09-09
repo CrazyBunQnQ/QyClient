@@ -2,6 +2,7 @@ package com.i7676.qyclient.wxapi;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.widget.Toast;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
@@ -29,7 +30,8 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     if (resp instanceof SendAuth.Resp) {
       SendAuth.Resp newResp = (SendAuth.Resp) resp;
       //获取微信传回的code
-      String code = newResp.code;
+      //String code = newResp.code;
+      Toast.makeText(this, newResp.toString(), Toast.LENGTH_SHORT).show();
     }
   }
 }

@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:layout_below="@id/toolbar"
     android:layout_margin="16dp"
+    android:background="@android:color/background_light"
     >
 
   <EditText
@@ -18,47 +19,42 @@
       android:textColorHint="#9E9E9E"
       />
 
-  <LinearLayout
-      android:id="@+id/vCode_area"
+  <Button
+      android:id="@+id/btn_get_vCode"
+      android:layout_width="wrap_content"
+      android:layout_height="?attr/actionBarSize"
+      android:layout_alignParentEnd="true"
+      android:layout_alignParentRight="true"
+      android:layout_below="@id/et_phoneNum"
+      android:layout_marginLeft="24dp"
+      android:layout_marginStart="24dp"
+      android:layout_marginTop="16dp"
+      android:background="@drawable/selector_login_btn"
+      android:text="获取验证码"
+      android:textColor="#ffffff"
+      android:textSize="16sp"
+      />
+
+  <EditText
+      android:id="@+id/et_vCode"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
+      android:layout_height="?attr/actionBarSize"
       android:layout_below="@id/et_phoneNum"
       android:layout_marginTop="16dp"
-      android:orientation="horizontal"
-      android:weightSum="1"
-      >
-    <EditText
-        android:id="@+id/et_vCode"
-        android:layout_width="0dp"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_weight="0.65"
-        android:background="@drawable/selector_login_input"
-        android:drawableLeft="@drawable/ic_lock_outline_grey_500_24dp"
-        android:drawableStart="@drawable/ic_lock_outline_grey_500_24dp"
-        android:hint="请输入验证码"
-        android:inputType="textPassword"
-        android:textColorHint="#9E9E9E"
-        />
-
-    <Button
-        android:id="@+id/btn_get_vCode"
-        android:layout_width="0dp"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_marginLeft="24dp"
-        android:layout_marginStart="24dp"
-        android:layout_weight="0.35"
-        android:background="@drawable/selector_login_btn"
-        android:text="获取验证码"
-        android:textColor="#ffffff"
-        android:textSize="16sp"
-        />
-  </LinearLayout>
+      android:layout_toLeftOf="@id/btn_get_vCode"
+      android:background="@drawable/selector_login_input"
+      android:drawableLeft="@drawable/ic_lock_outline_grey_500_24dp"
+      android:drawableStart="@drawable/ic_lock_outline_grey_500_24dp"
+      android:hint="请输入验证码"
+      android:inputType="textPassword"
+      android:textColorHint="#9E9E9E"
+      />
 
   <EditText
       android:id="@+id/et_password"
       android:layout_width="match_parent"
       android:layout_height="?attr/actionBarSize"
-      android:layout_below="@id/vCode_area"
+      android:layout_below="@id/btn_get_vCode"
       android:layout_marginTop="16dp"
       android:background="@drawable/selector_login_input"
       android:drawableLeft="@drawable/ic_lock_outline_grey_500_24dp"

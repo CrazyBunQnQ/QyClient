@@ -6,7 +6,7 @@
     android:layout_margin="16dp"
     android:orientation="vertical"
     >
-  <ImageView
+  <com.i7676.qyclient.widgets.AutoLoadImageView
       android:id="@+id/category_img"
       android:layout_width="match_parent"
       android:layout_height="66dp"

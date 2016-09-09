@@ -1,6 +1,5 @@
 package com.i7676.qyclient.fragments;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.GridLayoutManager;
@@ -13,8 +12,10 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.i7676.qyclient.BaseActivity;
 import com.i7676.qyclient.R;
 import com.i7676.qyclient.annotations.Layout;
+import com.i7676.qyclient.widgets.AutoLoadImageView;
 import com.i7676.qyclient.widgets.NonScrollableRecyclerView;
 import com.i7676.qyclient.widgets.ObservableScrollView;
+import com.orhanobut.logger.Logger;
 import com.recker.flybanner.FlyBanner;
 import java.util.ArrayList;
 import java.util.List;
@@ -94,18 +95,19 @@ import java.util.List;
     categoryList = (NonScrollableRecyclerView) rootView.findViewById(R.id.categoryList);
     categoryList.setLayoutManager(new GridLayoutManager(getContext(), 4));
     categoryList.setHasFixedSize(true);
-    categoryList.setAdapter(
-        new CategoryAdapter(getContext(), R.layout.item_game_category, categoryEntities));
+    categoryList.setAdapter(new CategoryAdapter(R.layout.item_game_category, categoryEntities));
   }
 
   private class CategoryAdapter extends BaseQuickAdapter<CategoryEntity> {
 
-    public CategoryAdapter(Context context, int layoutResId, List<CategoryEntity> data) {
-      super(context, layoutResId, data);
+    public CategoryAdapter(int layoutResId, List<CategoryEntity> data) {
+      super(layoutResId, data);
     }
 
     @Override protected void convert(BaseViewHolder baseViewHolder, CategoryEntity categoryEntity) {
-      baseViewHolder.setImageUrl(R.id.category_img, categoryEntity.getImageURL());
+      ((AutoLoadImageView) baseViewHolder.getConvertView()
+          .findViewById(R.id.category_img)).setImageUrlAndAuthorInfo(categoryEntity.getImageURL(),
+          null);
       baseViewHolder.setText(R.id.category_text, categoryEntity.getCategoryText());
     }
   }
@@ -240,7 +242,7 @@ import java.util.List;
     contentList.setHasFixedSize(true);
     contentList.setLayoutManager(
         new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-    contentList.setAdapter(new GameCardAdapter(getContext(), R.layout.item_game_card, fakeCards));
+    contentList.setAdapter(new GameCardAdapter(R.layout.item_game_card, fakeCards));
   }
 
   private class GameCardAdapter extends BaseQuickAdapter<GameCardEntity> {
@@ -248,8 +250,8 @@ import java.util.List;
     private int innerListType = LinearLayoutManager.VERTICAL;
     private int innerListLayoutResId = R.layout.item_game_list_vertical;
 
-    public GameCardAdapter(Context context, int layoutResId, List<GameCardEntity> data) {
-      super(context, layoutResId, data);
+    public GameCardAdapter(int layoutResId, List<GameCardEntity> data) {
+      super(layoutResId, data);
     }
 
     @Override protected void convert(BaseViewHolder baseViewHolder, GameCardEntity gameCardEntity) {
@@ -262,7 +264,7 @@ import java.util.List;
           (NonScrollableRecyclerView) rootView.findViewById(R.id.rv_card_content_list);
       gameList.setHasFixedSize(true);
       gameList.setLayoutManager(new LinearLayoutManager(this.mContext, innerListType, false));
-      gameList.setAdapter(new ListAdapter(this.mContext, innerListLayoutResId, gameEntities));
+      gameList.setAdapter(new ListAdapter(innerListLayoutResId, gameEntities));
     }
 
     /**
@@ -270,15 +272,17 @@ import java.util.List;
      */
     class ListAdapter extends BaseQuickAdapter<GameEntity> {
 
-      public ListAdapter(Context context, int layoutResId, List<GameEntity> data) {
-        super(context, layoutResId, data);
+      public ListAdapter(int layoutResId, List<GameEntity> data) {
+        super(layoutResId, data);
       }
 
       @Override protected void convert(BaseViewHolder baseViewHolder, GameEntity gameEntity) {
         // rank tag
         baseViewHolder.setText(R.id.tv_rank_tag, (baseViewHolder.getLayoutPosition() + 1) + "");
         // game logo
-        baseViewHolder.setImageUrl(R.id.img_game_logo, gameEntity.getLogoURL());
+        ((AutoLoadImageView) baseViewHolder.getConvertView()
+            .findViewById(R.id.img_game_logo)).setImageUrlAndAuthorInfo(gameEntity.getLogoURL(),
+            null);
         // gift
         baseViewHolder.setVisible(R.id.img_game_gift_tag, gameEntity.hasGift());
         // name
@@ -327,7 +331,9 @@ import java.util.List;
   @Override public void onResume() {
     super.onResume();
     mScrollView.setmScrollChangedListener((l, r, oldl, oldr) -> {
-      Log.d(TAG, "initViews: >>> {l:" + l + ",r:" + r + ",oldl:" + oldl + ",oldr:" + oldr + "}");
+
+      Logger.i(">>> {l:" + l + ",r:" + r + ",oldl:" + oldl + ",oldr:" + oldr + "}");
+
       if (mToolbarAgent != null) {
         boolean scrollDown = r - oldr > 0;
         if (r <= 0) {

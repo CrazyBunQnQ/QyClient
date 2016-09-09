@@ -1,6 +1,5 @@
 package com.i7676.qyclient.fragments;
 
-import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -23,7 +22,7 @@ import java.util.List;
   @Override protected void initView(View rootView) {
     mRecyclerView = (RecyclerView) rootView.findViewById(R.id.activities_recyclerView);
     mRecyclerView.setAdapter(
-        new TestAdapter(getContext(), R.layout.item_activities_list, Arrays.asList("1", "2", "3")));
+        new TestAdapter(R.layout.item_activities_list, Arrays.asList("1", "2", "3")));
     mRecyclerView.setLayoutManager(
         new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
   }
@@ -39,8 +38,9 @@ import java.util.List;
   }
 
   private class TestAdapter extends BaseQuickAdapter<String> {
-    public TestAdapter(Context context, int layoutResId, List<String> data) {
-      super(context, layoutResId, data);
+
+    public TestAdapter(int layoutResId, List<String> data) {
+      super(layoutResId, data);
     }
 
     @Override protected void convert(BaseViewHolder baseViewHolder, String s) {

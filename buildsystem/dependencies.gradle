@@ -36,6 +36,7 @@ ext {
   retrofitFastJsonConverterVersion = '2.1.0'
   jsuopVersion = '1.9.2'
   materialBottomBarVersion = '2.0.2'
+  recyclerViewAdapterHelper = 'v2.1.1'
 
   // qy client
   flyBannerVersion = '1.3'
@@ -64,7 +65,7 @@ ext {
                             dagger2Compiler          : "com.google.dagger:dagger-compiler:${dagger2}",
                             dagger2                  : "com.google.dagger:dagger:${dagger2}",
 
-                            recyclerAdapter          : "com.github.CymChad:BaseRecyclerViewAdapterHelper:v1.7.4",
+                            recyclerAdapter          : "com.github.CymChad:BaseRecyclerViewAdapterHelper:${recyclerViewAdapterHelper}",
 
                             nineOldAndroids          : "com.nineoldandroids:library:${nineOldAndroids}",
 
