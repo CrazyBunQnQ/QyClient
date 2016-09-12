@@ -9,11 +9,15 @@ import com.roughike.bottombar.BottomBar;
  */
 public abstract class BaseActivity extends AppCompatActivity implements ToolbarAgent {
   @Override public void setBgColor(int bgColor) {
-
+    // empty
   }
 
   @Override public void setTitleText(String titleText) {
+    // empty
+  }
 
+  @Override public void opMenuVisibility(boolean visibility) {
+    // empty
   }
 
   public abstract BottomBar getBottomBar();

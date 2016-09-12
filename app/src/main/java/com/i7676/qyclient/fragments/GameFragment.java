@@ -243,6 +243,30 @@ import java.util.List;
     contentList.setLayoutManager(
         new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
     contentList.setAdapter(new GameCardAdapter(R.layout.item_game_card, fakeCards));
+
+    mScrollView.setmScrollChangedListener((l, r, oldl, oldr) -> {
+      Logger.i(">>> {l:" + l + ",r:" + r + ",oldl:" + oldl + ",oldr:" + oldr + "}");
+      if (mToolbarAgent != null) {
+        boolean scrollDown = r - oldr > 0;
+        if (r <= 0) {
+          mToolbarAgent.setBgColor(transparentColor);
+        } else if (r > 0 && r < 360) {
+          float percent = r / 360f;
+          int tempColor = new Float(totalOffset * percent).intValue();
+          Log.d(TAG, "percent:" + percent + "%, tempColor:" + tempColor);
+          // 下滑
+          if (scrollDown) {
+            mToolbarAgent.setBgColor(transparentColor + calcColorOffset(tempColor, offset));
+          }
+          // 上拉
+          else {
+            mToolbarAgent.setBgColor(transparentColor - calcColorOffset(tempColor, offset));
+          }
+        } else if (r >= 360) {
+          mToolbarAgent.setBgColor(primaryColor);
+        }
+      }
+    });
   }
 
   private class GameCardAdapter extends BaseQuickAdapter<GameCardEntity> {
@@ -330,32 +354,6 @@ import java.util.List;
 
   @Override public void onResume() {
     super.onResume();
-    mScrollView.setmScrollChangedListener((l, r, oldl, oldr) -> {
-
-      Logger.i(">>> {l:" + l + ",r:" + r + ",oldl:" + oldl + ",oldr:" + oldr + "}");
-
-      if (mToolbarAgent != null) {
-        boolean scrollDown = r - oldr > 0;
-        if (r <= 0) {
-          mToolbarAgent.setBgColor(transparentColor);
-        } else if (r > 0 && r < 360) {
-          float percent = r / 360f;
-          int tempColor = new Float(totalOffset * percent).intValue();
-          Log.d(TAG, "percent:" + percent + "%, tempColor:" + tempColor);
-          // 下滑
-          if (scrollDown) {
-            mToolbarAgent.setBgColor(transparentColor + calcColorOffset(tempColor, offset));
-          }
-          // 上拉
-          else {
-            mToolbarAgent.setBgColor(transparentColor - calcColorOffset(tempColor, offset));
-          }
-        } else if (r >= 360) {
-          mToolbarAgent.setBgColor(primaryColor);
-        }
-      }
-    });
-
     ((BaseActivity) getActivity()).getBottomBar().selectTabAtPosition(0);
   }
 

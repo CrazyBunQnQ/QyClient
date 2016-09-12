@@ -35,6 +35,7 @@ import java.util.List;
   @Override public void onResume() {
     super.onResume();
     ((BaseActivity) getActivity()).getBottomBar().selectTabAtPosition(1);
+    mToolbarAgent.opMenuVisibility(false);
   }
 
   private class TestAdapter extends BaseQuickAdapter<String> {

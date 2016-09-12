@@ -8,4 +8,6 @@ public interface ToolbarAgent {
   void setBgColor(int bgColor);
 
   void setTitleText(String titleText);
+
+  void opMenuVisibility(boolean visibility);
 }

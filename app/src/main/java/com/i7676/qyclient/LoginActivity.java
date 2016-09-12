@@ -20,6 +20,7 @@ public class LoginActivity extends BaseActivity {
   public static final Intent getIntent(Context from) {
     return new Intent(from, LoginActivity.class);
   }
+
   // widgets
   private Toolbar toolbar;
 
@@ -30,6 +31,9 @@ public class LoginActivity extends BaseActivity {
     toolbar = (Toolbar) findViewById(R.id.toolbar);
     toolbar.setTitleTextColor(Color.WHITE);
     toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+    toolbar.setNavigationOnClickListener(v -> {
+      LoginActivity.this.onBackPressed();
+    });
     setSupportActionBar(toolbar);
 
     getSupportFragmentManager().beginTransaction()
