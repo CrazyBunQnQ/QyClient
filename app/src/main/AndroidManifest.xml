@@ -33,6 +33,7 @@
 
     <!--self-->
     <activity android:name=".LoginActivity"/>
+    <activity android:name=".PlayGameActivity"/>
 
     <!--微信-->
     <activity

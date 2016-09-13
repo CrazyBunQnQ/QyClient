@@ -2,6 +2,7 @@ package com.i7676.qyclient.fragments;
 
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
@@ -10,8 +11,11 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.i7676.qyclient.BaseActivity;
+import com.i7676.qyclient.PlayGameActivity;
 import com.i7676.qyclient.R;
 import com.i7676.qyclient.annotations.Layout;
+import com.i7676.qyclient.entity.GameEntity;
+import com.i7676.qyclient.util.ValueMapper;
 import com.i7676.qyclient.widgets.AutoLoadImageView;
 import com.i7676.qyclient.widgets.NonScrollableRecyclerView;
 import com.i7676.qyclient.widgets.ObservableScrollView;
@@ -116,52 +120,8 @@ import java.util.List;
 
   //********************************************************************** Start of GameCard
 
-  private ArrayList<GameCardEntity> fakeCards = new ArrayList<GameCardEntity>() {
-    {
-      add(new GameCardEntity("最新上线", new ArrayList<GameEntity>() {
-        {
-          add(new GameEntity("http://cdn-img.easyicon.net/png/11324/1132448.gif", false, "诛仙", "角色",
-              "399.6M", "81521", 0x00000000));
-          add(new GameEntity("http://cdn-img.easyicon.net/png/11324/1132435.gif", true, "天堂2：血盟",
-              "角色", "443.8M", "75210", 0x00000000));
-          add(new GameEntity("http://cdn-img.easyicon.net/png/11324/1132444.gif", true, "校花的贴身高手",
-              "角色", "201.8M", "73958", 0x00000000));
-          add(new GameEntity("http://cdn-img.easyicon.net/png/11324/1132433.gif", true, "口袋妖怪重制",
-              "角色", "206.6M", "73722", 0x00000001));
-          add(new GameEntity("http://cdn-img.easyicon.net/png/11324/1132448.gif", true, "迷城物语",
-              "角色", "175.1M", "73687", 0x00000002));
-        }
-      }));
-      add(new GameCardEntity("热门网络游戏", new ArrayList<GameEntity>() {
-        {
-          add(new GameEntity("http://cdn-img.easyicon.net/png/11324/1132448.gif", false, "诛仙", "角色",
-              "399.6M", "81521", 0x00000000));
-          add(new GameEntity("http://cdn-img.easyicon.net/png/11324/1132435.gif", true, "天堂2：血盟",
-              "角色", "443.8M", "75210", 0x00000000));
-          add(new GameEntity("http://cdn-img.easyicon.net/png/11324/1132444.gif", true, "校花的贴身高手",
-              "角色", "201.8M", "73958", 0x00000000));
-          add(new GameEntity("http://cdn-img.easyicon.net/png/11324/1132433.gif", true, "口袋妖怪重制",
-              "角色", "206.6M", "73722", 0x00000001));
-          add(new GameEntity("http://cdn-img.easyicon.net/png/11324/1132448.gif", true, "迷城物语",
-              "角色", "175.1M", "73687", 0x00000002));
-        }
-      }));
-      add(new GameCardEntity("热门小游戏", new ArrayList<GameEntity>() {
-        {
-          add(new GameEntity("http://cdn-img.easyicon.net/png/11324/1132448.gif", false, "诛仙", "角色",
-              "399.6M", "81521", 0x00000000));
-          add(new GameEntity("http://cdn-img.easyicon.net/png/11324/1132435.gif", true, "天堂2：血盟",
-              "角色", "443.8M", "75210", 0x00000000));
-          add(new GameEntity("http://cdn-img.easyicon.net/png/11324/1132444.gif", true, "校花的贴身高手",
-              "角色", "201.8M", "73958", 0x00000000));
-          add(new GameEntity("http://cdn-img.easyicon.net/png/11324/1132433.gif", true, "口袋妖怪重制",
-              "角色", "206.6M", "73722", 0x00000001));
-          add(new GameEntity("http://cdn-img.easyicon.net/png/11324/1132448.gif", true, "迷城物语",
-              "角色", "175.1M", "73687", 0x00000002));
-        }
-      }));
-    }
-  };
+  private List<GameCardEntity> fakeCards = new ArrayList<>();
+  private GameCardAdapter mGameCardAdapter;
 
   private class GameCardEntity {
     private String type;
@@ -181,68 +141,13 @@ import java.util.List;
     }
   }
 
-  private class GameEntity {
-    // logo
-    private String logoURL;
-    // 礼物标签{true:有,false:没有}
-    private boolean hasGift;
-    // 游戏名称
-    private String name;
-    // 游戏类别
-    private String category;
-    // 游戏文件大小
-    private String fileSize;
-    // 游戏排名数值
-    private String rankNum;
-    // 0:无浮动,1:上升,2:下降
-    private int rankFlag;
-
-    public GameEntity(String logoURL, boolean hasGift, String name, String category,
-        String fileSize, String rankNum, int rankFlag) {
-      this.logoURL = logoURL;
-      this.hasGift = hasGift;
-      this.name = name;
-      this.category = category;
-      this.fileSize = fileSize;
-      this.rankNum = rankNum;
-      this.rankFlag = rankFlag;
-    }
-
-    public String getLogoURL() {
-      return logoURL;
-    }
-
-    public boolean hasGift() {
-      return hasGift;
-    }
-
-    public String getName() {
-      return name;
-    }
-
-    public String getCategory() {
-      return category;
-    }
-
-    public String getFileSize() {
-      return fileSize;
-    }
-
-    public String getRankNum() {
-      return rankNum;
-    }
-
-    public int getRankFlag() {
-      return rankFlag;
-    }
-  }
-
   private void initContentList() {
     contentList = (NonScrollableRecyclerView) rootView.findViewById(R.id.contentList);
     contentList.setHasFixedSize(true);
     contentList.setLayoutManager(
         new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-    contentList.setAdapter(new GameCardAdapter(R.layout.item_game_card, fakeCards));
+    mGameCardAdapter = new GameCardAdapter(R.layout.item_game_card, fakeCards);
+    contentList.setAdapter(mGameCardAdapter);
 
     mScrollView.setmScrollChangedListener((l, r, oldl, oldr) -> {
       Logger.i(">>> {l:" + l + ",r:" + r + ",oldl:" + oldl + ",oldr:" + oldr + "}");
@@ -305,20 +210,20 @@ import java.util.List;
         baseViewHolder.setText(R.id.tv_rank_tag, (baseViewHolder.getLayoutPosition() + 1) + "");
         // game logo
         ((AutoLoadImageView) baseViewHolder.getConvertView()
-            .findViewById(R.id.img_game_logo)).setImageUrlAndAuthorInfo(gameEntity.getLogoURL(),
-            null);
+            .findViewById(R.id.img_game_logo)).setImageUrlAndAuthorInfo(gameEntity.getUrl(), null);
         // gift
-        baseViewHolder.setVisible(R.id.img_game_gift_tag, gameEntity.hasGift());
+        baseViewHolder.setVisible(R.id.img_game_gift_tag, false);
         // name
         baseViewHolder.setText(R.id.tv_game_text, gameEntity.getName());
         // info
-        String gameInfo = gameEntity.getCategory() + " | " + gameEntity.getFileSize();
+        String gameInfo =
+            gameEntity.getType() + " | " + ValueMapper.parsePayType(gameEntity.getPayType());
         baseViewHolder.setText(R.id.tv_game_info, gameInfo);
         // rank info
         TextView rankInfo = (TextView) baseViewHolder.convertView.findViewById(R.id.tv_rank_info);
         int resId;
         String color;
-        switch (gameEntity.getRankFlag()) {
+        switch (0) {
           // 无浮动
           case 0:
           default:
@@ -336,12 +241,23 @@ import java.util.List;
             resId = R.drawable.ic_arrow_downward_green_600_18dp;
             break;
         }
-        rankInfo.setText(gameEntity.getRankNum());
+        rankInfo.setText(gameEntity.getPlayed());
         rankInfo.setTextColor(Color.parseColor(color));
         Drawable rankInfoTag = mContext.getResources().getDrawable(resId);
         rankInfo.setCompoundDrawablesWithIntrinsicBounds(null, null, rankInfoTag, null);
+
+        // item 点击事件
+        baseViewHolder.setOnClickListener(R.id.img_game_logo, goToGame);
+        baseViewHolder.setOnClickListener(R.id.tv_game_text, goToGame);
+        baseViewHolder.setOnClickListener(R.id.tv_game_info, goToGame);
       }
     }
+
+    private View.OnClickListener goToGame = v -> {
+      Bundle args = new Bundle();
+      args.putString(PlayGameActivity.GAME_URL, "http://api.egret-labs.org/v2/game/9166/90549");
+      startActivity(PlayGameActivity.buildIntent(getContext(), args));
+    };
   }
 
   //********************************************************************** End of GameCard

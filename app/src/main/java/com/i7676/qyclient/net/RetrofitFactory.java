@@ -1,8 +1,10 @@
 package com.i7676.qyclient.net;
 
 import android.util.Log;
+import com.i7676.qyclient.util.CommUtil;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -16,12 +18,17 @@ import retrofit2.converter.fastjson.FastJsonConverterFactory;
  */
 public class RetrofitFactory {
 
-  public static <S> S createService(String baseURL, Class<S> service) {
-    ensureInterface(service);
+  private static String cachePath;
+  // FIXME how to get a valid path
+  private static final String DEFAULT_CACHE_PATH = "";
+
+  public static <S> S createService(String baseURL, Class<S> service, String cachePath) {
+    interfaceCheck(service);
+    RetrofitFactory.cachePath = cachePath;
     return createRetrofitClient(baseURL).create(service);
   }
 
-  private static void ensureInterface(Class clz) {
+  private static void interfaceCheck(Class clz) {
     if (!clz.isInterface()) {
       throw new IllegalArgumentException(clz.getSimpleName() + " may not be an interface.");
     }
@@ -50,17 +57,25 @@ public class RetrofitFactory {
 
   private static OkHttpClient initHttpClient() {
 
-    // FIXME cacheDir is null
+    if (CommUtil.validString(cachePath)) {
+      cacheDir = new File(cachePath);
+    } else {
+      cacheDir = new File(DEFAULT_CACHE_PATH);
+    }
 
     final Cache simpleCache = new Cache(cacheDir, defaultCacheSize);
-    mHttpClient = new OkHttpClient.Builder().addInterceptor(LoggerInterceptor.create())
+    mHttpClient = new OkHttpClient.Builder()
+        // 链接打印拦截器
+        .addInterceptor(LoggerInterceptor.create())
+        .readTimeout(10000, TimeUnit.MILLISECONDS)
+        .connectTimeout(15000, TimeUnit.MILLISECONDS)
         .cache(simpleCache)
         .build();
     return mHttpClient;
   }
 
   public static class LoggerInterceptor implements Interceptor {
-    private static final String TAG = "request url: ";
+    private static final String TAG = ">>> reqURL: ";
 
     public static LoggerInterceptor create() {
       return new LoggerInterceptor();

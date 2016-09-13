@@ -173,7 +173,6 @@ public class MainActivity extends BaseActivity {
     mToolbar.setBackgroundColor(color);
   }
 
-
   @Override public void setTitleText(String titleText) {
     mToolbar.setTitle(titleText);
     mToolbar.setTitleTextColor(Color.WHITE);
