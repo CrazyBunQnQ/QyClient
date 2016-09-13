@@ -4,67 +4,70 @@ apply plugin: 'me.tatarka.retrolambda'
 
 android {
 
-  def globalConfiguration = rootProject.extensions.getByName("ext")
+    def globalConfiguration = rootProject.extensions.getByName("ext")
 
-  compileSdkVersion globalConfiguration.getAt("androidCompileSdkVersion")
-  buildToolsVersion globalConfiguration.getAt("androidBuildToolsVersion")
+    compileSdkVersion globalConfiguration.getAt("androidCompileSdkVersion")
+    buildToolsVersion globalConfiguration.getAt("androidBuildToolsVersion")
 
-  defaultConfig {
-    minSdkVersion globalConfiguration.getAt("androidMinSdkVersion")
-    targetSdkVersion globalConfiguration.getAt("androidTargetSdkVersion")
+    defaultConfig {
+        minSdkVersion globalConfiguration.getAt("androidMinSdkVersion")
+        targetSdkVersion globalConfiguration.getAt("androidTargetSdkVersion")
 
-    applicationId globalConfiguration.getAt("androidApplicationId")
-    versionCode globalConfiguration.getAt("androidVersionCode")
-    versionName globalConfiguration.getAt("androidVersionName")
-  }
-
-  compileOptions {
-    sourceCompatibility JavaVersion.VERSION_1_8
-    targetCompatibility JavaVersion.VERSION_1_8
-  }
-
-  signingConfigs {
-    debug {
-      storeFile file('../buildsystem/debug.keystore')
-      storePassword 'android'
-      keyAlias 'androiddebugkey'
-      keyPassword 'android'
+        applicationId globalConfiguration.getAt("androidApplicationId")
+        versionCode globalConfiguration.getAt("androidVersionCode")
+        versionName globalConfiguration.getAt("androidVersionName")
     }
-  }
 
-  buildTypes {
-    debug {
-      signingConfig signingConfigs.debug
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
-  }
+
+    signingConfigs {
+        debug {
+            storeFile file('../buildsystem/debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
+    }
 }
 
 dependencies {
-  def androidSupport = rootProject.ext.androidDependencies
-  def thirdPartyLib = rootProject.ext.thirdPartyDependencies
-  def testLibs = rootProject.ext.testDependencies
-  compile androidSupport.libAppcompat
-  compile androidSupport.libCardView
-  compile androidSupport.libRecyclerView
-  compile androidSupport.libDesign
-  provided thirdPartyLib.javaxAnnotation
-  compile thirdPartyLib.rxJava
-  compile thirdPartyLib.rxAndroid
-  compile thirdPartyLib.fastjson
-  compile thirdPartyLib.retrofit
-  compile thirdPartyLib.retrofitFastJsonConverter
-  compile thirdPartyLib.retrofitAdapters
-  compile thirdPartyLib.recyclerAdapter
-  compile thirdPartyLib.bottomBar
-  compile thirdPartyLib.flyBanner
-  compile thirdPartyLib.tabBar
-  compile thirdPartyLib.jjwtTool
-  compile thirdPartyLib.jackson
-  compile thirdPartyLib.logger
-  compile thirdPartyLib.nineOldAndroids
-  compile testLibs.junit
-  compile files('libs/open_sdk_r5756_lite.jar')
-  compile files('libs/libammsdk.jar')
-  compile files('libs/wftsdk2.2.0.jar')
-  compile files('libs/open_sdk_r5756.jar')
+    def androidSupport = rootProject.ext.androidDependencies
+    def thirdPartyLib = rootProject.ext.thirdPartyDependencies
+    def testLibs = rootProject.ext.testDependencies
+    compile androidSupport.libAppcompat
+    compile androidSupport.libCardView
+    compile androidSupport.libRecyclerView
+    compile androidSupport.libDesign
+    provided thirdPartyLib.javaxAnnotation
+    provided thirdPartyLib.dagger2Compiler
+    compile thirdPartyLib.dagger2
+    compile thirdPartyLib.rxJava
+    compile thirdPartyLib.rxAndroid
+    compile thirdPartyLib.fastjson
+    compile thirdPartyLib.retrofit
+    compile thirdPartyLib.retrofitFastJsonConverter
+    compile thirdPartyLib.retrofitAdapters
+    compile thirdPartyLib.recyclerAdapter
+    compile thirdPartyLib.bottomBar
+    compile thirdPartyLib.flyBanner
+    compile thirdPartyLib.tabBar
+    compile thirdPartyLib.jjwtTool
+    compile thirdPartyLib.jackson
+    compile thirdPartyLib.logger
+    compile thirdPartyLib.thirtyinch
+    compile testLibs.junit
+
+    compile files('libs/open_sdk_r5756_lite.jar')
+    compile files('libs/libammsdk.jar')
+    compile files('libs/wftsdk2.2.0.jar')
+    compile files('libs/open_sdk_r5756.jar')
 }
