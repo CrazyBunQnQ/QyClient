@@ -19,12 +19,12 @@ ext {
     // Test
     jUnitVersion = '4.12'
 
-    // Third party libraries
-    rxJavaVersion = '1.1.5'
-    rxAndroidVersion = '1.2.0'
-    butterKnifeVersion = '8.0.1'
+    // Tools
+    rxJavaVersion = '1.1.10'
+    rxAndroidVersion = '1.2.1'
+    butterKnifeVersion = '8.4.0'
     loggerVersion = '1.12'
-    dagger2 = '2.2'
+    dagger2 = '2.6.1'
     javaxAnnotationVersion = '1.0'
     javaxInjectVersion = '1'
     nineOldAndroids = '2.4.0'
@@ -35,11 +35,13 @@ ext {
     retrofitAdapterVersion = '2.1.0'
     retrofitFastJsonConverterVersion = '2.1.0'
     jsuopVersion = '1.9.2'
-    materialBottomBarVersion = '2.0.2'
     recyclerViewAdapterHelper = 'v2.1.1'
+    thirtyInchVersion = '0.7.1'
+
+    // Views
+    materialBottomBarVersion = '2.0.2'
     flyBannerVersion = '1.3'
     navigationtabstrip = '1.0.4'
-    thirtyinchVersion = '0.7.1'
 
     androidDependencies =
             [libAppcompat   : "com.android.support:appcompat-v7:${androidSupportLibraryVersion}",
@@ -85,13 +87,13 @@ ext {
                               jackson                  : "com.fasterxml.jackson.core:jackson-databind:2.4.2",
 
                               // MVP for activity and fragment
-                              thirtyinch               : "net.grandcentrix.thirtyinch:thirtyinch:${thirtyinchVersion}",
+                              thirtyinch               : "net.grandcentrix.thirtyinch:thirtyinch:${thirtyInchVersion}",
                               // rx extension
-                              thirtyinch_rx            : "net.grandcentrix.thirtyinch:thirtyinch-rx:${thirtyinchVersion}",
+                              thirtyinch_rx            : "net.grandcentrix.thirtyinch:thirtyinch-rx:${thirtyInchVersion}",
                               // composite android extension
-                              thirtyinch_plugin        : "net.grandcentrix.thirtyinch:thirtyinch-plugin:${thirtyinchVersion}",
+                              thirtyinch_plugin        : "net.grandcentrix.thirtyinch:thirtyinch-plugin:${thirtyInchVersion}",
                               // test extension
-                              thirtyinch_test          : "net.grandcentrix.thirtyinch:thirtyinch-test:${thirtyinchVersion}"
+                              thirtyinch_test          : "net.grandcentrix.thirtyinch:thirtyinch-test:${thirtyInchVersion}"
 
     ]
     testDependencies = [junit: "junit:junit:${jUnitVersion}"]

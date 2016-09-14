@@ -3,7 +3,7 @@ package com.i7676.qyclient;
 
 import android.app.Application;
 
-import com.i7676.qyclient.function.presenter.GamePresenter;
+import com.i7676.qyclient.function.main.presenter.GamePresenter;
 import com.i7676.qyclient.net.EgretApiService;
 
 import javax.inject.Singleton;
