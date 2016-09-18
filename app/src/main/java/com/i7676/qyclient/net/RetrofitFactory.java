@@ -19,6 +19,10 @@ import retrofit2.converter.fastjson.FastJsonConverterFactory;
  */
 public class RetrofitFactory {
 
+    private RetrofitFactory() {
+        // private constructor
+    }
+
     public static <S> S createService(String baseURL, Class<S> service, File cacheDir) {
         interfaceCheck(service);
         RetrofitFactory.cacheDir = cacheDir;

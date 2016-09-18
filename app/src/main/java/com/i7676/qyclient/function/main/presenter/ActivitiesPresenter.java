@@ -1,6 +1,7 @@
 package com.i7676.qyclient.function.main.presenter;
 
 import com.i7676.qyclient.function.main.view.ActivitiesView;
+
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -12,6 +13,7 @@ public class ActivitiesPresenter extends BasePresenter<ActivitiesView> {
 
   @Override protected void onWakeUp() {
     super.onWakeUp();
+
     Observable.from(new String[] { "1", "2", "3" })
         .observeOn(AndroidSchedulers.mainThread())
         .subscribeOn(Schedulers.io())

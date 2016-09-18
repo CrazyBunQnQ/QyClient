@@ -32,7 +32,7 @@
     </activity>
 
     <!--self-->
-    <activity android:name=".function.main.LoginActivity"/>
+    <activity android:name=".function.login.LoginActivity"/>
     <activity android:name=".function.h5game.PlayGameActivity"/>
 
     <!--微信-->

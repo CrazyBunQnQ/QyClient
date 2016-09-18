@@ -1,11 +1,12 @@
 package com.i7676.qyclient;
 
 import android.app.Application;
-
+import com.i7676.qyclient.di.DaggerQyClientComponent;
+import com.i7676.qyclient.di.QyClientComponent;
+import com.i7676.qyclient.di.QyClientModule;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.Settings;
-
 import javax.inject.Singleton;
 
 /**

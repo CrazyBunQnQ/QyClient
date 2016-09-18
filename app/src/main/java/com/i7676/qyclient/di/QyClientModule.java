@@ -1,7 +1,8 @@
-package com.i7676.qyclient;
+package com.i7676.qyclient.di;
 
 import android.app.Application;
 
+import com.i7676.qyclient.QyClient;
 import com.i7676.qyclient.net.EgretApiService;
 import com.i7676.qyclient.net.RetrofitFactory;
 

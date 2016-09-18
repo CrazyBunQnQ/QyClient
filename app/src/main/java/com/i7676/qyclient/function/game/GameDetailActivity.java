@@ -1,13 +1,23 @@
 package com.i7676.qyclient.function.game;
 
-import com.i7676.qyclient.function.main.BaseActivity;
-import com.roughike.bottombar.BottomBar;
+import android.support.annotation.NonNull;
+
+import com.i7676.qyclient.function.BaseActivity;
+
+import net.grandcentrix.thirtyinch.TiPresenter;
 
 /**
  * Created by Administrator on 2016/9/14.
  */
 public class GameDetailActivity extends BaseActivity {
-  @Override public BottomBar getBottomBar() {
-    return null;
-  }
+    @Override
+    public void initViews() {
+
+    }
+
+    @NonNull
+    @Override
+    public TiPresenter providePresenter() {
+        return null;
+    }
 }

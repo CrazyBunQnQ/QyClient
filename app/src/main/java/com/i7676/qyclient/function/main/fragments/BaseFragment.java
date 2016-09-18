@@ -16,7 +16,7 @@ import net.grandcentrix.thirtyinch.TiFragment;
  * Created by HCol on 2016/9/13.
  */
 public abstract class BaseFragment<P extends BasePresenter<V>, V extends BaseView>
-    extends TiFragment<P, V> {
+    extends TiFragment<P, V> implements BaseView {
 
   protected ToolbarAgent mToolbarAgent;
 
@@ -28,19 +28,18 @@ public abstract class BaseFragment<P extends BasePresenter<V>, V extends BaseVie
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
     View rootView = inflater.inflate(AnnotationUtil.getLayoutResId(getClass()), container, false);
-    initView(rootView);
-    inject();
+    initViews(rootView);
     return rootView;
   }
 
-  protected abstract void inject();
+  @Override public void initViews() {
+    // empty
+  }
 
   @Override public void onResume() {
     super.onResume();
     initHostToolbar();
   }
-
-  protected abstract void initView(View view);
 
   protected void initHostToolbar() {
     if (mToolbarAgent != null) {

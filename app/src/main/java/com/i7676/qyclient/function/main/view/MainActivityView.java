@@ -1,13 +1,14 @@
 package com.i7676.qyclient.function.main.view;
 
-import android.app.Fragment;
+import com.i7676.qyclient.function.main.entity.CategoryEntity;
+import java.util.List;
 
 /**
  * Created by Administrator on 2016/9/14.
  */
 public interface MainActivityView extends BaseView {
 
-  void fragmentCommit(Fragment fragment);
+  void renderCategoryItem(List<CategoryEntity> items);
 
   //******************************************************** Toolbar
   void setToolbarTitle(String title);
