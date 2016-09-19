@@ -3,6 +3,7 @@ package com.i7676.qyclient.functions.main;
 import android.content.Context;
 import com.i7676.qyclient.R;
 import com.i7676.qyclient.annotations.PreActivity;
+import com.i7676.qyclient.functions.main.adapters.ActivityFrAdapter;
 import com.i7676.qyclient.functions.main.adapters.CategoryAdapter;
 import com.i7676.qyclient.functions.main.adapters.GameCardAdapter;
 import com.i7676.qyclient.functions.main.navigation.MainAtyNavigator;
@@ -31,6 +32,10 @@ import java.util.ArrayList;
 
   @PreActivity @Provides MainAtyNavigator providedMainAtyNavigator(MainActivity mainActivity) {
     return MainAtyNavigator.create(mainActivity);
+  }
+
+  @Provides ActivityFrAdapter providedActivityFrAdapter() {
+    return new ActivityFrAdapter(R.layout.item_activities_list, new ArrayList<>());
   }
 
   @Provides CategoryAdapter providedCategoryAdapter() {

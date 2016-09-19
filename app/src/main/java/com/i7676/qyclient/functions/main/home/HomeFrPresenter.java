@@ -54,6 +54,7 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
     mainActivity.getPresenter().getView().setTitle("主页");
     mainActivity.getPresenter().getView().setToolbarBkg(ColorConstants.TRANSPARENT);
     mainActivity.getPresenter().getView().setBottomBarSelectedIndex(MainAtyView.TAB_INDEX_HOME);
+    mainActivity.getPresenter().getView().showOptionsMenu();
   }
 
   private void initTopBannerData() {

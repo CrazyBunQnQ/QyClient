@@ -5,6 +5,7 @@ import com.i7676.qyclient.QyClientComponent;
 import com.i7676.qyclient.annotations.PreActivity;
 import com.i7676.qyclient.functions.main.activity.ActivityFrPresenter;
 import com.i7676.qyclient.functions.main.activity.ActivityFragment;
+import com.i7676.qyclient.functions.main.adapters.ActivityFrAdapter;
 import com.i7676.qyclient.functions.main.adapters.CategoryAdapter;
 import com.i7676.qyclient.functions.main.adapters.GameCardAdapter;
 import com.i7676.qyclient.functions.main.home.HomeFrPresenter;
@@ -39,4 +40,6 @@ public interface MainAtyComponent {
   CategoryAdapter getCategoryAdapter();
 
   GameCardAdapter getGameCardAdapter();
+
+  ActivityFrAdapter getActivityFrAdapter();
 }
