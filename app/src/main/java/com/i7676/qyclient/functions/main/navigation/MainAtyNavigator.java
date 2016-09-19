@@ -2,7 +2,9 @@ package com.i7676.qyclient.functions.main.navigation;
 
 import com.i7676.qyclient.functions.BaseFragment;
 import com.i7676.qyclient.functions.main.MainActivity;
+import com.i7676.qyclient.functions.main.activity.ActivityFragment;
 import com.i7676.qyclient.functions.main.home.HomeFragment;
+import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2016/9/19.
@@ -15,6 +17,7 @@ public class MainAtyNavigator {
 
   private MainActivity mAty;
   private BaseFragment selectedFragment;
+  private ArrayList<BaseFragment> frCached = new ArrayList<>(5);
 
   private MainAtyNavigator(MainActivity mAty) {
     this.mAty = mAty;
@@ -22,7 +25,12 @@ public class MainAtyNavigator {
 
   public void showHome() {
     final HomeFragment fragment = HomeFragment.create(null);
-    transform(fragment);
+    transform((selectedFragment = fragment));
+  }
+
+  public void showActivityFr() {
+    final ActivityFragment fragment = ActivityFragment.create(null);
+    transform((selectedFragment = fragment));
   }
 
   public void showSelectedFragment() {
@@ -33,8 +41,14 @@ public class MainAtyNavigator {
     }
   }
 
+  //private void cacheFragment(BaseFragment fragment) {
+  //  if (!frCached.contains(fragment)) {
+  //    frCached.add(fragment);
+  //  }
+  //}
+
   private void transform(BaseFragment fragment) {
-    selectedFragment = fragment;
+    //cacheFragment(fragment);
     mAty.getSupportFragmentManager()
         .beginTransaction()
         .replace(mAty.frPlaceHolderId(), fragment, fragment.getClass().getCanonicalName())

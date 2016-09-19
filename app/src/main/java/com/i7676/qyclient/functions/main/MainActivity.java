@@ -10,7 +10,6 @@ import android.widget.PopupWindow;
 import com.i7676.qyclient.QyClient;
 import com.i7676.qyclient.R;
 import com.i7676.qyclient.annotations.Layout;
-import com.i7676.qyclient.constants.ColorConstants;
 import com.i7676.qyclient.entity.CategoryEntity;
 import com.i7676.qyclient.functions.BaseActivity;
 import com.i7676.qyclient.functions.main.adapters.CategoryAdapter;
@@ -34,14 +33,15 @@ import javax.inject.Inject;
   // Dagger
   private MainAtyComponent atyComponent;
 
+  // Members
+  private boolean opMenuVisibility = true;
+
   @Override public void initViews() {
     // 进行依赖注入
     initInject();
     // 初始化布局视图元素
     mToolbar = (Toolbar) findViewById(R.id.toolbar);
-    mToolbar.setTitle("主页");
     mToolbar.setTitleTextColor(Color.WHITE);
-    mToolbar.setBackgroundColor(ColorConstants.TRANSPARENT);
     setSupportActionBar(mToolbar);
 
     mBottomBar = (BottomBar) findViewById(R.id.bottomBar);
@@ -90,11 +90,34 @@ import javax.inject.Inject;
     return super.onOptionsItemSelected(item);
   }
 
+  @Override public boolean onPrepareOptionsMenu(Menu menu) {
+    menu.findItem(R.id.category).setVisible(opMenuVisibility);
+    if (!opMenuVisibility && mCategoryPopupWindow != null && mCategoryPopupWindow.isShowing()) {
+      mCategoryPopupWindow.dismiss();
+    }
+    return super.onPrepareOptionsMenu(menu);
+  }
+
   @Override public void setupCategoryPopupWindow(List<CategoryEntity> items) {
     mCategoryAdapter.setNewData(items);
   }
 
-  @Override public void invalidateAtyOptionsMenu() {
+  @Override public void setTitle(String titleText) {
+    mToolbar.setTitle(titleText);
+  }
+
+  @Override public void setToolbarBkg(int color) {
+    mToolbar.setBackgroundColor(color);
+  }
+
+  @Override public void hideOptionsMenu() {
+    closeOptionsMenu();
+    opMenuVisibility = false;
+    invalidateOptionsMenu();
+  }
+
+  @Override public void showOptionsMenu() {
+    opMenuVisibility = true;
     invalidateOptionsMenu();
   }
 
@@ -110,11 +133,11 @@ import javax.inject.Inject;
     mBottomBar.setVisibility(View.GONE);
   }
 
-  public Toolbar getmToolbar() {
-    return mToolbar;
-  }
-
-  public BottomBar getmBottomBar() {
-    return mBottomBar;
+  @Override public void onBackPressed() {
+    if (mCategoryPopupWindow != null && mCategoryPopupWindow.isShowing()) {
+      mCategoryPopupWindow.dismiss();
+      return;
+    }
+    super.onBackPressed();
   }
 }

@@ -2,6 +2,7 @@ package com.i7676.qyclient.functions.main.home;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
@@ -11,7 +12,6 @@ import com.i7676.qyclient.entity.CategoryEntity;
 import com.i7676.qyclient.entity.GameCardEntity;
 import com.i7676.qyclient.functions.BaseFragment;
 import com.i7676.qyclient.functions.main.MainActivity;
-import com.i7676.qyclient.functions.main.MainAtyComponent;
 import com.i7676.qyclient.functions.main.adapters.CategoryAdapter;
 import com.i7676.qyclient.functions.main.adapters.GameCardAdapter;
 import com.i7676.qyclient.widgets.NonScrollableRecyclerView;
@@ -26,7 +26,7 @@ import javax.inject.Inject;
 @Layout(R.layout.fragment_home) public class HomeFragment
     extends BaseFragment<HomeFrPresenter, HomeFrView> implements HomeFrView {
 
-  public static HomeFragment create(Bundle args) {
+  public static HomeFragment create(@Nullable Bundle args) {
     final HomeFragment fragment = new HomeFragment();
     fragment.setArguments(args);
     return fragment;
@@ -40,7 +40,6 @@ import javax.inject.Inject;
   private NonScrollableRecyclerView fstGCardsRecyclerView;
   private NonScrollableRecyclerView sndGCardsRecyclerView;
 
-  private MainAtyComponent atyComponent;
   @Inject CategoryAdapter categoryAdapter;
   @Inject GameCardAdapter fstGCardAdapter;
   @Inject GameCardAdapter sndGCardAdapter;
@@ -97,8 +96,7 @@ import javax.inject.Inject;
   }
 
   private void initInject() {
-    atyComponent = ((MainActivity) getActivity()).getAtyComponent();
-    atyComponent.inject(this);
-    atyComponent.inject(getPresenter());
+    ((MainActivity) getActivity()).getAtyComponent().inject(this);
+    ((MainActivity) getActivity()).getAtyComponent().inject(getPresenter());
   }
 }

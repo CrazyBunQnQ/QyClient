@@ -3,6 +3,8 @@ package com.i7676.qyclient.functions.main;
 import android.content.Context;
 import com.i7676.qyclient.QyClientComponent;
 import com.i7676.qyclient.annotations.PreActivity;
+import com.i7676.qyclient.functions.main.activity.ActivityFrPresenter;
+import com.i7676.qyclient.functions.main.activity.ActivityFragment;
 import com.i7676.qyclient.functions.main.adapters.CategoryAdapter;
 import com.i7676.qyclient.functions.main.adapters.GameCardAdapter;
 import com.i7676.qyclient.functions.main.home.HomeFrPresenter;
@@ -23,6 +25,10 @@ public interface MainAtyComponent {
   void inject(HomeFragment fragment);
 
   void inject(HomeFrPresenter presenter);
+
+  void inject(ActivityFragment fragment);
+
+  void inject(ActivityFrPresenter presenter);
 
   Context getMainAtyContext();
 

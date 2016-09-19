@@ -8,13 +8,21 @@ import com.i7676.qyclient.functions.main.navigation.MainAtyNavigator;
 import com.i7676.qyclient.net.EgretApiService;
 import com.roughike.bottombar.OnTabSelectListener;
 import java.util.ArrayList;
-import java.util.List;
 import javax.inject.Inject;
 
 /**
  * Created by Administrator on 2016/9/19.
  */
 public class MainAtyPresenter extends BasePresenter<MainAtyView> implements OnTabSelectListener {
+
+  public static ArrayList<CategoryEntity> CATEGORIES = new ArrayList<CategoryEntity>() {
+    {
+      add(new CategoryEntity("http://cdn-img.easyicon.net/png/11324/1132448.gif", "最新上线"));
+      add(new CategoryEntity("http://cdn-img.easyicon.net/png/11324/1132435.gif", "网络游戏"));
+      add(new CategoryEntity("http://cdn-img.easyicon.net/png/11324/1132444.gif", "小游戏"));
+      add(new CategoryEntity("http://cdn-img.easyicon.net/png/11324/1132433.gif", "专题游戏"));
+    }
+  };
 
   @Inject EgretApiService mEgretApiService;
   @Inject MainAtyNavigator navigator;
@@ -31,23 +39,16 @@ public class MainAtyPresenter extends BasePresenter<MainAtyView> implements OnTa
   }
 
   private void reqCategoryData() {
-    List<CategoryEntity> categoryEntities = new ArrayList<>();
-    categoryEntities.add(
-        new CategoryEntity("http://cdn-img.easyicon.net/png/11324/1132448.gif", "最新上线"));
-    categoryEntities.add(
-        new CategoryEntity("http://cdn-img.easyicon.net/png/11324/1132435.gif", "网络游戏"));
-    categoryEntities.add(
-        new CategoryEntity("http://cdn-img.easyicon.net/png/11324/1132444.gif", "小游戏"));
-    categoryEntities.add(
-        new CategoryEntity("http://cdn-img.easyicon.net/png/11324/1132433.gif", "专题游戏"));
-    getView().setupCategoryPopupWindow(categoryEntities);
+    getView().setupCategoryPopupWindow(CATEGORIES);
   }
 
   @Override public void onTabSelected(@IdRes int tabId) {
     switch (tabId) {
       case R.id.bottom_home:
-      default:
         navigator.showHome();
+        break;
+      case R.id.bottom_activities:
+        navigator.showActivityFr();
         break;
       case R.id.bottom_hi:
         break;

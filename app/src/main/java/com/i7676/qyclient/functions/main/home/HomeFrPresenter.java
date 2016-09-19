@@ -3,11 +3,12 @@ package com.i7676.qyclient.functions.main.home;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.i7676.qyclient.constants.ColorConstants;
-import com.i7676.qyclient.entity.CategoryEntity;
 import com.i7676.qyclient.entity.GameCardEntity;
 import com.i7676.qyclient.entity.GameEntity;
 import com.i7676.qyclient.functions.BasePresenter;
 import com.i7676.qyclient.functions.main.MainActivity;
+import com.i7676.qyclient.functions.main.MainAtyPresenter;
+import com.i7676.qyclient.functions.main.MainAtyView;
 import com.i7676.qyclient.net.EgretApiService;
 import com.i7676.qyclient.widgets.ObservableScrollView;
 import com.orhanobut.logger.Logger;
@@ -33,15 +34,6 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
       add("http://h5.7676.com/uploadfile/2016/0829/20160829062640102.jpg");
     }
   };
-
-  private ArrayList<CategoryEntity> CATEGORIES = new ArrayList<CategoryEntity>() {
-    {
-      add(new CategoryEntity("http://cdn-img.easyicon.net/png/11324/1132448.gif", "最新上线"));
-      add(new CategoryEntity("http://cdn-img.easyicon.net/png/11324/1132435.gif", "网络游戏"));
-      add(new CategoryEntity("http://cdn-img.easyicon.net/png/11324/1132444.gif", "小游戏"));
-      add(new CategoryEntity("http://cdn-img.easyicon.net/png/11324/1132433.gif", "专题游戏"));
-    }
-  };
   //********************************************* fake data
 
   @Inject EgretApiService mEgretApiService;
@@ -50,10 +42,18 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
   @Override protected void onWakeUp() {
     super.onWakeUp();
 
+    toolbarSetup();
+
     initTopBannerData();
     initRCMDBannerData();
     initCategory();
     initFstGCards();
+  }
+
+  private void toolbarSetup() {
+    mainActivity.getPresenter().getView().setTitle("主页");
+    mainActivity.getPresenter().getView().setToolbarBkg(ColorConstants.TRANSPARENT);
+    mainActivity.getPresenter().getView().setBottomBarSelectedIndex(MainAtyView.TAB_INDEX_HOME);
   }
 
   private void initTopBannerData() {
@@ -65,7 +65,7 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
   }
 
   private void initCategory() {
-    getView().setupCategory(CATEGORIES);
+    getView().setupCategory(MainAtyPresenter.CATEGORIES);
   }
 
   private void initFstGCards() {
@@ -109,7 +109,7 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
     // 三秒之后再分发其他的卡片
     Observable.just(this.collectSndGCards(entities))
         .observeOn(AndroidSchedulers.mainThread())
-        .delaySubscription(3000, TimeUnit.MILLISECONDS)
+        .delaySubscription(1000, TimeUnit.MILLISECONDS)
         .subscribe(getView()::setupSndGCards);
     return fstCardEntities;
   }
@@ -138,28 +138,30 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
 
   @Override public void onScrollChanged(int l, int r, int oldl, int oldr) {
     Logger.i(">>> {l:" + l + ",r:" + r + ",oldl:" + oldl + ",oldr:" + oldr + "}");
-    if (mainActivity.getmToolbar() != null) {
+    if (mainActivity.getPresenter().getView() != null) {
       boolean scrollDown = r - oldr > 0;
       if (r <= 0) {
-        mainActivity.getmToolbar().setBackgroundColor(ColorConstants.TRANSPARENT);
+        mainActivity.getPresenter().getView().setToolbarBkg(ColorConstants.TRANSPARENT);
       } else if (r > 0 && r < 360) {
         float percent = r / 360f;
         int tempColor = Float.valueOf(ColorConstants.TOTAL_OFFSET * percent).intValue();
         //Log.d(TAG, "percent:" + percent + "%, tempColor:" + tempColor);
         // 下滑
         if (scrollDown) {
-          mainActivity.getmToolbar()
-              .setBackgroundColor(
+          mainActivity.getPresenter()
+              .getView()
+              .setToolbarBkg(
                   ColorConstants.TRANSPARENT + calcColorOffset(tempColor, ColorConstants.OFFSET));
         }
         // 上拉
         else {
-          mainActivity.getmToolbar()
-              .setBackgroundColor(
+          mainActivity.getPresenter()
+              .getView()
+              .setToolbarBkg(
                   ColorConstants.TRANSPARENT - calcColorOffset(tempColor, ColorConstants.OFFSET));
         }
       } else if (r >= 360) {
-        mainActivity.getmToolbar().setBackgroundColor(ColorConstants.PRIMARY_COLOR);
+        mainActivity.getPresenter().getView().setToolbarBkg(ColorConstants.PRIMARY_COLOR);
       }
     }
   }
