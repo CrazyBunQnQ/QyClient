@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.i7676.qyclient.widgets.ObservableScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootScroll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".functions.main.MainActivity"
+    >
+
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      >
+
+    <com.recker.flybanner.FlyBanner
+        android:id="@+id/topBanner"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_below="@id/toolbar"
+        />
+
+    <com.i7676.qyclient.widgets.NonScrollableRecyclerView
+        android:id="@+id/categoryRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/topBanner"
+        android:background="#ffffff"
+        />
+
+    <com.i7676.qyclient.widgets.NonScrollableRecyclerView
+        android:id="@+id/fstGCardsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/categoryRecyclerView"
+        />
+
+    <com.recker.flybanner.FlyBanner
+        android:id="@+id/rcmdBanner"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:layout_below="@id/fstGCardsRecyclerView"
+        />
+
+    <com.i7676.qyclient.widgets.NonScrollableRecyclerView
+        android:id="@+id/sndGCardsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/rcmdBanner"
+        android:paddingBottom="?attr/actionBarSize"
+        />
+  </RelativeLayout>
+</com.i7676.qyclient.widgets.ObservableScrollView>

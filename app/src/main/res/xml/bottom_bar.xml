@@ -2,7 +2,7 @@
 <tabs>
   <tab
       icon="@drawable/ic_videogame_asset_grey_700_24dp"
-      id="@+id/bottom_game"
+      id="@+id/bottom_home"
       title="游戏"/>
   <tab
       icon="@drawable/ic_star_grey_700_24dp"
