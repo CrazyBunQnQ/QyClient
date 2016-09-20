@@ -10,9 +10,9 @@ import java.util.List;
  */
 public interface HomeFrView extends BaseView {
 
-  void setupTopBanner(List<String> bannerImgURL);
+  void setupTopBanner(List<String> bannerImgURLs);
 
-  void setupRCMDBanner(List<String> bannerImgURL);
+  void setupRCMDBanner(List<String> bannerImgURLs);
 
   void setupFstGCards(List<GameCardEntity> fstGCards);
 

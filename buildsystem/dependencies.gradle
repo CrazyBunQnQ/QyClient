@@ -1,100 +1,100 @@
 allprojects {
-    repositories {
-        jcenter()
-        mavenCentral()
-        maven { url "https://jitpack.io" }
-    }
+  repositories {
+    jcenter()
+    mavenCentral()
+    maven { url "https://jitpack.io" }
+  }
 }
 
 ext {
-    // Android
-    androidBuildToolsVersion = "24.0.1"
-    androidMinSdkVersion = 16
-    androidTargetSdkVersion = 22
-    androidCompileSdkVersion = 23
-    // Libraries
-    androidSupportLibraryVersion = '24.2.0'
-    androidAnnotationsVersion = '24.2.0'
+  // Android
+  androidBuildToolsVersion = "24.0.1"
+  androidMinSdkVersion = 16
+  androidTargetSdkVersion = 22
+  androidCompileSdkVersion = 23
+  // Libraries
+  androidSupportLibraryVersion = '24.2.0'
+  androidAnnotationsVersion = '24.2.0'
 
-    // Test
-    jUnitVersion = '4.12'
+  // Test
+  jUnitVersion = '4.12'
 
-    // Tools
-    rxJavaVersion = '1.1.10'
-    rxAndroidVersion = '1.2.1'
-    butterKnifeVersion = '8.4.0'
-    loggerVersion = '1.12'
-    dagger2 = '2.6.1'
-    javaxAnnotationVersion = '1.0'
-    javaxInjectVersion = '1'
-    nineOldAndroids = '2.4.0'
-    streamFuture = '1.0.9'
-    okHttpVersion = '3.4.1'
-    fastjsonVersion = '1.1.52.android'
-    retrofitVersion = '2.1.0'
-    retrofitAdapterVersion = '2.1.0'
-    retrofitFastJsonConverterVersion = '2.1.0'
-    jsuopVersion = '1.9.2'
-    recyclerViewAdapterHelper = 'v2.1.1'
-    thirtyInchVersion = '0.7.1'
+  // Tools
+  rxJavaVersion = '1.1.10'
+  rxAndroidVersion = '1.2.1'
+  butterKnifeVersion = '8.4.0'
+  loggerVersion = '1.12'
+  dagger2 = '2.6.1'
+  javaxAnnotationVersion = '1.0'
+  javaxInjectVersion = '1'
+  nineOldAndroids = '2.4.0'
+  streamFuture = '1.0.9'
+  okHttpVersion = '3.4.1'
+  fastjsonVersion = '1.1.52.android'
+  retrofitVersion = '2.1.0'
+  retrofitAdapterVersion = '2.1.0'
+  retrofitFastJsonConverterVersion = '2.1.0'
+  jsuopVersion = '1.9.2'
+  recyclerViewAdapterHelper = 'v2.1.1'
+  thirtyInchVersion = '0.7.1'
 
-    // Views
-    materialBottomBarVersion = '2.0.2'
-    flyBannerVersion = '1.3'
-    navigationtabstrip = '1.0.4'
+  // Views
+  materialBottomBarVersion = '2.0.2'
+  flyBannerVersion = '1.3'
+  navigationtabstrip = '1.0.4'
+  constraintVersion = '1.0.0-alpha8'
 
-    androidDependencies =
-            [libAppcompat   : "com.android.support:appcompat-v7:${androidSupportLibraryVersion}",
-             libDesign      : "com.android.support:design:${androidSupportLibraryVersion}",
-             libRecyclerView: "com.android.support:recyclerview-v7:${androidSupportLibraryVersion}",
-             libCardView    : "com.android.support:cardview-v7:${androidSupportLibraryVersion}",
-             libV4          : "com.android.support:support-v4:${androidSupportLibraryVersion}",
-             libAnnotations : "com.android.support:support-annotations:${androidAnnotationsVersion}"]
+  androidDependencies =
+      [libAppcompat    : "com.android.support:appcompat-v7:${androidSupportLibraryVersion}",
+       libDesign       : "com.android.support:design:${androidSupportLibraryVersion}",
+       libRecyclerView : "com.android.support:recyclerview-v7:${androidSupportLibraryVersion}",
+       libCardView     : "com.android.support:cardview-v7:${androidSupportLibraryVersion}",
+       libV4           : "com.android.support:support-v4:${androidSupportLibraryVersion}",
+       libAnnotations  : "com.android.support:support-annotations:${androidAnnotationsVersion}",
+       constraintLayout: "com.android.support.constraint:constraint-layout:${constraintVersion}"]
 
 
-    thirdPartyDependencies = [rxJava                   : "io.reactivex:rxjava:${rxJavaVersion}",
-                              rxAndroid                : "io.reactivex:rxandroid:${rxAndroidVersion}",
-                              javaxAnnotation          : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
-                              javaxInject              : "javax.inject:javax.inject:${javaxInjectVersion}",
+  thirdPartyDependencies = [rxJava                   : "io.reactivex:rxjava:${rxJavaVersion}",
+                            rxAndroid                : "io.reactivex:rxandroid:${rxAndroidVersion}",
+                            javaxAnnotation          : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+                            javaxInject              : "javax.inject:javax.inject:${javaxInjectVersion}",
 
-                              butterKnifeCompiler      : "com.jakewharton:butterknife-compiler:${butterKnifeVersion}",
-                              butterKnife              : "com.jakewharton:butterknife:${butterKnifeVersion}",
+                            butterKnifeCompiler      : "com.jakewharton:butterknife-compiler:${butterKnifeVersion}",
+                            butterKnife              : "com.jakewharton:butterknife:${butterKnifeVersion}",
 
-                              logger                   : "com.github.orhanobut:logger:${loggerVersion}",
+                            logger                   : "com.github.orhanobut:logger:${loggerVersion}",
 
-                              // Dagger dependencies
-                              dagger2Compiler          : "com.google.dagger:dagger-compiler:${dagger2}",
-                              dagger2                  : "com.google.dagger:dagger:${dagger2}",
+                            // Dagger dependencies
+                            dagger2Compiler          : "com.google.dagger:dagger-compiler:${dagger2}",
+                            dagger2                  : "com.google.dagger:dagger:${dagger2}",
 
-                              recyclerAdapter          : "com.github.CymChad:BaseRecyclerViewAdapterHelper:${recyclerViewAdapterHelper}",
+                            recyclerAdapter          : "com.github.CymChad:BaseRecyclerViewAdapterHelper:${recyclerViewAdapterHelper}",
 
-                              nineOldAndroids          : "com.nineoldandroids:library:${nineOldAndroids}",
+                            nineOldAndroids          : "com.nineoldandroids:library:${nineOldAndroids}",
 
-                              streamFuture             : "com.annimon:stream:${streamFuture}",
+                            streamFuture             : "com.annimon:stream:${streamFuture}",
 
-                              okHttp                   : "com.squareup.okhttp3:okhttp:${okHttpVersion}",
-                              fastjson                 : "com.alibaba:fastjson:${fastjsonVersion}",
-                              retrofit                 : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
-                              retrofitAdapters         : "com.squareup.retrofit2:adapter-rxjava:${retrofitAdapterVersion}",
-                              retrofitFastJsonConverter: "org.ligboy.retrofit2:converter-fastjson-android:${retrofitFastJsonConverterVersion}",
+                            okHttp                   : "com.squareup.okhttp3:okhttp:${okHttpVersion}",
+                            fastjson                 : "com.alibaba:fastjson:${fastjsonVersion}",
+                            retrofit                 : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
+                            retrofitAdapters         : "com.squareup.retrofit2:adapter-rxjava:${retrofitAdapterVersion}",
+                            retrofitFastJsonConverter: "org.ligboy.retrofit2:converter-fastjson-android:${retrofitFastJsonConverterVersion}",
 
-                              jsoup                    : "org.jsoup:jsoup:${jsuopVersion}",
-                              bottomBar                : "com.roughike:bottom-bar:${materialBottomBarVersion}",
-                              flyBanner                : "com.recker.flybanner:flybanner:${flyBannerVersion}",
-                              tabBar                   : "com.github.devlight.navigationtabstrip:navigationtabstrip:${navigationtabstrip}",
+                            jsoup                    : "org.jsoup:jsoup:${jsuopVersion}",
+                            bottomBar                : "com.roughike:bottom-bar:${materialBottomBarVersion}",
+                            flyBanner                : "com.recker.flybanner:flybanner:${flyBannerVersion}",
+                            tabBar                   : "com.github.devlight.navigationtabstrip:navigationtabstrip:${navigationtabstrip}",
 
-                              jjwtTool                 : "io.jsonwebtoken:jjwt:0.6.0",
-                              jackson                  : "com.fasterxml.jackson.core:jackson-databind:2.4.2",
+                            jjwtTool                 : "io.jsonwebtoken:jjwt:0.6.0",
+                            jackson                  : "com.fasterxml.jackson.core:jackson-databind:2.4.2",
 
-                              // MVP for activity and fragment
-                              thirtyinch               : "net.grandcentrix.thirtyinch:thirtyinch:${thirtyInchVersion}",
-                              // rx extension
-                              thirtyinch_rx            : "net.grandcentrix.thirtyinch:thirtyinch-rx:${thirtyInchVersion}",
-                              // composite android extension
-                              thirtyinch_plugin        : "net.grandcentrix.thirtyinch:thirtyinch-plugin:${thirtyInchVersion}",
-                              // test extension
-                              thirtyinch_test          : "net.grandcentrix.thirtyinch:thirtyinch-test:${thirtyInchVersion}"
-
-    ]
-    testDependencies = [junit: "junit:junit:${jUnitVersion}"]
+                            // MVP for activity and fragment
+                            thirtyinch               : "net.grandcentrix.thirtyinch:thirtyinch:${thirtyInchVersion}",
+                            // rx extension
+                            thirtyinch_rx            : "net.grandcentrix.thirtyinch:thirtyinch-rx:${thirtyInchVersion}",
+                            // composite android extension
+                            thirtyinch_plugin        : "net.grandcentrix.thirtyinch:thirtyinch-plugin:${thirtyInchVersion}",
+                            // test extension
+                            thirtyinch_test          : "net.grandcentrix.thirtyinch:thirtyinch-test:${thirtyInchVersion}"]
+  testDependencies = [junit: "junit:junit:${jUnitVersion}"]
 }

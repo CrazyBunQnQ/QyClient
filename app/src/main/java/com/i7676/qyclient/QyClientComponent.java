@@ -2,6 +2,7 @@ package com.i7676.qyclient;
 
 import android.app.Application;
 import com.i7676.qyclient.net.EgretApiService;
+import com.i7676.qyclient.net.YNetApiService;
 import dagger.Component;
 import javax.inject.Singleton;
 
@@ -13,4 +14,6 @@ import javax.inject.Singleton;
   Application getApplication();
 
   EgretApiService getEgretApiService();
+
+  YNetApiService getYNetApiService();
 }

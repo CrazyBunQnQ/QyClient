@@ -3,15 +3,19 @@ package com.i7676.qyclient.functions.main.home;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.i7676.qyclient.constants.ColorConstants;
+import com.i7676.qyclient.entity.BannerEntity;
 import com.i7676.qyclient.entity.GameCardEntity;
 import com.i7676.qyclient.entity.GameEntity;
+import com.i7676.qyclient.entity.ReqResult;
 import com.i7676.qyclient.functions.BasePresenter;
 import com.i7676.qyclient.functions.main.MainActivity;
 import com.i7676.qyclient.functions.main.MainAtyPresenter;
 import com.i7676.qyclient.functions.main.MainAtyView;
 import com.i7676.qyclient.net.EgretApiService;
+import com.i7676.qyclient.net.YNetApiService;
 import com.i7676.qyclient.widgets.ObservableScrollView;
 import com.orhanobut.logger.Logger;
+import com.recker.flybanner.FlyBanner;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -26,18 +30,19 @@ import rx.schedulers.Schedulers;
 public class HomeFrPresenter extends BasePresenter<HomeFrView>
     implements ObservableScrollView.OnScrollChangedListener {
 
-  //********************************************* fake data
-  private static List<String> IMAGE_URLS = new ArrayList<String>() {
+  @Inject EgretApiService mEgretApiService;
+  @Inject YNetApiService mYNetApiService;
+  @Inject MainActivity mainActivity;
+
+  private static List<String> DEFAULT_BANNER_IMAGE = new ArrayList<String>() {
     {
-      add("http://h5.7676.com/uploadfile/2016/0829/20160829062640102.jpg");
       add("http://h5.7676.com/uploadfile/2016/0829/20160829062640102.jpg");
       add("http://h5.7676.com/uploadfile/2016/0829/20160829062640102.jpg");
     }
   };
-  //********************************************* fake data
 
-  @Inject EgretApiService mEgretApiService;
-  @Inject MainActivity mainActivity;
+  private ArrayList<BannerEntity> topBanners = new ArrayList<>();
+  private ArrayList<BannerEntity> RCMDBanners = new ArrayList<>();
 
   @Override protected void onWakeUp() {
     super.onWakeUp();
@@ -45,7 +50,6 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
     toolbarSetup();
 
     initTopBannerData();
-    initRCMDBannerData();
     initCategory();
     initFstGCards();
   }
@@ -58,11 +62,51 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
   }
 
   private void initTopBannerData() {
-    getView().setupTopBanner(IMAGE_URLS);
+    topBanners.clear();
+    mYNetApiService.getBanner()
+        .doOnError(this::errorHandler)
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .flatMap(this::map2Banners)
+        .flatMap(this::collectBannerImgURLs)
+        .subscribe(getView()::setupTopBanner);
   }
 
   private void initRCMDBannerData() {
-    getView().setupRCMDBanner(IMAGE_URLS);
+    RCMDBanners.clear();
+    RCMDBanners.addAll(topBanners);
+    Observable.just(RCMDBanners)
+        .doOnError(this::errorHandler)
+        .observeOn(AndroidSchedulers.mainThread())
+        .flatMap(bannerEntities -> {
+          ArrayList<String> images = new ArrayList<>();
+          for (BannerEntity entity : bannerEntities) {
+            images.add(entity.getImageURL());
+          }
+          return Observable.just(images);
+        })
+        .subscribe(getView()::setupRCMDBanner);
+  }
+
+  private Observable<List<BannerEntity>> map2Banners(ReqResult<List<BannerEntity>> reqResult) {
+    if (reqResult.getRet() == 0) {
+      return Observable.just(reqResult.getData());
+    } else {
+      return null;
+    }
+  }
+
+  private Observable<List<String>> collectBannerImgURLs(List<BannerEntity> bannerEntities) {
+
+    if (bannerEntities == null) return Observable.just(DEFAULT_BANNER_IMAGE);
+
+    topBanners.addAll(bannerEntities);
+    initRCMDBannerData();
+    ArrayList<String> images = new ArrayList<>();
+    for (BannerEntity entity : topBanners) {
+      images.add(entity.getImageURL());
+    }
+    return Observable.just(images);
   }
 
   private void initCategory() {
@@ -73,6 +117,7 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
     mEgretApiService.getGameList("20814")
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
+        .doOnError(this::errorHandler)
         .map(this::map2GameEntity)
         .flatMap(Observable::from)
         .take(20)
@@ -80,6 +125,10 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
         .map(this::collectFstGCards)
         .take(3)
         .subscribe(getView()::setupFstGCards);
+  }
+
+  private void errorHandler(Throwable throwable) {
+    Logger.w(">>> throwable: " + throwable.getMessage());
   }
 
   private List<GameEntity> map2GameEntity(Object obj) {
@@ -107,7 +156,7 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
       }
       fstCardEntities.add(new GameCardEntity(cardTitle, entityList));
     }
-    // 三秒之后再分发其他的卡片
+    // 1秒之后再分发其他的卡片
     Observable.just(this.collectSndGCards(entities))
         .observeOn(AndroidSchedulers.mainThread())
         .delaySubscription(1000, TimeUnit.MILLISECONDS)
@@ -165,5 +214,30 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
         mainActivity.getPresenter().getView().setToolbarBkg(ColorConstants.PRIMARY_COLOR);
       }
     }
+  }
+
+  // 轮播图片监听器
+  private final FlyBanner.OnItemClickListener topBannerListener = position -> {
+    if (topBanners.isEmpty()) {
+      Logger.w(">>> Click position is [" + position + "] and topBanners is empty!");
+      return;
+    }
+    Logger.i(">>> topBannerInfo: " + topBanners.get(position).getDes());
+  };
+
+  private final FlyBanner.OnItemClickListener RCMDBannerListener = position -> {
+    if (RCMDBanners.isEmpty()) {
+      Logger.w(">>> Click position is [" + position + "] and RCMDBannerInfo is empty!");
+      return;
+    }
+    Logger.i(">>> RCMDBannerInfo: " + RCMDBanners.get(position).getDes());
+  };
+
+  public FlyBanner.OnItemClickListener getTopBannerListener() {
+    return topBannerListener;
+  }
+
+  public FlyBanner.OnItemClickListener getRCMDBannerListener() {
+    return RCMDBannerListener;
   }
 }

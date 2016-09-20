@@ -1,11 +1,11 @@
 package com.i7676.qyclient.functions.main.navigation;
 
+import android.util.SparseArray;
 import com.i7676.qyclient.functions.BaseFragment;
 import com.i7676.qyclient.functions.main.MainActivity;
 import com.i7676.qyclient.functions.main.MainAtyView;
 import com.i7676.qyclient.functions.main.activity.ActivityFragment;
 import com.i7676.qyclient.functions.main.home.HomeFragment;
-import java.util.HashMap;
 
 /**
  * Created by Administrator on 2016/9/19.
@@ -19,7 +19,7 @@ public class MainAtyNavigator {
   private MainActivity mAty;
   private BaseFragment selectedFragment;
   private int tabIndex;
-  private HashMap<Integer, BaseFragment> frCached = new HashMap<>(5);
+  private SparseArray<BaseFragment> frCached = new SparseArray<>(5);
 
   private MainAtyNavigator(MainActivity mAty) {
     this.mAty = mAty;
@@ -55,7 +55,7 @@ public class MainAtyNavigator {
     cacheFragment(index, fragment);
     mAty.getSupportFragmentManager()
         .beginTransaction()
-        .replace(mAty.frPlaceHolderId(), fragment, fragment.getClass().getCanonicalName())
+        .replace(mAty.getFrPlaceHolderResId(), fragment, fragment.getClass().getCanonicalName())
         .commit();
   }
 }

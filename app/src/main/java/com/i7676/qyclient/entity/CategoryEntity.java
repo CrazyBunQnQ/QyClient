@@ -1,6 +1,6 @@
 package com.i7676.qyclient.entity;
 
-public class CategoryEntity extends CommonBaseEntity {
+public class CategoryEntity {
   private String imageURL;
   private String categoryText;
 
