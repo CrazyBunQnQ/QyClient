@@ -19,66 +19,63 @@ import retrofit2.converter.fastjson.FastJsonConverterFactory;
  */
 public class RetrofitFactory {
 
-    private RetrofitFactory() {
-        // private constructor
+  private RetrofitFactory() {
+    // private constructor
+  }
+
+  public static <S> S createService(String baseURL, Class<S> service, File cacheDir) {
+    interfaceCheck(service);
+    RetrofitFactory.cacheDir = cacheDir;
+    return createRetrofitClient(baseURL).create(service);
+  }
+
+  private static void interfaceCheck(Class clz) {
+    if (!clz.isInterface()) {
+      throw new IllegalArgumentException(clz.getSimpleName() + " may not be an interface.");
+    }
+  }
+
+  private static Retrofit createRetrofitClient(String baseURL) {
+
+    ensureHttpClient();
+
+    return new Retrofit.Builder().client(mHttpClient)
+        .baseUrl(baseURL)
+        .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+        .addConverterFactory(FastJsonConverterFactory.create())
+        .build();
+  }
+
+  private static OkHttpClient mHttpClient;
+  private static File cacheDir;
+  private static long defaultCacheSize = 10 * 1024;
+
+  private static void ensureHttpClient() {
+    if (mHttpClient == null) mHttpClient = initHttpClient();
+  }
+
+  private static OkHttpClient initHttpClient() {
+    final Cache simpleCache = new Cache(cacheDir, defaultCacheSize);
+    mHttpClient = new OkHttpClient.Builder()
+        // 链接打印拦截器
+        .addInterceptor(LoggerInterceptor.create())
+        .readTimeout(10000, TimeUnit.MILLISECONDS)
+        .connectTimeout(15000, TimeUnit.MILLISECONDS)
+        .cache(simpleCache)
+        .build();
+    return mHttpClient;
+  }
+
+  public static class LoggerInterceptor implements Interceptor {
+    private static final String TAG = ">>> reqURL: ";
+
+    public static LoggerInterceptor create() {
+      return new LoggerInterceptor();
     }
 
-    public static <S> S createService(String baseURL, Class<S> service, File cacheDir) {
-        interfaceCheck(service);
-        RetrofitFactory.cacheDir = cacheDir;
-        return createRetrofitClient(baseURL).create(service);
+    @Override public Response intercept(Chain chain) throws IOException {
+      Log.i(TAG, chain.request().toString());
+      return chain.proceed(chain.request());
     }
-
-    private static void interfaceCheck(Class clz) {
-        if (!clz.isInterface()) {
-            throw new IllegalArgumentException(clz.getSimpleName() + " may not be an interface.");
-        }
-    }
-
-    private static Retrofit createRetrofitClient(String baseURL) {
-
-        ensureHttpClient();
-
-        final Retrofit mRetrofitClient = new Retrofit.Builder().client(mHttpClient)
-                .baseUrl(baseURL)
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(FastJsonConverterFactory.create())
-                .build();
-
-        return mRetrofitClient;
-    }
-
-    private static OkHttpClient mHttpClient;
-    private static File cacheDir;
-    private static long defaultCacheSize = 10 * 1024;
-
-    private static void ensureHttpClient() {
-        if (mHttpClient == null) mHttpClient = initHttpClient();
-    }
-
-    private static OkHttpClient initHttpClient() {
-        final Cache simpleCache = new Cache(cacheDir, defaultCacheSize);
-        mHttpClient = new OkHttpClient.Builder()
-                // 链接打印拦截器
-                .addInterceptor(LoggerInterceptor.create())
-                .readTimeout(10000, TimeUnit.MILLISECONDS)
-                .connectTimeout(15000, TimeUnit.MILLISECONDS)
-                .cache(simpleCache)
-                .build();
-        return mHttpClient;
-    }
-
-    public static class LoggerInterceptor implements Interceptor {
-        private static final String TAG = ">>> reqURL: ";
-
-        public static LoggerInterceptor create() {
-            return new LoggerInterceptor();
-        }
-
-        @Override
-        public Response intercept(Chain chain) throws IOException {
-            Log.i(TAG, chain.request().toString());
-            return chain.proceed(chain.request());
-        }
-    }
+  }
 }

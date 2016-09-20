@@ -6,13 +6,13 @@ import com.i7676.qyclient.constants.ColorConstants;
 import com.i7676.qyclient.entity.BannerEntity;
 import com.i7676.qyclient.entity.GameCardEntity;
 import com.i7676.qyclient.entity.GameEntity;
-import com.i7676.qyclient.entity.ReqResult;
 import com.i7676.qyclient.functions.BasePresenter;
 import com.i7676.qyclient.functions.main.MainActivity;
 import com.i7676.qyclient.functions.main.MainAtyPresenter;
 import com.i7676.qyclient.functions.main.MainAtyView;
 import com.i7676.qyclient.net.EgretApiService;
 import com.i7676.qyclient.net.YNetApiService;
+import com.i7676.qyclient.rx.ServerCallbackHandler;
 import com.i7676.qyclient.widgets.ObservableScrollView;
 import com.orhanobut.logger.Logger;
 import com.recker.flybanner.FlyBanner;
@@ -64,12 +64,14 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
   private void initTopBannerData() {
     topBanners.clear();
     mYNetApiService.getBanner()
-        .doOnError(this::errorHandler)
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .flatMap(this::map2Banners)
-        .flatMap(this::collectBannerImgURLs)
-        .subscribe(getView()::setupTopBanner);
+        // 网络请求线程
+        .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        // 请求错误处理
+        .flatMap(new ServerCallbackHandler<>())
+        // 错误分发
+        //.onErrorResumeNext()
+        // 数据分发
+        .flatMap(this::collectBannerImgURLs).subscribe(getView()::setupTopBanner);
   }
 
   private void initRCMDBannerData() {
@@ -86,14 +88,6 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
           return Observable.just(images);
         })
         .subscribe(getView()::setupRCMDBanner);
-  }
-
-  private Observable<List<BannerEntity>> map2Banners(ReqResult<List<BannerEntity>> reqResult) {
-    if (reqResult.getRet() == 0) {
-      return Observable.just(reqResult.getData());
-    } else {
-      return null;
-    }
   }
 
   private Observable<List<String>> collectBannerImgURLs(List<BannerEntity> bannerEntities) {
