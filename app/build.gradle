@@ -47,6 +47,8 @@ dependencies {
     compile androidSupport.libCardView
     compile androidSupport.libRecyclerView
     compile androidSupport.libDesign
+//    compile androidSupport.constraintLayout
+
     provided thirdPartyLib.javaxAnnotation
     provided thirdPartyLib.dagger2Compiler
     compile thirdPartyLib.dagger2
@@ -60,8 +62,8 @@ dependencies {
     compile thirdPartyLib.bottomBar
     compile thirdPartyLib.flyBanner
     compile thirdPartyLib.tabBar
-    compile thirdPartyLib.jjwtTool
-    compile thirdPartyLib.jackson
+//    compile thirdPartyLib.jjwtTool
+//    compile thirdPartyLib.jackson
     compile thirdPartyLib.logger
     compile thirdPartyLib.thirtyinch
     compile testLibs.junit

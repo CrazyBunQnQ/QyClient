@@ -2,7 +2,7 @@ package com.i7676.qyclient.entity;
 
 import java.util.List;
 
-public class GameCardEntity extends CommonBaseEntity {
+public class GameCardEntity {
   private String type;
   private List<GameEntity> gameEntities;
 

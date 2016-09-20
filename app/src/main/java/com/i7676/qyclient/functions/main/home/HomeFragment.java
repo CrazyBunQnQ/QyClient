@@ -52,6 +52,10 @@ import javax.inject.Inject;
 
     topBanner = (FlyBanner) rootView.findViewById(R.id.topBanner);
     RCMDBanner = (FlyBanner) rootView.findViewById(R.id.rcmdBanner);
+
+    topBanner.setOnItemClickListener(getPresenter().getTopBannerListener());
+    RCMDBanner.setOnItemClickListener(getPresenter().getRCMDBannerListener());
+
     categoryRecyclerView =
         (NonScrollableRecyclerView) rootView.findViewById(R.id.categoryRecyclerView);
     fstGCardsRecyclerView =
@@ -71,12 +75,16 @@ import javax.inject.Inject;
     sndGCardsRecyclerView.setAdapter(sndGCardAdapter);
   }
 
-  @Override public void setupTopBanner(List<String> bannerImgURL) {
-    topBanner.setImagesUrl(bannerImgURL);
+  @Override public void setupTopBanner(List<String> bannerImgURLs) {
+    topBanner.setImagesUrl(bannerImgURLs);
   }
 
-  @Override public void setupRCMDBanner(List<String> bannerImgURL) {
-    RCMDBanner.setImagesUrl(bannerImgURL);
+  @Override public void setupRCMDBanner(List<String> bannerImgURLs) {
+    if (bannerImgURLs.isEmpty()) {
+      RCMDBanner.setVisibility(View.GONE);
+    } else {
+      RCMDBanner.setImagesUrl(bannerImgURLs);
+    }
   }
 
   @Override public void setupFstGCards(List<GameCardEntity> fstGCards) {

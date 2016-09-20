@@ -64,6 +64,7 @@
       android:layout_centerHorizontal="true"
       >
     <TextView
+        android:id="@+id/tv_quickRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="16dp"
@@ -77,7 +78,7 @@
         android:background="#000000"
         />
     <TextView
-        android:id="@+id/btn_fgtpass"
+        android:id="@+id/tv_forgetPwd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="16dp"

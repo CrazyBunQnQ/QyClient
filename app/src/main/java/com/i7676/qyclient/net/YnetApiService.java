@@ -1,13 +1,19 @@
 package com.i7676.qyclient.net;
 
-import retrofit2.http.POST;
+import com.i7676.qyclient.entity.BannerEntity;
+import com.i7676.qyclient.entity.ReqResult;
+import java.util.List;
+import retrofit2.http.GET;
 import rx.Observable;
 
 /**
  * Created by Administrator on 2016/9/14.
  */
-public interface YnetApiService {
-  String BASE_URL = "";
+public interface YNetApiService {
+  String BASE_URL = "http://h5.7676.com/";
 
-  @POST Observable<Object> login();
+  // 首页-轮播图
+  String BANNER_IMG = "mapiindex.php?m=index&c=indexapi&a=getbanner";
+
+  @GET(BANNER_IMG) Observable<ReqResult<List<BannerEntity>>> getBanner();
 }

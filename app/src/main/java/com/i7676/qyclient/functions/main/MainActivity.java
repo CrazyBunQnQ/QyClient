@@ -64,7 +64,7 @@ import javax.inject.Inject;
     return new MainAtyPresenter();
   }
 
-  public int frPlaceHolderId() {
+  public int getFrPlaceHolderResId() {
     return R.id.contentView;
   }
 
