@@ -2,7 +2,7 @@ package com.i7676.qyclient.functions.main;
 
 import android.content.Context;
 import com.i7676.qyclient.R;
-import com.i7676.qyclient.annotations.PreActivity;
+import com.i7676.qyclient.annotations.PerActivity;
 import com.i7676.qyclient.functions.main.adapters.ActivityFrAdapter;
 import com.i7676.qyclient.functions.main.adapters.CategoryAdapter;
 import com.i7676.qyclient.functions.main.adapters.GameCardAdapter;
@@ -22,15 +22,15 @@ import java.util.ArrayList;
     this.mainAtyContext = mainAtyContext;
   }
 
-  @PreActivity @Provides Context providedMainAtyContext() {
+  @PerActivity @Provides Context providedMainAtyContext() {
     return mainAtyContext;
   }
 
-  @PreActivity @Provides MainActivity providedMainAtySelf() {
+  @PerActivity @Provides MainActivity providedMainAtySelf() {
     return (MainActivity) mainAtyContext;
   }
 
-  @PreActivity @Provides MainAtyNavigator providedMainAtyNavigator(MainActivity mainActivity) {
+  @PerActivity @Provides MainAtyNavigator providedMainAtyNavigator(MainActivity mainActivity) {
     return MainAtyNavigator.create(mainActivity);
   }
 

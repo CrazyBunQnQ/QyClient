@@ -1,7 +1,7 @@
 package com.i7676.qyclient.functions.login;
 
 import android.content.Context;
-import com.i7676.qyclient.annotations.PreActivity;
+import com.i7676.qyclient.annotations.PerActivity;
 import com.i7676.qyclient.functions.login.navigation.LoginNavigator;
 import dagger.Module;
 import dagger.Provides;
@@ -17,15 +17,15 @@ import dagger.Provides;
     this.loginAtyContext = loginAtyContext;
   }
 
-  @Provides @PreActivity LoginActivity providedLoginAtySelf() {
+  @Provides @PerActivity LoginActivity providedLoginAtySelf() {
     return (LoginActivity) loginAtyContext;
   }
 
-  @Provides @PreActivity Context providedLoginAtyContext() {
+  @Provides @PerActivity Context providedLoginAtyContext() {
     return loginAtyContext;
   }
 
-  @Provides @PreActivity LoginNavigator providedLoginNavigator(LoginActivity loginActivity) {
+  @Provides @PerActivity LoginNavigator providedLoginNavigator(LoginActivity loginActivity) {
     return LoginNavigator.create(loginActivity);
   }
 }

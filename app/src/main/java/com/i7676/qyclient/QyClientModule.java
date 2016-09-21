@@ -24,10 +24,12 @@ import javax.inject.Singleton;
     }
 
     @Singleton @Provides EgretApiService providedEgretApiService() {
-        return RetrofitFactory.createService(EgretApiService.BASE_URL, EgretApiService.class);
+        return RetrofitFactory.createService(EgretApiService.BASE_URL, EgretApiService.class,
+            mApplication.getCacheDir());
     }
 
     @Singleton @Provides YNetApiService providedYNetApiService() {
-        return RetrofitFactory.createService(YNetApiService.BASE_URL, YNetApiService.class);
+        return RetrofitFactory.createService(YNetApiService.BASE_URL, YNetApiService.class,
+            mApplication.getCacheDir());
     }
 }

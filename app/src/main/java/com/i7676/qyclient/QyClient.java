@@ -1,6 +1,7 @@
 package com.i7676.qyclient;
 
 import android.app.Application;
+import com.i7676.qyclient.entity.UserEntity;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.Settings;
@@ -14,7 +15,7 @@ import javax.inject.Singleton;
 
     private QyClientComponent mQyClientComponent;
 
-    public static String mToken;
+    public static UserEntity curUser;
 
     @Override public void onCreate() {
         super.onCreate();

@@ -1,6 +1,6 @@
 package com.i7676.qyclient.functions.main.activity;
 
-import com.i7676.qyclient.constants.ColorConstants;
+import com.i7676.qyclient.util.ColorConstants;
 import com.i7676.qyclient.functions.BasePresenter;
 import com.i7676.qyclient.functions.main.MainActivity;
 import com.i7676.qyclient.functions.main.MainAtyView;

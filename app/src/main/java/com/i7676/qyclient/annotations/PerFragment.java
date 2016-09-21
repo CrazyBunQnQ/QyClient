@@ -7,5 +7,5 @@ import javax.inject.Scope;
 /**
  * Created by HCol on 2016/9/18.
  */
-@Scope @Retention(RetentionPolicy.RUNTIME) public @interface PreFragment {
+@Scope @Retention(RetentionPolicy.RUNTIME) public @interface PerFragment {
 }

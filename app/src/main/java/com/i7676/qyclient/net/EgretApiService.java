@@ -13,7 +13,7 @@ import rx.Observable;
  */
 public interface EgretApiService {
 
-  String BASE_URL = "http://api.open.egret.com/";
+    String BASE_URL = "http://api.open.egret.com/";
 
-  @GET("Channel.gameList") Observable<Object> getGameList(@Query("app_id") String appId);
+    @GET("Channel.gameList") Observable<Object> getGameList(@Query("app_id") String appId);
 }

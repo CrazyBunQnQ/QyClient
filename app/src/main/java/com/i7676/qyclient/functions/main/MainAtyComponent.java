@@ -2,7 +2,7 @@ package com.i7676.qyclient.functions.main;
 
 import android.content.Context;
 import com.i7676.qyclient.QyClientComponent;
-import com.i7676.qyclient.annotations.PreActivity;
+import com.i7676.qyclient.annotations.PerActivity;
 import com.i7676.qyclient.functions.main.activity.ActivityFrPresenter;
 import com.i7676.qyclient.functions.main.activity.ActivityFragment;
 import com.i7676.qyclient.functions.main.adapters.ActivityFrAdapter;
@@ -16,7 +16,7 @@ import dagger.Component;
 /**
  * Created by Administrator on 2016/9/19.
  */
-@PreActivity @Component(modules = MainAtyModule.class, dependencies = QyClientComponent.class)
+@PerActivity @Component(modules = MainAtyModule.class, dependencies = QyClientComponent.class)
 public interface MainAtyComponent {
 
   void inject(MainActivity activity);

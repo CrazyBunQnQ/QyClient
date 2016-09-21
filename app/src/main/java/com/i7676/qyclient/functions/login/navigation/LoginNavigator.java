@@ -12,45 +12,47 @@ import com.i7676.qyclient.functions.main.MainAtyView;
 
 public class LoginNavigator {
 
-  public static LoginNavigator create(LoginActivity loginActivity) {
-    return new LoginNavigator(loginActivity);
-  }
-
-  private LoginActivity loginActivity;
-  private BaseFragment selectedFragment;
-  private int tabIndex;
-  private SparseArray<BaseFragment> frCached = new SparseArray<>(5);
-
-  private LoginNavigator(LoginActivity loginActivity) {
-    this.loginActivity = loginActivity;
-  }
-
-  public void showSignIn() {
-    tabIndex = MainAtyView.TAB_INDEX_HOME;
-    transform(tabIndex, selectedFragment =
-        (frCached.get(tabIndex) != null ? frCached.get(tabIndex) : SignInFragment.create(null)));
-  }
-
-  public void showSelectedFragment() {
-    if (selectedFragment == null) {
-      showSignIn();
-    } else {
-      transform(tabIndex, selectedFragment);
+    public static LoginNavigator create(LoginActivity loginActivity) {
+        return new LoginNavigator(loginActivity);
     }
-  }
 
-  private void cacheFragment(int index, BaseFragment fragment) {
-    if (frCached.get(index) == null) {
-      frCached.put(index, fragment);
+    private LoginActivity loginActivity;
+    private BaseFragment selectedFragment;
+    private int tabIndex;
+    private SparseArray<BaseFragment> frCached = new SparseArray<>(5);
+
+    private LoginNavigator(LoginActivity loginActivity) {
+        this.loginActivity = loginActivity;
     }
-  }
 
-  private void transform(int index, BaseFragment fragment) {
-    cacheFragment(index, fragment);
-    loginActivity.getSupportFragmentManager()
-        .beginTransaction()
-        .replace(loginActivity.getFrPlaceHolderResId(), fragment,
-            fragment.getClass().getCanonicalName())
-        .commit();
-  }
+    public void showSignIn() {
+        tabIndex = MainAtyView.TAB_INDEX_HOME;
+        transform(tabIndex, selectedFragment =
+            (frCached.get(tabIndex) != null ? frCached.get(tabIndex)
+                : SignInFragment.create(null)));
+    }
+
+    // 在跳转回复的时候用的，但是登录界面并不需要跳转，所以就没用了...
+    public void showSelectedFragment() {
+        if (selectedFragment == null) {
+            showSignIn();
+        } else {
+            transform(tabIndex, selectedFragment);
+        }
+    }
+
+    private void cacheFragment(int index, BaseFragment fragment) {
+        if (frCached.get(index) == null) {
+            frCached.put(index, fragment);
+        }
+    }
+
+    private void transform(int index, BaseFragment fragment) {
+        cacheFragment(index, fragment);
+        loginActivity.getSupportFragmentManager()
+            .beginTransaction()
+            .replace(loginActivity.getFrPlaceHolderResId(), fragment,
+                fragment.getClass().getCanonicalName())
+            .commit();
+    }
 }

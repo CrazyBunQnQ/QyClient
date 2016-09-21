@@ -1,4 +1,4 @@
-package com.i7676.qyclient.constants;
+package com.i7676.qyclient.util;
 
 /**
  * Created by HCol on 2016/9/18.

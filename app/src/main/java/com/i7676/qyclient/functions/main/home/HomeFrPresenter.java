@@ -2,17 +2,17 @@ package com.i7676.qyclient.functions.main.home;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.i7676.qyclient.constants.ColorConstants;
 import com.i7676.qyclient.entity.BannerEntity;
 import com.i7676.qyclient.entity.GameCardEntity;
 import com.i7676.qyclient.entity.GameEntity;
-import com.i7676.qyclient.entity.ReqResult;
 import com.i7676.qyclient.functions.BasePresenter;
 import com.i7676.qyclient.functions.main.MainActivity;
 import com.i7676.qyclient.functions.main.MainAtyPresenter;
 import com.i7676.qyclient.functions.main.MainAtyView;
 import com.i7676.qyclient.net.EgretApiService;
 import com.i7676.qyclient.net.YNetApiService;
+import com.i7676.qyclient.rx.ServerCallbackHandler;
+import com.i7676.qyclient.util.ColorConstants;
 import com.i7676.qyclient.widgets.ObservableScrollView;
 import com.orhanobut.logger.Logger;
 import com.recker.flybanner.FlyBanner;
@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import rx.Observable;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -33,6 +34,10 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
     @Inject EgretApiService mEgretApiService;
     @Inject YNetApiService mYNetApiService;
     @Inject MainActivity mainActivity;
+
+    private Subscription topBannerSubscription;
+    private Subscription RCMDBannerSubscription;
+    private Subscription gCardsSubscription;
 
     private static List<String> DEFAULT_BANNER_IMAGE = new ArrayList<String>() {
         {
@@ -48,10 +53,22 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
         super.onWakeUp();
 
         toolbarSetup();
-
         initTopBannerData();
         initCategory();
         initFstGCards();
+    }
+
+    @Override protected void onDestroy() {
+        super.onDestroy();
+        doUnsubscribe(topBannerSubscription);
+        doUnsubscribe(RCMDBannerSubscription);
+        doUnsubscribe(gCardsSubscription);
+    }
+
+    private void doUnsubscribe(Subscription subscription) {
+        if (subscription != null && subscription.isUnsubscribed()) {
+            subscription.unsubscribe();
+        }
     }
 
     private void toolbarSetup() {
@@ -63,42 +80,40 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
 
     private void initTopBannerData() {
         topBanners.clear();
-        mYNetApiService.getBanner()
-            .doOnError(this::errorHandler)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .flatMap(this::map2Banners)
-            .flatMap(this::collectBannerImgURLs)
-            .subscribe(getView()::setupTopBanner);
+        topBannerSubscription = mYNetApiService.getBanner()
+            // 网络请求线程
+            .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            // 请求错误处理
+            .flatMap(new ServerCallbackHandler<>())
+            // 数据分发
+            .flatMap(this::collectBannerImgURLs).subscribe(
+                // next
+                getView()::setupTopBanner,
+                // error
+                throwable -> Logger.e(">>> onError:" + throwable.getMessage()),
+                // complement
+                () -> Logger.i(">>> onComplement"));
     }
 
     private void initRCMDBannerData() {
         RCMDBanners.clear();
         RCMDBanners.addAll(topBanners);
-        Observable.just(RCMDBanners)
-            .doOnError(this::errorHandler)
-            .observeOn(AndroidSchedulers.mainThread())
-            .flatMap(bannerEntities -> {
-                ArrayList<String> images = new ArrayList<>();
-                for (BannerEntity entity : bannerEntities) {
-                    images.add(entity.getImageURL());
-                }
-                return Observable.just(images);
-            })
-            .subscribe(getView()::setupRCMDBanner);
-    }
-
-    @Override protected void onDestroy() {
-        super.onDestroy();
-        //FIXME 需要控制各请求的异步状态，未完成的请求统统取消掉?
-    }
-
-    private Observable<List<BannerEntity>> map2Banners(ReqResult<List<BannerEntity>> reqResult) {
-        if (reqResult.getRet() == 0) {
-            return Observable.just(reqResult.getData());
-        } else {
-            return null;
-        }
+        RCMDBannerSubscription =
+            Observable.just(RCMDBanners).observeOn(AndroidSchedulers.mainThread())
+                // 数据分发
+                .flatMap(bannerEntities -> {
+                    ArrayList<String> images = new ArrayList<>();
+                    for (BannerEntity entity : bannerEntities) {
+                        images.add(entity.getImageURL());
+                    }
+                    return Observable.just(images);
+                }).subscribe(
+                // next
+                getView()::setupRCMDBanner,
+                // error
+                throwable -> Logger.e(">>> onError:" + throwable.getMessage()),
+                // complement
+                () -> Logger.i(">>> onComplement"));
     }
 
     private Observable<List<String>> collectBannerImgURLs(List<BannerEntity> bannerEntities) {
@@ -119,21 +134,22 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
     }
 
     private void initFstGCards() {
-        mEgretApiService.getGameList("20814")
+        gCardsSubscription = mEgretApiService.getGameList("20814")
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnError(this::errorHandler)
             .map(this::map2GameEntity)
             .flatMap(Observable::from)
             .take(20)
             .toList()
             .map(this::collectFstGCards)
             .take(3)
-            .subscribe(getView()::setupFstGCards);
-    }
-
-    private void errorHandler(Throwable throwable) {
-        Logger.w(">>> throwable: " + throwable.getMessage());
+            .subscribe(
+                // next
+                getView()::setupFstGCards,
+                // error
+                throwable -> Logger.e(">>> onError:" + throwable.getMessage()),
+                // complement
+                () -> Logger.i(">>> onComplement"));
     }
 
     private List<GameEntity> map2GameEntity(Object obj) {
@@ -165,7 +181,13 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
         Observable.just(this.collectSndGCards(entities))
             .observeOn(AndroidSchedulers.mainThread())
             .delaySubscription(1000, TimeUnit.MILLISECONDS)
-            .subscribe(getView()::setupSndGCards);
+            .subscribe(
+                // next
+                getView()::setupSndGCards,
+                // error
+                throwable -> Logger.e(">>> onError:" + throwable.getMessage()),
+                // complement
+                () -> Logger.i(">>> onComplement"));
         return fstCardEntities;
     }
 
