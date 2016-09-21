@@ -75,6 +75,7 @@ ext {
                             streamFuture             : "com.annimon:stream:${streamFuture}",
 
                             okHttp                   : "com.squareup.okhttp3:okhttp:${okHttpVersion}",
+                            okHttpLogging            : "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}",
                             fastjson                 : "com.alibaba:fastjson:${fastjsonVersion}",
                             retrofit                 : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
                             retrofitAdapters         : "com.squareup.retrofit2:adapter-rxjava:${retrofitAdapterVersion}",

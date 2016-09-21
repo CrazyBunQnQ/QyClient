@@ -12,29 +12,31 @@ import javax.inject.Singleton;
 
 @Singleton public class QyClient extends Application {
 
-  private QyClientComponent mQyClientComponent;
+    private QyClientComponent mQyClientComponent;
 
-  @Override public void onCreate() {
-    super.onCreate();
-    initDaggerComponent();
-    init3rdPartyLibs(BuildConfig.DEBUG);
-  }
+    public static String mToken;
 
-  private void init3rdPartyLibs(boolean isDebug) {
-    Settings logSettings = Logger.init(QyClient.class.getSimpleName());
-    if (isDebug) {
-      logSettings.logLevel(LogLevel.FULL);
-    } else {
-      logSettings.logLevel(LogLevel.NONE);
+    @Override public void onCreate() {
+        super.onCreate();
+        initDaggerComponent();
+        init3rdPartyLibs(BuildConfig.DEBUG);
     }
-  }
 
-  private void initDaggerComponent() {
-    mQyClientComponent =
-        DaggerQyClientComponent.builder().qyClientModule(new QyClientModule(this)).build();
-  }
+    private void init3rdPartyLibs(boolean isDebug) {
+        Settings logSettings = Logger.init(QyClient.class.getSimpleName());
+        if (isDebug) {
+            logSettings.logLevel(LogLevel.FULL);
+        } else {
+            logSettings.logLevel(LogLevel.NONE);
+        }
+    }
 
-  public QyClientComponent getClientComponent() {
-    return mQyClientComponent;
-  }
+    private void initDaggerComponent() {
+        mQyClientComponent =
+            DaggerQyClientComponent.builder().qyClientModule(new QyClientModule(this)).build();
+    }
+
+    public QyClientComponent getClientComponent() {
+        return mQyClientComponent;
+    }
 }

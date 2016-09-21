@@ -13,23 +13,21 @@ import javax.inject.Singleton;
  */
 @Module public class QyClientModule {
 
-  private QyClient mApplication;
+    private QyClient mApplication;
 
-  public QyClientModule(QyClient mApplication) {
-    this.mApplication = mApplication;
-  }
+    public QyClientModule(QyClient mApplication) {
+        this.mApplication = mApplication;
+    }
 
-  @Singleton @Provides Application providedApplication() {
-    return mApplication;
-  }
+    @Singleton @Provides Application providedApplication() {
+        return mApplication;
+    }
 
-  @Singleton @Provides EgretApiService providedEgretApiService() {
-    return RetrofitFactory.createService(EgretApiService.BASE_URL, EgretApiService.class,
-        mApplication.getCacheDir());
-  }
+    @Singleton @Provides EgretApiService providedEgretApiService() {
+        return RetrofitFactory.createService(EgretApiService.BASE_URL, EgretApiService.class);
+    }
 
-  @Singleton @Provides YNetApiService providedYNetApiService() {
-    return RetrofitFactory.createService(YNetApiService.BASE_URL, YNetApiService.class,
-        mApplication.getCacheDir());
-  }
+    @Singleton @Provides YNetApiService providedYNetApiService() {
+        return RetrofitFactory.createService(YNetApiService.BASE_URL, YNetApiService.class);
+    }
 }
