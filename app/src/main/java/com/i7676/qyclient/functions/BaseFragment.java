@@ -14,17 +14,27 @@ import net.grandcentrix.thirtyinch.TiFragment;
 public abstract class BaseFragment<P extends BasePresenter<V>, V extends BaseView>
     extends TiFragment<P, V> implements BaseView {
 
-  @Nullable @Override
-  public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-      @Nullable Bundle savedInstanceState) {
-    View rootView = inflater.inflate(AnnotationUtil.getLayoutResId(getClass()), container, false);
-    initRootViews(rootView);
-    return rootView;
-  }
+    @Override public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setupInject();
+    }
 
-  @Override public void initViews() {
-    // empty
-  }
+    @Nullable @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+        @Nullable Bundle savedInstanceState) {
+        View rootView =
+            inflater.inflate(AnnotationUtil.getLayoutResId(getClass()), container, false);
+        initRootViews(rootView);
+        return rootView;
+    }
 
-  protected abstract void initRootViews(View rootView);
+    @Override public void initViews() {
+        // empty
+    }
+
+    protected abstract void initRootViews(View rootView);
+
+    protected void setupInject() {
+        // empty is better for everyone
+    }
 }

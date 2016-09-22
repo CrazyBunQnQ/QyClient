@@ -22,35 +22,53 @@ import javax.inject.Inject;
 @Layout(R.layout.fragment_activitiy) public class ActivityFragment
     extends BaseFragment<ActivityFrPresenter, ActivityFrView> implements ActivityFrView {
 
-  public static ActivityFragment create(@Nullable Bundle args) {
-    final ActivityFragment fragment = new ActivityFragment();
-    fragment.setArguments(args);
-    return fragment;
-  }
+    public static ActivityFragment create(@Nullable Bundle args) {
+        final ActivityFragment fragment = new ActivityFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
-  // Views
-  private RecyclerView activityRecyclerView;
-  @Inject ActivityFrAdapter activityFrAdapter;
+    // Views
+    private RecyclerView activityRecyclerView;
+    @Inject ActivityFrAdapter activityFrAdapter;
 
-  @Override protected void initRootViews(View rootView) {
-    initInject();
+    @Override protected void initRootViews(View rootView) {
+        activityRecyclerView = (RecyclerView) rootView.findViewById(R.id.activities_recyclerView);
+        activityRecyclerView.setLayoutManager(
+            new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        activityRecyclerView.setAdapter(activityFrAdapter);
+    }
 
-    activityRecyclerView = (RecyclerView) rootView.findViewById(R.id.activities_recyclerView);
-    activityRecyclerView.setLayoutManager(
-        new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-    activityRecyclerView.setAdapter(activityFrAdapter);
-  }
+    @Override protected void setupInject() {
+        ((MainActivity) getActivity()).getAtyComponent().inject(this);
+        ((MainActivity) getActivity()).getAtyComponent().inject(getPresenter());
+    }
 
-  @NonNull @Override public ActivityFrPresenter providePresenter() {
-    return new ActivityFrPresenter();
-  }
+    @NonNull @Override public ActivityFrPresenter providePresenter() {
+        return new ActivityFrPresenter();
+    }
 
-  private void initInject() {
-    ((MainActivity) getActivity()).getAtyComponent().inject(this);
-    ((MainActivity) getActivity()).getAtyComponent().inject(getPresenter());
-  }
+    @Override public void setupActivityData(List<String> activities) {
+        activityFrAdapter.setNewData(activities);
+    }
 
-  @Override public void setupActivityData(List<String> activities) {
-    activityFrAdapter.setNewData(activities);
-  }
+    @Override public void setActionBarTitle(String titleText) {
+        ((MainActivity) getActivity()).getPresenter().getView().setTitle(titleText);
+    }
+
+    @Override public void showActionBar() {
+        ((MainActivity) getActivity()).getPresenter().getView().showActionBar();
+    }
+
+    @Override public void setActionBarBackground(int color) {
+        ((MainActivity) getActivity()).getPresenter().getView().setToolbarBkg(color);
+    }
+
+    @Override public void setBottomBarIndex(int index) {
+        ((MainActivity) getActivity()).getPresenter().getView().setBottomBarIndex(index);
+    }
+
+    @Override public void hideOptionsMenu() {
+        ((MainActivity) getActivity()).getPresenter().getView().hideOptionsMenu();
+    }
 }

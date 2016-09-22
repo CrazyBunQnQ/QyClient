@@ -7,5 +7,15 @@ import java.util.List;
  * Created by Administrator on 2016/9/19.
  */
 public interface ActivityFrView extends BaseView {
-  void setupActivityData(List<String> activities);
+    void setupActivityData(List<String> activities);
+
+    void setActionBarTitle(String titleText);
+
+    void showActionBar();
+
+    void setActionBarBackground(int color);
+
+    void setBottomBarIndex(int index);
+
+    void hideOptionsMenu();
 }

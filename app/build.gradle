@@ -47,7 +47,7 @@ dependencies {
   compile androidSupport.libCardView
   compile androidSupport.libRecyclerView
   compile androidSupport.libDesign
-  //    compile androidSupport.constraintLayout
+  compile androidSupport.constraintLayout
 
   provided thirdPartyLib.javaxAnnotation
   provided thirdPartyLib.dagger2Compiler

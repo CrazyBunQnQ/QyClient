@@ -9,25 +9,31 @@ import java.util.List;
  */
 public interface MainAtyView extends BaseView {
 
-  int TAB_INDEX_HOME = 0;
-  int TAB_INDEX_ACTIVITY = 1;
-  int TAB_INDEX_HI = 2;
-  int TAB_INDEX_GIFT = 3;
-  int TAB_INDEX_PROFILE = 4;
+    int TAB_INDEX_HOME = 0;
+    int TAB_INDEX_ACTIVITY = 1;
+    int TAB_INDEX_HI = 2;
+    int TAB_INDEX_GIFT = 3;
+    int TAB_INDEX_PROFILE = 4;
 
-  void setupCategoryPopupWindow(List<CategoryEntity> items);
+    void setupCategoryPopupWindow(List<CategoryEntity> items);
 
-  void setTitle(String titleText);
+    void setTitle(String titleText);
 
-  void setToolbarBkg(int color);
+    void setToolbarBkg(int color);
 
-  void hideOptionsMenu();
+    void hideActionBar();
 
-  void showOptionsMenu();
+    void showActionBar();
 
-  void setBottomBarSelectedIndex(int index);
+    void hideOptionsMenu();
 
-  void showBottomBar();
+    void showOptionsMenu();
 
-  void hideBottomBar();
+    void showHomeFr();
+
+    void setBottomBarIndex(int index);
+
+    void showBottomBar();
+
+    void hideBottomBar();
 }

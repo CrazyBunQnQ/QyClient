@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.PopupWindow;
 import com.i7676.qyclient.QyClient;
 import com.i7676.qyclient.R;
@@ -24,120 +25,137 @@ import javax.inject.Inject;
 @Layout(R.layout.activity_main) public class MainActivity
     extends BaseActivity<MainAtyPresenter, MainAtyView> implements MainAtyView {
 
-  // Views
-  private Toolbar mToolbar;
-  private BottomBar mBottomBar;
-  private PopupWindow mCategoryPopupWindow;
-  @Inject CategoryAdapter mCategoryAdapter;
+    // Views
+    private Toolbar mToolbar;
+    private BottomBar mBottomBar;
+    private PopupWindow mCategoryPopupWindow;
+    private EditText etSearch;
+    @Inject CategoryAdapter mCategoryAdapter;
 
-  // Dagger
-  private MainAtyComponent atyComponent;
+    // Dagger
+    private MainAtyComponent atyComponent;
 
-  // Members
-  private boolean opMenuVisibility = true;
+    // Members
+    private boolean opMenuVisibility = true;
 
-  @Override public void initViews() {
-    // 进行依赖注入
-    initInject();
-    // 初始化布局视图元素
-    mToolbar = (Toolbar) findViewById(R.id.toolbar);
-    mToolbar.setTitleTextColor(Color.WHITE);
-    setSupportActionBar(mToolbar);
+    @Override public void initViews() {
+        // 进行依赖注入
+        initInject();
+        // 初始化布局视图元素
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setTitleTextColor(Color.WHITE);
+        setSupportActionBar(mToolbar);
 
-    mBottomBar = (BottomBar) findViewById(R.id.bottomBar);
-    mBottomBar.setOnTabSelectListener(getPresenter());
+        mBottomBar = (BottomBar) findViewById(R.id.bottomBar);
+        mBottomBar.setOnTabSelectListener(getPresenter());
 
-    mCategoryPopupWindow = ViewUtil.createPopWindow(this, mCategoryAdapter);
-  }
+        etSearch = (EditText) findViewById(R.id.et_search);
 
-  private void initInject() {
-    atyComponent = DaggerMainAtyComponent.builder()
-        .mainAtyModule(new MainAtyModule(this))
-        .qyClientComponent(((QyClient) getApplication()).getClientComponent())
-        .build();
+        mCategoryPopupWindow = ViewUtil.createPopWindow(this, mCategoryAdapter);
+    }
 
-    atyComponent.inject(getPresenter());
-    atyComponent.inject(this);
-  }
+    private void initInject() {
+        atyComponent = DaggerMainAtyComponent.builder()
+            .mainAtyModule(new MainAtyModule(this))
+            .qyClientComponent(((QyClient) getApplication()).getClientComponent())
+            .build();
 
-  @NonNull @Override public MainAtyPresenter providePresenter() {
-    return new MainAtyPresenter();
-  }
+        atyComponent.inject(getPresenter());
+        atyComponent.inject(this);
+    }
 
-  public int getFrPlaceHolderResId() {
-    return R.id.contentView;
-  }
+    @NonNull @Override public MainAtyPresenter providePresenter() {
+        return new MainAtyPresenter();
+    }
 
-  public MainAtyComponent getAtyComponent() {
-    return atyComponent;
-  }
+    public int getFrPlaceHolderResId() {
+        return R.id.contentView;
+    }
 
-  @Override public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.toolbar, menu);
-    return super.onCreateOptionsMenu(menu);
-  }
+    public MainAtyComponent getAtyComponent() {
+        return atyComponent;
+    }
 
-  @Override public boolean onOptionsItemSelected(MenuItem item) {
-    switch (item.getItemId()) {
-      case R.id.category:
-        if (mCategoryPopupWindow.isShowing()) {
-          mCategoryPopupWindow.dismiss();
-        } else {
-          mCategoryPopupWindow.showAsDropDown(mToolbar);
+    @Override public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.category:
+                if (mCategoryPopupWindow.isShowing()) {
+                    mCategoryPopupWindow.dismiss();
+                } else {
+                    mCategoryPopupWindow.showAsDropDown(mToolbar);
+                }
+                break;
         }
-        break;
+        return super.onOptionsItemSelected(item);
     }
-    return super.onOptionsItemSelected(item);
-  }
 
-  @Override public boolean onPrepareOptionsMenu(Menu menu) {
-    menu.findItem(R.id.category).setVisible(opMenuVisibility);
-    if (!opMenuVisibility && mCategoryPopupWindow != null && mCategoryPopupWindow.isShowing()) {
-      mCategoryPopupWindow.dismiss();
+    @Override public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.category).setVisible(opMenuVisibility);
+        if (!opMenuVisibility && mCategoryPopupWindow != null && mCategoryPopupWindow.isShowing()) {
+            mCategoryPopupWindow.dismiss();
+        }
+        return super.onPrepareOptionsMenu(menu);
     }
-    return super.onPrepareOptionsMenu(menu);
-  }
 
-  @Override public void setupCategoryPopupWindow(List<CategoryEntity> items) {
-    mCategoryAdapter.setNewData(items);
-  }
-
-  @Override public void setTitle(String titleText) {
-    mToolbar.setTitle(titleText);
-  }
-
-  @Override public void setToolbarBkg(int color) {
-    mToolbar.setBackgroundColor(color);
-  }
-
-  @Override public void hideOptionsMenu() {
-    closeOptionsMenu();
-    opMenuVisibility = false;
-    invalidateOptionsMenu();
-  }
-
-  @Override public void showOptionsMenu() {
-    opMenuVisibility = true;
-    invalidateOptionsMenu();
-  }
-
-  @Override public void setBottomBarSelectedIndex(int index) {
-    mBottomBar.selectTabAtPosition(index);
-  }
-
-  @Override public void showBottomBar() {
-    mBottomBar.setVisibility(View.VISIBLE);
-  }
-
-  @Override public void hideBottomBar() {
-    mBottomBar.setVisibility(View.GONE);
-  }
-
-  @Override public void onBackPressed() {
-    if (mCategoryPopupWindow != null && mCategoryPopupWindow.isShowing()) {
-      mCategoryPopupWindow.dismiss();
-      return;
+    @Override public void setupCategoryPopupWindow(List<CategoryEntity> items) {
+        mCategoryAdapter.setNewData(items);
     }
-    super.onBackPressed();
-  }
+
+    @Override public void setTitle(String titleText) {
+        mToolbar.setTitle(titleText);
+    }
+
+    @Override public void setToolbarBkg(int color) {
+        mToolbar.setBackgroundColor(color);
+    }
+
+    @Override public void hideActionBar() {
+        getSupportActionBar().hide();
+        this.etSearch.setVisibility(View.GONE);
+    }
+
+    @Override public void showActionBar() {
+        getSupportActionBar().show();
+        this.etSearch.setVisibility(View.VISIBLE);
+    }
+
+    @Override public void hideOptionsMenu() {
+        closeOptionsMenu();
+        opMenuVisibility = false;
+        invalidateOptionsMenu();
+    }
+
+    @Override public void showOptionsMenu() {
+        opMenuVisibility = true;
+        invalidateOptionsMenu();
+    }
+
+    @Override public void showHomeFr() {
+        getPresenter().showHomeFr();
+    }
+
+    @Override public void setBottomBarIndex(int index) {
+        mBottomBar.selectTabAtPosition(index);
+    }
+
+    @Override public void showBottomBar() {
+        mBottomBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override public void hideBottomBar() {
+        mBottomBar.setVisibility(View.GONE);
+    }
+
+    @Override public void onBackPressed() {
+        if (mCategoryPopupWindow != null && mCategoryPopupWindow.isShowing()) {
+            mCategoryPopupWindow.dismiss();
+            return;
+        }
+        super.onBackPressed();
+    }
 }

@@ -39,8 +39,6 @@ import com.i7676.qyclient.widgets.NonScrollableRecyclerView;
     private NonScrollableRecyclerView m3rdPartySignInWay;
 
     @Override protected void initRootViews(View rootView) {
-        initInject();
-
         etAccount = (EditText) rootView.findViewById(R.id.et_account);
         etPassword = (EditText) rootView.findViewById(R.id.et_password);
 
@@ -58,7 +56,7 @@ import com.i7676.qyclient.widgets.NonScrollableRecyclerView;
         tvQuickReg.setOnClickListener(this);
     }
 
-    private void initInject() {
+    @Override protected void setupInject() {
         ((LoginActivity) getActivity()).getAtyComponent().inject(getPresenter());
     }
 
@@ -77,8 +75,7 @@ import com.i7676.qyclient.widgets.NonScrollableRecyclerView;
     }
 
     @Override public void loginSuccess() {
-        // 关闭当前登录页面
-        // 通知mainActivity显示ProfileFragment
+        getActivity().finish();
     }
 
     private AccountEntity buildAccountInfo() {

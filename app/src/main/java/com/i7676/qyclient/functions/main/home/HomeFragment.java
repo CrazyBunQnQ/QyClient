@@ -45,8 +45,6 @@ import javax.inject.Inject;
     @Inject GameCardAdapter sndGCardAdapter;
 
     @Override protected void initRootViews(View rootView) {
-        initInject();
-
         rootScroll = (ObservableScrollView) rootView.findViewById(R.id.rootScroll);
         rootScroll.setmScrollChangedListener(getPresenter());
 
@@ -103,8 +101,28 @@ import javax.inject.Inject;
         return new HomeFrPresenter();
     }
 
-    private void initInject() {
+    @Override protected void setupInject() {
         ((MainActivity) getActivity()).getAtyComponent().inject(this);
         ((MainActivity) getActivity()).getAtyComponent().inject(getPresenter());
+    }
+
+    @Override public void setActionBarTitle(String titleText) {
+        ((MainActivity) getActivity()).getPresenter().getView().setTitle(titleText);
+    }
+
+    @Override public void showActionBar() {
+        ((MainActivity) getActivity()).getPresenter().getView().showActionBar();
+    }
+
+    @Override public void setActionBarBackground(int color) {
+        ((MainActivity) getActivity()).getPresenter().getView().setToolbarBkg(color);
+    }
+
+    @Override public void setBottomBarIndex(int index) {
+        ((MainActivity) getActivity()).getPresenter().getView().setBottomBarIndex(index);
+    }
+
+    @Override public void showOptionsMenu() {
+        ((MainActivity) getActivity()).getPresenter().getView().showOptionsMenu();
     }
 }

@@ -1,10 +1,8 @@
 package com.i7676.qyclient.functions.main.activity;
 
-import com.i7676.qyclient.util.ColorConstants;
 import com.i7676.qyclient.functions.BasePresenter;
-import com.i7676.qyclient.functions.main.MainActivity;
 import com.i7676.qyclient.functions.main.MainAtyView;
-import javax.inject.Inject;
+import com.i7676.qyclient.util.ColorConstants;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 
@@ -13,26 +11,25 @@ import rx.android.schedulers.AndroidSchedulers;
  */
 public class ActivityFrPresenter extends BasePresenter<ActivityFrView> {
 
-  @Inject MainActivity mainActivity;
+    @Override protected void onWakeUp() {
+        super.onWakeUp();
+        toolbarSetup();
 
-  @Override protected void onWakeUp() {
-    super.onWakeUp();
-    toolbarSetup();
+        initActivityFrData();
+    }
 
-    initActivityFrData();
-  }
+    private void initActivityFrData() {
+        Observable.from(new String[] { "1", "2", "3" })
+            .observeOn(AndroidSchedulers.mainThread())
+            .toList()
+            .subscribe(getView()::setupActivityData);
+    }
 
-  private void initActivityFrData() {
-    Observable.from(new String[] { "1", "2", "3" })
-        .observeOn(AndroidSchedulers.mainThread())
-        .toList()
-        .subscribe(getView()::setupActivityData);
-  }
-
-  private void toolbarSetup() {
-    mainActivity.getPresenter().getView().setTitle("活动");
-    mainActivity.getPresenter().getView().setToolbarBkg(ColorConstants.PRIMARY_COLOR);
-    mainActivity.getPresenter().getView().setBottomBarSelectedIndex(MainAtyView.TAB_INDEX_ACTIVITY);
-    mainActivity.getPresenter().getView().hideOptionsMenu();
-  }
+    private void toolbarSetup() {
+        getView().showActionBar();
+        getView().setActionBarTitle("活动");
+        getView().setActionBarBackground(ColorConstants.PRIMARY_COLOR);
+        getView().setBottomBarIndex(MainAtyView.TAB_INDEX_ACTIVITY);
+        getView().hideOptionsMenu();
+    }
 }

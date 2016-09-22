@@ -11,6 +11,8 @@ import com.i7676.qyclient.functions.main.adapters.GameCardAdapter;
 import com.i7676.qyclient.functions.main.home.HomeFrPresenter;
 import com.i7676.qyclient.functions.main.home.HomeFragment;
 import com.i7676.qyclient.functions.main.navigation.MainAtyNavigator;
+import com.i7676.qyclient.functions.main.profile.ProfileFrPresenter;
+import com.i7676.qyclient.functions.main.profile.ProfileFragment;
 import dagger.Component;
 
 /**
@@ -19,27 +21,31 @@ import dagger.Component;
 @PerActivity @Component(modules = MainAtyModule.class, dependencies = QyClientComponent.class)
 public interface MainAtyComponent {
 
-  void inject(MainActivity activity);
+    void inject(MainActivity activity);
 
-  void inject(MainAtyPresenter presenter);
+    void inject(MainAtyPresenter presenter);
 
-  void inject(HomeFragment fragment);
+    void inject(HomeFragment fragment);
 
-  void inject(HomeFrPresenter presenter);
+    void inject(HomeFrPresenter presenter);
 
-  void inject(ActivityFragment fragment);
+    void inject(ActivityFragment fragment);
 
-  void inject(ActivityFrPresenter presenter);
+    void inject(ActivityFrPresenter presenter);
 
-  Context getMainAtyContext();
+    void inject(ProfileFragment fragment);
 
-  MainActivity getMainAtySelf();
+    void inject(ProfileFrPresenter presenter);
 
-  MainAtyNavigator getNavigator();
+    Context getMainAtyContext();
 
-  CategoryAdapter getCategoryAdapter();
+    MainActivity getMainAtySelf();
 
-  GameCardAdapter getGameCardAdapter();
+    MainAtyNavigator getNavigator();
 
-  ActivityFrAdapter getActivityFrAdapter();
+    CategoryAdapter getCategoryAdapter();
+
+    GameCardAdapter getGameCardAdapter();
+
+    ActivityFrAdapter getActivityFrAdapter();
 }

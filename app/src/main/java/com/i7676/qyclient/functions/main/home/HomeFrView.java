@@ -10,13 +10,23 @@ import java.util.List;
  */
 public interface HomeFrView extends BaseView {
 
-  void setupTopBanner(List<String> bannerImgURLs);
+    void setupTopBanner(List<String> bannerImgURLs);
 
-  void setupRCMDBanner(List<String> bannerImgURLs);
+    void setupRCMDBanner(List<String> bannerImgURLs);
 
-  void setupFstGCards(List<GameCardEntity> fstGCards);
+    void setupFstGCards(List<GameCardEntity> fstGCards);
 
-  void setupSndGCards(List<GameCardEntity> sndGCards);
+    void setupSndGCards(List<GameCardEntity> sndGCards);
 
-  void setupCategory(List<CategoryEntity> categoryEntities);
+    void setupCategory(List<CategoryEntity> categoryEntities);
+
+    void setActionBarTitle(String titleText);
+
+    void showActionBar();
+
+    void setActionBarBackground(int color);
+
+    void setBottomBarIndex(int index);
+
+    void showOptionsMenu();
 }

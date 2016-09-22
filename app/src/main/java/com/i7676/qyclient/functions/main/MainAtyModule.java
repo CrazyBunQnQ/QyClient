@@ -16,33 +16,33 @@ import java.util.ArrayList;
  */
 @Module public class MainAtyModule {
 
-  private Context mainAtyContext;
+    private Context mainAtyContext;
 
-  public MainAtyModule(Context mainAtyContext) {
-    this.mainAtyContext = mainAtyContext;
-  }
+    public MainAtyModule(Context mainAtyContext) {
+        this.mainAtyContext = mainAtyContext;
+    }
 
-  @PerActivity @Provides Context providedMainAtyContext() {
-    return mainAtyContext;
-  }
+    @PerActivity @Provides Context providedMainAtyContext() {
+        return mainAtyContext;
+    }
 
-  @PerActivity @Provides MainActivity providedMainAtySelf() {
-    return (MainActivity) mainAtyContext;
-  }
+    @PerActivity @Provides MainActivity providedMainAtySelf() {
+        return (MainActivity) mainAtyContext;
+    }
 
-  @PerActivity @Provides MainAtyNavigator providedMainAtyNavigator(MainActivity mainActivity) {
-    return MainAtyNavigator.create(mainActivity);
-  }
+    @PerActivity @Provides MainAtyNavigator providedMainAtyNavigator(MainActivity mainActivity) {
+        return MainAtyNavigator.create(mainActivity);
+    }
 
-  @Provides ActivityFrAdapter providedActivityFrAdapter() {
-    return new ActivityFrAdapter(R.layout.item_activities_list, new ArrayList<>());
-  }
+    @Provides ActivityFrAdapter providedActivityFrAdapter() {
+        return new ActivityFrAdapter(R.layout.item_activities_list, new ArrayList<>());
+    }
 
-  @Provides CategoryAdapter providedCategoryAdapter() {
-    return new CategoryAdapter(R.layout.item_game_category, new ArrayList<>());
-  }
+    @Provides CategoryAdapter providedCategoryAdapter() {
+        return new CategoryAdapter(R.layout.item_game_category, new ArrayList<>());
+    }
 
-  @Provides GameCardAdapter providedGameCardAdapter() {
-    return new GameCardAdapter(R.layout.item_game_card, new ArrayList<>());
-  }
+    @Provides GameCardAdapter providedGameCardAdapter() {
+        return new GameCardAdapter(R.layout.item_game_card, new ArrayList<>());
+    }
 }

@@ -6,7 +6,6 @@ import com.i7676.qyclient.entity.BannerEntity;
 import com.i7676.qyclient.entity.GameCardEntity;
 import com.i7676.qyclient.entity.GameEntity;
 import com.i7676.qyclient.functions.BasePresenter;
-import com.i7676.qyclient.functions.main.MainActivity;
 import com.i7676.qyclient.functions.main.MainAtyPresenter;
 import com.i7676.qyclient.functions.main.MainAtyView;
 import com.i7676.qyclient.net.EgretApiService;
@@ -33,7 +32,6 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
 
     @Inject EgretApiService mEgretApiService;
     @Inject YNetApiService mYNetApiService;
-    @Inject MainActivity mainActivity;
 
     private Subscription topBannerSubscription;
     private Subscription RCMDBannerSubscription;
@@ -72,10 +70,11 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
     }
 
     private void toolbarSetup() {
-        mainActivity.getPresenter().getView().setTitle("主页");
-        mainActivity.getPresenter().getView().setToolbarBkg(ColorConstants.TRANSPARENT);
-        mainActivity.getPresenter().getView().setBottomBarSelectedIndex(MainAtyView.TAB_INDEX_HOME);
-        mainActivity.getPresenter().getView().showOptionsMenu();
+        getView().showActionBar();
+        getView().setActionBarTitle("主页");
+        getView().setActionBarBackground(ColorConstants.TRANSPARENT);
+        getView().setBottomBarIndex(MainAtyView.TAB_INDEX_HOME);
+        getView().showOptionsMenu();
     }
 
     private void initTopBannerData() {
@@ -215,30 +214,28 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
 
     @Override public void onScrollChanged(int l, int r, int oldl, int oldr) {
         Logger.i(">>> {l:" + l + ",r:" + r + ",oldl:" + oldl + ",oldr:" + oldr + "}");
-        if (mainActivity.getPresenter().getView() != null) {
+        if (getView() != null) {
             boolean scrollDown = r - oldr > 0;
             if (r <= 0) {
-                mainActivity.getPresenter().getView().setToolbarBkg(ColorConstants.TRANSPARENT);
+                getView().setActionBarBackground(ColorConstants.TRANSPARENT);
             } else if (r > 0 && r < 360) {
                 float percent = r / 360f;
                 int tempColor = Float.valueOf(ColorConstants.TOTAL_OFFSET * percent).intValue();
                 //Log.d(TAG, "percent:" + percent + "%, tempColor:" + tempColor);
                 // 下滑
                 if (scrollDown) {
-                    mainActivity.getPresenter()
-                        .getView()
-                        .setToolbarBkg(ColorConstants.TRANSPARENT + calcColorOffset(tempColor,
+                    getView().setActionBarBackground(
+                        ColorConstants.TRANSPARENT + calcColorOffset(tempColor,
                             ColorConstants.OFFSET));
                 }
                 // 上拉
                 else {
-                    mainActivity.getPresenter()
-                        .getView()
-                        .setToolbarBkg(ColorConstants.TRANSPARENT - calcColorOffset(tempColor,
+                    getView().setActionBarBackground(
+                        ColorConstants.TRANSPARENT - calcColorOffset(tempColor,
                             ColorConstants.OFFSET));
                 }
             } else if (r >= 360) {
-                mainActivity.getPresenter().getView().setToolbarBkg(ColorConstants.PRIMARY_COLOR);
+                getView().setActionBarBackground(ColorConstants.PRIMARY_COLOR);
             }
         }
     }

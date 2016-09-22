@@ -1,7 +1,6 @@
 package com.i7676.qyclient.functions.main;
 
 import android.support.annotation.IdRes;
-import com.i7676.qyclient.QyClient;
 import com.i7676.qyclient.R;
 import com.i7676.qyclient.entity.CategoryEntity;
 import com.i7676.qyclient.functions.BasePresenter;
@@ -39,6 +38,10 @@ public class MainAtyPresenter extends BasePresenter<MainAtyView> implements OnTa
         navigator.showSelectedFragment();
     }
 
+    public void showHomeFr() {
+        navigator.showHomeFr();
+    }
+
     private void reqCategoryData() {
         getView().setupCategoryPopupWindow(CATEGORIES);
     }
@@ -56,14 +59,7 @@ public class MainAtyPresenter extends BasePresenter<MainAtyView> implements OnTa
             case R.id._bottom_gifts:
                 break;
             case R.id.bottom_profile:
-                if (QyClient.curUser == null) {
-                    // 先展示默认 profile
-                    navigator.showProfileFr();
-                    // 再启动登录页面
-                    navigator.showLoginAty();
-                } else {
-                    navigator.showProfileFr();
-                }
+                navigator.showProfileFr();
                 break;
         }
     }
