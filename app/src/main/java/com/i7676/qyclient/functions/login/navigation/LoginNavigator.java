@@ -1,10 +1,10 @@
 package com.i7676.qyclient.functions.login.navigation;
 
-import android.util.SparseArray;
+import android.os.Bundle;
 import com.i7676.qyclient.functions.BaseFragment;
 import com.i7676.qyclient.functions.login.LoginActivity;
+import com.i7676.qyclient.functions.login.register.RoFFragment;
 import com.i7676.qyclient.functions.login.sign.SignInFragment;
-import com.i7676.qyclient.functions.main.MainAtyView;
 
 /**
  * Created by Administrator on 2016/9/20.
@@ -18,41 +18,38 @@ public class LoginNavigator {
 
     private LoginActivity loginActivity;
     private BaseFragment selectedFragment;
-    private int tabIndex;
-    private SparseArray<BaseFragment> frCached = new SparseArray<>(5);
 
     private LoginNavigator(LoginActivity loginActivity) {
         this.loginActivity = loginActivity;
     }
 
-    public void showSignIn() {
-        tabIndex = MainAtyView.TAB_INDEX_HOME;
-        transform(tabIndex, selectedFragment =
-            (frCached.get(tabIndex) != null ? frCached.get(tabIndex)
-                : SignInFragment.create(null)));
+    public void showSignInFr() {
+        transform((selectedFragment = SignInFragment.create(null)));
     }
 
-    // 在跳转回复的时候用的，但是登录界面并不需要跳转，所以就没用了...
-    public void showSelectedFragment() {
-        if (selectedFragment == null) {
-            showSignIn();
-        } else {
-            transform(tabIndex, selectedFragment);
-        }
+    public void renderRoFFr(Bundle args) {
+        transform((selectedFragment = RoFFragment.create(args)));
     }
 
-    private void cacheFragment(int index, BaseFragment fragment) {
-        if (frCached.get(index) == null) {
-            frCached.put(index, fragment);
-        }
-    }
-
-    private void transform(int index, BaseFragment fragment) {
-        cacheFragment(index, fragment);
-        loginActivity.getSupportFragmentManager()
-            .beginTransaction()
-            .replace(loginActivity.getFrPlaceHolderResId(), fragment,
-                fragment.getClass().getCanonicalName())
+    private void transform(BaseFragment fragment) {
+        loginActivity.getSupportFragmentManager().beginTransaction()
+            // 添加Fragment
+            .add(loginActivity.getFrPlaceHolderResId(), fragment)
+            // 设置进回退栈里
+            .addToBackStack(fragment.getClass().getSimpleName())
+            // 提交
             .commit();
+    }
+
+    public void onBackPress() {
+        if (selectedFragment instanceof RoFFragment) {
+            loginActivity.getSupportFragmentManager().popBackStackImmediate();
+            loginActivity.getPresenter().getView().setTitle("登录");
+            // FIXME: 2016/9/23  只有两层还好管理，要是有三层就。。。
+            selectedFragment = (BaseFragment) loginActivity.getSupportFragmentManager()
+                .findFragmentByTag(SignInFragment.class.getSimpleName());
+        } else {
+            loginActivity.finish();
+        }
     }
 }

@@ -17,7 +17,7 @@ public class ProfileFrPresenter extends BasePresenter<ProfileFrView>
         {
             setUserid("10086");
             setGroupid("1");
-            setNickname("傻逼你来点我啊");
+            setNickname("点我登录~");
             setUsername("saulala");
             setToken(
                 "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImp0aSI6IjRmMWcyM2ExMmFhIn0.eyJpc3MiOiJodHRwOlwvXC9oNS43Njc2LmNvbSIsImF1ZCI6Imh0dHA6XC9cL2g1Ljc2NzYuY29tIiwianRpIjoiNGYxZzIzYTEyYWEiLCJpYXQiOjE0NzQ0NTMyNTIsIm5iZiI6MTQ3NDQ1MzU1MiwiZXhwIjoxNDc0NTM5NjUyLCJkYXRhIjoiamlhb2ppZSJ9.9OKZeykODI51P4PzJJUYmw4nTtBy0ystfke5GO3BdgQ");
@@ -50,6 +50,9 @@ public class ProfileFrPresenter extends BasePresenter<ProfileFrView>
         switch (v.getId()) {
             case R.id.img_sign_off:
                 doSignOff();
+                break;
+            default:
+                if (QyClient.curUser == null) getView().showLoginAty();
                 break;
         }
     }

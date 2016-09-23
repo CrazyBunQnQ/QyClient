@@ -2,6 +2,7 @@ package com.i7676.qyclient.functions.login.sign;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -13,7 +14,10 @@ import com.i7676.qyclient.annotations.Layout;
 import com.i7676.qyclient.entity.AccountEntity;
 import com.i7676.qyclient.functions.BaseFragment;
 import com.i7676.qyclient.functions.login.LoginActivity;
+import com.i7676.qyclient.functions.login.sign.adapter.SignWayAdapter;
+import com.i7676.qyclient.functions.login.sign.entity.SignWayEntity;
 import com.i7676.qyclient.widgets.NonScrollableRecyclerView;
+import java.util.List;
 
 /**
  * Created by Administrator on 2016/9/20.
@@ -37,6 +41,7 @@ import com.i7676.qyclient.widgets.NonScrollableRecyclerView;
     private TextView tvQuickReg;
 
     private NonScrollableRecyclerView m3rdPartySignInWay;
+    private SignWayAdapter mSignInWayAdapter;
 
     @Override protected void initRootViews(View rootView) {
         etAccount = (EditText) rootView.findViewById(R.id.et_account);
@@ -49,6 +54,10 @@ import com.i7676.qyclient.widgets.NonScrollableRecyclerView;
         tvQuickReg = (TextView) rootView.findViewById(R.id.tv_quickRegister);
 
         m3rdPartySignInWay = (NonScrollableRecyclerView) rootView.findViewById(R.id.rv_signIn_way);
+        m3rdPartySignInWay.setLayoutManager(
+            new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        mSignInWayAdapter = new SignWayAdapter(R.layout.item_signin_way, null, this);
+        m3rdPartySignInWay.setAdapter(mSignInWayAdapter);
 
         btnSignIn.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
@@ -71,11 +80,29 @@ import com.i7676.qyclient.widgets.NonScrollableRecyclerView;
                 if (signInAccount == null) break;
                 getPresenter().doSignIn(signInAccount);
                 break;
+            case R.id.btn_register:
+                ((LoginActivity) getActivity()).getPresenter().showRegisterFr();
+                break;
+            case R.id.tv_forgetPwd:
+                ((LoginActivity) getActivity()).getPresenter().showForgetPasswordFr();
+                break;
         }
     }
 
-    @Override public void loginSuccess() {
+    @Override public void signInSuccess() {
         getActivity().finish();
+    }
+
+    @Override public void render3rdPartySignInWay(List<SignWayEntity> signWayEntities) {
+        mSignInWayAdapter.setNewData(signWayEntities);
+    }
+
+    @Override public void finishAty() {
+        getActivity().finish();
+    }
+
+    @Override public void setActionBarTitle(String actionBarTitle) {
+        ((LoginActivity) getActivity()).getPresenter().getView().setTitle(actionBarTitle);
     }
 
     private AccountEntity buildAccountInfo() {

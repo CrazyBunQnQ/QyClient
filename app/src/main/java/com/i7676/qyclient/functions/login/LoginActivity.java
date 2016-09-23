@@ -2,6 +2,7 @@ package com.i7676.qyclient.functions.login;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
@@ -32,6 +33,7 @@ import com.i7676.qyclient.functions.BaseActivity;
         initInject();
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(mToolbar);
     }
 
@@ -59,5 +61,9 @@ import com.i7676.qyclient.functions.BaseActivity;
 
     public LoginAtyComponent getAtyComponent() {
         return atyComponent;
+    }
+
+    @Override public void onBackPressed() {
+        getPresenter().onBackPress();
     }
 }
