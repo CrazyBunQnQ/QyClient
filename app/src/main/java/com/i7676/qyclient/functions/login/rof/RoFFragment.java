@@ -1,4 +1,4 @@
-package com.i7676.qyclient.functions.login.register;
+package com.i7676.qyclient.functions.login.rof;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,7 +16,9 @@ import com.i7676.qyclient.functions.login.LoginActivity;
  * R. Register
  * F. Forget
  *
- * RaF. Register or Forget password
+ * RoF. Register or Forget password
+ *
+ * 登录-忘记密码 或 手机注册
  */
 @Layout(R.layout.fragment_login_reg_fgtpass) public class RoFFragment
     extends BaseFragment<RoFPresenter, RoFView> implements RoFView {

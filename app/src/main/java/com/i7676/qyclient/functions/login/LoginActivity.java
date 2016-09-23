@@ -23,6 +23,10 @@ import com.i7676.qyclient.functions.BaseActivity;
         return mIntent;
     }
 
+    @Override protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+    }
+
     // Views
     private Toolbar mToolbar;
 

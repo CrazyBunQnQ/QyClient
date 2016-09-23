@@ -10,23 +10,23 @@ import android.view.MotionEvent;
  * Created by Administrator on 2016/8/30.
  */
 public class NonScrollableRecyclerView extends RecyclerView {
-  public NonScrollableRecyclerView(Context context) {
-    super(context);
-  }
+    public NonScrollableRecyclerView(Context context) {
+        super(context);
+    }
 
-  public NonScrollableRecyclerView(Context context, @Nullable AttributeSet attrs) {
-    super(context, attrs);
-  }
+    public NonScrollableRecyclerView(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+    }
 
-  public NonScrollableRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
-    super(context, attrs, defStyle);
-  }
+    public NonScrollableRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+    }
 
-  @Override public boolean onTouchEvent(MotionEvent e) {
-    return false;
-  }
+    @Override public boolean onTouchEvent(MotionEvent e) {
+        return false;
+    }
 
-  @Override public boolean onInterceptTouchEvent(MotionEvent e) {
-    return false;
-  }
+    @Override public boolean onInterceptTouchEvent(MotionEvent e) {
+        return false;
+    }
 }

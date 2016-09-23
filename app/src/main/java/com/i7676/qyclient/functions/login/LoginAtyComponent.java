@@ -3,6 +3,7 @@ package com.i7676.qyclient.functions.login;
 import android.content.Context;
 import com.i7676.qyclient.QyClientComponent;
 import com.i7676.qyclient.annotations.PerActivity;
+import com.i7676.qyclient.api.wechat.WXAPIEventHandlerImp;
 import com.i7676.qyclient.functions.login.navigation.LoginNavigator;
 import com.i7676.qyclient.functions.login.sign.SignInFrPresenter;
 import dagger.Component;
@@ -25,4 +26,6 @@ public interface LoginAtyComponent {
     LoginActivity getLoginAtySelf();
 
     LoginNavigator getLoginNavigator();
+
+    WXAPIEventHandlerImp getWXAPIInstance();
 }

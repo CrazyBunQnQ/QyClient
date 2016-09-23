@@ -11,14 +11,15 @@ import java.util.List;
  * Created by Administrator on 2016/9/19.
  */
 public class CategoryAdapter extends BaseQuickAdapter<CategoryEntity> {
-  public CategoryAdapter(int layoutResId, List<CategoryEntity> data) {
-    super(layoutResId, data);
-  }
+    public CategoryAdapter(int layoutResId, List<CategoryEntity> data) {
+        super(layoutResId, data);
+        openLoadAnimation();
+    }
 
-  @Override protected void convert(BaseViewHolder baseViewHolder, CategoryEntity categoryEntity) {
-    ((AutoLoadImageView) baseViewHolder.getConvertView()
-        .findViewById(R.id.category_img)).setImageUrlAndAuthorInfo(categoryEntity.getImageURL(),
-        null);
-    baseViewHolder.setText(R.id.category_text, categoryEntity.getCategoryText());
-  }
+    @Override protected void convert(BaseViewHolder baseViewHolder, CategoryEntity categoryEntity) {
+        ((AutoLoadImageView) baseViewHolder.getConvertView()
+            .findViewById(R.id.category_img)).setImageUrlAndAuthorInfo(categoryEntity.getImageURL(),
+            null);
+        baseViewHolder.setText(R.id.category_text, categoryEntity.getCategoryText());
+    }
 }

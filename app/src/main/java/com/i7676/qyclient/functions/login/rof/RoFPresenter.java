@@ -1,11 +1,11 @@
-package com.i7676.qyclient.functions.login.register;
+package com.i7676.qyclient.functions.login.rof;
 
 import android.os.Bundle;
 import com.i7676.qyclient.functions.BasePresenter;
 
-import static com.i7676.qyclient.functions.login.register.RoFFragment.RENDER_TYPE;
-import static com.i7676.qyclient.functions.login.register.RoFFragment.RENDER_TYPE_FORGET_PASSWORD;
-import static com.i7676.qyclient.functions.login.register.RoFFragment.RENDER_TYP_REGISTER;
+import static com.i7676.qyclient.functions.login.rof.RoFFragment.RENDER_TYPE;
+import static com.i7676.qyclient.functions.login.rof.RoFFragment.RENDER_TYPE_FORGET_PASSWORD;
+import static com.i7676.qyclient.functions.login.rof.RoFFragment.RENDER_TYP_REGISTER;
 
 /**
  * Created by Administrator on 2016/9/20.

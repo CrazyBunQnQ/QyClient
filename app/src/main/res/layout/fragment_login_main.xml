@@ -117,7 +117,7 @@
         />
   </RelativeLayout>
 
-  <com.i7676.qyclient.widgets.NonScrollableRecyclerView
+  <android.support.v7.widget.RecyclerView
       android:id="@+id/rv_signIn_way"
       android:layout_width="wrap_content"
       android:layout_height="match_parent"

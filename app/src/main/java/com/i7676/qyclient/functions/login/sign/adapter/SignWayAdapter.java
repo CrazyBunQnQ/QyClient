@@ -1,6 +1,5 @@
 package com.i7676.qyclient.functions.login.sign.adapter;
 
-import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.i7676.qyclient.R;
@@ -9,17 +8,28 @@ import java.util.List;
 
 public class SignWayAdapter extends BaseQuickAdapter<SignWayEntity> {
 
-    private View.OnClickListener itemClickListener;
+    public interface FkItemClickListener {
+        void onItemClick(int position, SignWayEntity signWayEntity);
+    }
 
-    public SignWayAdapter(int layoutResId, List<SignWayEntity> data,
-        View.OnClickListener itemClickListener) {
+    private FkItemClickListener fkItemClickListener;
+
+    public void setFkItemClickListener(FkItemClickListener fkItemClickListener) {
+        this.fkItemClickListener = fkItemClickListener;
+    }
+
+    public SignWayAdapter(int layoutResId, List<SignWayEntity> data) {
         super(layoutResId, data);
-        this.itemClickListener = itemClickListener;
+        openLoadAnimation();
     }
 
     @Override protected void convert(BaseViewHolder baseViewHolder, SignWayEntity signWayEntity) {
-        baseViewHolder.setImageResource(R.id.img_sin_logo, signWayEntity.getResId());
-        baseViewHolder.setText(R.id.tv_sin_text, signWayEntity.getText());
-        baseViewHolder.getConvertView().setOnClickListener(itemClickListener);
+        baseViewHolder.setImageResource(R.id.img_sign_logo, signWayEntity.getIconResId())
+            .setText(R.id.tv_sin_text, signWayEntity.getText());
+        baseViewHolder.convertView.setOnClickListener(v -> {
+            if (fkItemClickListener != null) {
+                fkItemClickListener.onItemClick(baseViewHolder.getLayoutPosition(), signWayEntity);
+            }
+        });
     }
 }

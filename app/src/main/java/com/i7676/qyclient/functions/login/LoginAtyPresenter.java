@@ -3,7 +3,7 @@ package com.i7676.qyclient.functions.login;
 import android.os.Bundle;
 import com.i7676.qyclient.functions.BasePresenter;
 import com.i7676.qyclient.functions.login.navigation.LoginNavigator;
-import com.i7676.qyclient.functions.login.register.RoFFragment;
+import com.i7676.qyclient.functions.login.rof.RoFFragment;
 import javax.inject.Inject;
 
 /**

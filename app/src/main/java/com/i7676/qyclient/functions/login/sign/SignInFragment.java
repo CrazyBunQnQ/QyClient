@@ -3,6 +3,7 @@ package com.i7676.qyclient.functions.login.sign;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -16,7 +17,7 @@ import com.i7676.qyclient.functions.BaseFragment;
 import com.i7676.qyclient.functions.login.LoginActivity;
 import com.i7676.qyclient.functions.login.sign.adapter.SignWayAdapter;
 import com.i7676.qyclient.functions.login.sign.entity.SignWayEntity;
-import com.i7676.qyclient.widgets.NonScrollableRecyclerView;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,7 +41,7 @@ import java.util.List;
     private TextView tvForgetPwd;
     private TextView tvQuickReg;
 
-    private NonScrollableRecyclerView m3rdPartySignInWay;
+    private RecyclerView m3rdPartySignInWay;
     private SignWayAdapter mSignInWayAdapter;
 
     @Override protected void initRootViews(View rootView) {
@@ -53,10 +54,11 @@ import java.util.List;
         tvForgetPwd = (TextView) rootView.findViewById(R.id.tv_forgetPwd);
         tvQuickReg = (TextView) rootView.findViewById(R.id.tv_quickRegister);
 
-        m3rdPartySignInWay = (NonScrollableRecyclerView) rootView.findViewById(R.id.rv_signIn_way);
+        m3rdPartySignInWay = (RecyclerView) rootView.findViewById(R.id.rv_signIn_way);
         m3rdPartySignInWay.setLayoutManager(
             new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        mSignInWayAdapter = new SignWayAdapter(R.layout.item_signin_way, null, this);
+        mSignInWayAdapter = new SignWayAdapter(R.layout.item_signin_way, new ArrayList<>());
+        mSignInWayAdapter.setFkItemClickListener(getPresenter());
         m3rdPartySignInWay.setAdapter(mSignInWayAdapter);
 
         btnSignIn.setOnClickListener(this);

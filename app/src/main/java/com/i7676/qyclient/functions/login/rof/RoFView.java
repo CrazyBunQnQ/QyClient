@@ -1,4 +1,4 @@
-package com.i7676.qyclient.functions.login.register;
+package com.i7676.qyclient.functions.login.rof;
 
 import com.i7676.qyclient.functions.BaseView;
 
