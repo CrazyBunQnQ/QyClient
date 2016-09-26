@@ -16,11 +16,8 @@ public class ProfileFrPresenter extends BasePresenter<ProfileFrView>
     private static final UserEntity DEFAULT_USER = new UserEntity() {
         {
             setUserid("10086");
-            setGroupid("1");
-            setNickname("点我登录~");
-            setUsername("saulala");
-            setToken(
-                "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImp0aSI6IjRmMWcyM2ExMmFhIn0.eyJpc3MiOiJodHRwOlwvXC9oNS43Njc2LmNvbSIsImF1ZCI6Imh0dHA6XC9cL2g1Ljc2NzYuY29tIiwianRpIjoiNGYxZzIzYTEyYWEiLCJpYXQiOjE0NzQ0NTMyNTIsIm5iZiI6MTQ3NDQ1MzU1MiwiZXhwIjoxNDc0NTM5NjUyLCJkYXRhIjoiamlhb2ppZSJ9.9OKZeykODI51P4PzJJUYmw4nTtBy0ystfke5GO3BdgQ");
+            setNickname("点击头像登录~");
+            setUsername("QYUser");
             setAvatar("http://h5.7676.com/phpsso_server/statics/images/member/nophoto.gif");
         }
     };

@@ -1,17 +1,32 @@
 package com.i7676.qyclient.functions.login.rof;
 
+import android.accounts.NetworkErrorException;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.View;
+import com.i7676.qyclient.QyClient;
+import com.i7676.qyclient.R;
+import com.i7676.qyclient.api.YNetApiService;
+import com.i7676.qyclient.entity.ReqResult;
+import com.i7676.qyclient.entity.UserEntity;
 import com.i7676.qyclient.functions.BasePresenter;
+import com.i7676.qyclient.functions.login.LoginConstants;
+import com.i7676.qyclient.rx.DefaultSubscriber;
+import com.i7676.qyclient.util.RegexUtils;
+import com.orhanobut.logger.Logger;
+import java.util.HashMap;
+import javax.inject.Inject;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static com.i7676.qyclient.functions.login.rof.RoFFragment.RENDER_TYPE;
 import static com.i7676.qyclient.functions.login.rof.RoFFragment.RENDER_TYPE_FORGET_PASSWORD;
-import static com.i7676.qyclient.functions.login.rof.RoFFragment.RENDER_TYP_REGISTER;
+import static com.i7676.qyclient.functions.login.rof.RoFFragment.RENDER_TYPE_REGISTER;
 
 /**
  * Created by Administrator on 2016/9/20.
  */
-
-/*package*/ class RoFPresenter extends BasePresenter<RoFView> {
+public class RoFPresenter extends BasePresenter<RoFView> implements View.OnClickListener {
 
     // 页面title
     private static final String TITLE_TEXTS_REGISTER = "手机注册";
@@ -26,6 +41,8 @@ import static com.i7676.qyclient.functions.login.rof.RoFFragment.RENDER_TYP_REGI
     };
 
     private Bundle args;
+    private String mRenderType;
+    @Inject YNetApiService mYNetApiService;
 
     public RoFPresenter(Bundle args) {
         this.args = args;
@@ -37,7 +54,7 @@ import static com.i7676.qyclient.functions.login.rof.RoFFragment.RENDER_TYP_REGI
     }
 
     private void renderViews() {
-        String mRenderType = args.getString(RENDER_TYPE);
+        mRenderType = args.getString(RENDER_TYPE);
         if (null == mRenderType || "".equals(mRenderType.trim())) {
             throw new IllegalAccessError(
                 "Don't fucking summon this fragment without right arguments!!");
@@ -46,7 +63,7 @@ import static com.i7676.qyclient.functions.login.rof.RoFFragment.RENDER_TYP_REGI
         String hintsAndTexts[];
         switch (mRenderType) {
             default:
-            case RENDER_TYP_REGISTER:
+            case RENDER_TYPE_REGISTER:
                 getView().setActionBarTitle(TITLE_TEXTS_REGISTER);
                 hintsAndTexts = REGISTER_TEXTS;
                 break;
@@ -55,8 +72,123 @@ import static com.i7676.qyclient.functions.login.rof.RoFFragment.RENDER_TYP_REGI
                 hintsAndTexts = FGTPASS_TEXTS;
                 break;
         }
-        // 注册时间监听
-        //registerViewsListeners(mRenderType);
         getView().setupWidgetsHint(hintsAndTexts);
+    }
+
+    private void submitEvent() {
+        switch (mRenderType) {
+            case RENDER_TYPE_REGISTER:
+                doRegister();
+                break;
+            case RENDER_TYPE_FORGET_PASSWORD:
+                break;
+        }
+    }
+
+    private void doRegister() {
+        String accountText = getView().getAccountText();
+        String passwordText = getView().getPasswordText();
+        String captchaText = getView().getCaptchaText();
+
+        // 数据校验
+        if (TextUtils.isEmpty(accountText)) {
+            getView().report2User("请输入手机号码");
+            return;
+        }
+        if (TextUtils.isEmpty(passwordText)) {
+            getView().report2User("请输入密码");
+            return;
+        }
+        if (TextUtils.isEmpty(captchaText)) {
+            getView().report2User("请输入验证码");
+            return;
+        }
+        // 构造表单参数
+        HashMap<String, String> params = new HashMap<>();
+        params.put("username", accountText);
+        params.put("password", passwordText);
+        params.put("type", String.valueOf(LoginConstants.REGISTER_TYPE_PHONE));
+        params.put("code", captchaText);
+        // 发送注册
+        mYNetApiService.register(params)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(new DefaultSubscriber<ReqResult<String>>() {
+                @Override public void onNext(ReqResult<String> reqResult) {
+                    if (reqResult.getRet() == 0) {
+                        getView().report2User("注册成功");
+                    } else {
+                        onError(new NetworkErrorException(
+                            "[" + reqResult.getRet() + "]" + reqResult.getData()));
+                    }
+                }
+
+                @Override public void onError(Throwable e) {
+                    getView().report2User("注册失败:" + e.getMessage());
+                }
+
+                @Override public void onCompleted() {
+                    signInUp(accountText, passwordText);
+                }
+            });
+    }
+
+    private void signInUp(String accountText, String passwordConfirmText) {
+        mYNetApiService.login(accountText, passwordConfirmText)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(new DefaultSubscriber<ReqResult<UserEntity>>() {
+                @Override public void onCompleted() {
+                    getView().signInSuccess();
+                }
+
+                @Override public void onError(Throwable e) {
+                    if (e instanceof NetworkErrorException) {
+                        getView().report2User(e.getMessage());
+                    } else {
+                        Logger.e(">>> " + e.getMessage());
+                        getView().report2User("服务器异常，请稍后再试");
+                    }
+                }
+
+                @Override public void onNext(ReqResult<UserEntity> reqResult) {
+                    if (reqResult.getRet() == 0) {
+                        QyClient.curUser = reqResult.getData();
+                        Logger.i(QyClient.curUser.toString());
+                    } else {
+                        onError(
+                            new NetworkErrorException("Request error[" + reqResult.getRet() + "]"));
+                    }
+                }
+            });
+    }
+
+    private void getCaptchaCode() {
+        String accountText = getView().getAccountText();
+        // 空校验
+        if (TextUtils.isEmpty(accountText)) {
+            getView().report2User("请输入手机号码");
+            return;
+        }
+        // 电话号码校验
+        if (!accountText.matches(RegexUtils.PHONE_NUMBER_REGEX)) {
+            getView().report2User("请输入正确的手机号码");
+            return;
+        }
+        mYNetApiService.getCaptcha(accountText)
+            .subscribeOn(Schedulers.io())
+            .observeOn(Schedulers.io());
+        getView().captchaBtnCountDown();
+    }
+
+    @Override public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_get_vCode:
+                getCaptchaCode();
+                break;
+            case R.id.btn_submit:
+                submitEvent();
+                break;
+        }
     }
 }

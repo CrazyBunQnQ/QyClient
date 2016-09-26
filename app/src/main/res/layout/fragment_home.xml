@@ -39,6 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="90dp"
         android:layout_below="@id/fstGCardsRecyclerView"
+        android:visibility="gone"
         />
 
     <com.i7676.qyclient.widgets.NonScrollableRecyclerView

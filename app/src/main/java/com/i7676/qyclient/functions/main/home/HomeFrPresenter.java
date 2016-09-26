@@ -8,8 +8,8 @@ import com.i7676.qyclient.entity.GameEntity;
 import com.i7676.qyclient.functions.BasePresenter;
 import com.i7676.qyclient.functions.main.MainAtyPresenter;
 import com.i7676.qyclient.functions.main.MainAtyView;
-import com.i7676.qyclient.net.EgretApiService;
-import com.i7676.qyclient.net.YNetApiService;
+import com.i7676.qyclient.api.EgretApiService;
+import com.i7676.qyclient.api.YNetApiService;
 import com.i7676.qyclient.rx.ServerCallbackHandler;
 import com.i7676.qyclient.util.ColorConstants;
 import com.i7676.qyclient.widgets.ObservableScrollView;
@@ -257,11 +257,11 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
         Logger.i(">>> RCMDBannerInfo: " + RCMDBanners.get(position).getDes());
     };
 
-    public FlyBanner.OnItemClickListener getTopBannerListener() {
+    FlyBanner.OnItemClickListener getTopBannerListener() {
         return topBannerListener;
     }
 
-    public FlyBanner.OnItemClickListener getRCMDBannerListener() {
+    FlyBanner.OnItemClickListener getRCMDBannerListener() {
         return RCMDBannerListener;
     }
 }

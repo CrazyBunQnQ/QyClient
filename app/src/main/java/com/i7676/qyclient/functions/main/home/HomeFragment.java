@@ -78,9 +78,8 @@ import javax.inject.Inject;
     }
 
     @Override public void setupRCMDBanner(List<String> bannerImgURLs) {
-        if (bannerImgURLs.isEmpty()) {
-            RCMDBanner.setVisibility(View.GONE);
-        } else {
+        if (bannerImgURLs != null && !bannerImgURLs.isEmpty()) {
+            RCMDBanner.setVisibility(View.VISIBLE);
             RCMDBanner.setImagesUrl(bannerImgURLs);
         }
     }

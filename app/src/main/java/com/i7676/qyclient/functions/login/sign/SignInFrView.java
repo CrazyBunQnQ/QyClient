@@ -17,4 +17,6 @@ import java.util.List;
     void finishAty();
 
     void setActionBarTitle(String actionBarTitle);
+
+    void signInFailed(String msg);
 }

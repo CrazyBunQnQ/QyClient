@@ -7,4 +7,16 @@ import com.i7676.qyclient.functions.BaseView;
  */
 
 public interface QuickRegFrView extends BaseView {
+
+    void setActionBarTitle(String actionBarTitle);
+
+    String getAccountText();
+
+    String getPasswordText();
+
+    String getPasswordConfirmText();
+
+    void report2User(String msg);
+
+    void signInSuccess();
 }

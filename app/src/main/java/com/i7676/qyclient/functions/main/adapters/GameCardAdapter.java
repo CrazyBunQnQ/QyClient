@@ -2,6 +2,7 @@ package com.i7676.qyclient.functions.main.adapters;
 
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.TextView;
@@ -10,6 +11,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.i7676.qyclient.R;
 import com.i7676.qyclient.entity.GameCardEntity;
 import com.i7676.qyclient.entity.GameEntity;
+import com.i7676.qyclient.functions.h5game.PlayGameActivity;
 import com.i7676.qyclient.util.ValueMapper;
 import com.i7676.qyclient.widgets.AutoLoadImageView;
 import com.i7676.qyclient.widgets.NonScrollableRecyclerView;
@@ -119,9 +121,9 @@ public class GameCardAdapter extends BaseQuickAdapter<GameCardEntity> {
         }
 
         @Override public void onClick(View v) {
-            //Bundle args = new Bundle();
-            //args.putString(PlayGameActivity.GAME_URL, gameUrl);
-            //startActivity(PlayGameActivity.buildIntent(getContext(), args));
+            Bundle args = new Bundle();
+            args.putString(PlayGameActivity.GAME_URL, gameUrl);
+            mContext.startActivity(PlayGameActivity.buildIntent(mContext, args));
         }
     }
 }

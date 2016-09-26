@@ -1,4 +1,4 @@
-package com.i7676.qyclient.net;
+package com.i7676.qyclient.api;
 
 import android.text.TextUtils;
 import com.i7676.qyclient.QyClient;

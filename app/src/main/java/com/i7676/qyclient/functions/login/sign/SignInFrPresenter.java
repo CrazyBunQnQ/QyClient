@@ -11,7 +11,7 @@ import com.i7676.qyclient.entity.UserEntity;
 import com.i7676.qyclient.functions.BasePresenter;
 import com.i7676.qyclient.functions.login.sign.adapter.SignWayAdapter;
 import com.i7676.qyclient.functions.login.sign.entity.SignWayEntity;
-import com.i7676.qyclient.net.YNetApiService;
+import com.i7676.qyclient.api.YNetApiService;
 import com.orhanobut.logger.Logger;
 import java.util.ArrayList;
 import javax.inject.Inject;
@@ -59,18 +59,22 @@ public class SignInFrPresenter extends BasePresenter<SignInFrView>
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(new Subscriber<ReqResult<UserEntity>>() {
                 @Override public void onCompleted() {
+                    getView().signInSuccess();
                 }
 
                 @Override public void onError(Throwable e) {
-                    e.printStackTrace();
+                    if (e instanceof NetworkErrorException) {
+                        getView().signInFailed(e.getMessage());
+                    } else {
+                        Logger.e(">>> " + e.getMessage());
+                        getView().signInFailed("服务器异常，请稍后再试");
+                    }
                 }
 
                 @Override public void onNext(ReqResult<UserEntity> reqResult) {
                     if (reqResult.getRet() == 0) {
                         QyClient.curUser = reqResult.getData();
                         Logger.i(QyClient.curUser.toString());
-                        getView().signInSuccess();
-                        onCompleted();
                     } else {
                         onError(
                             new NetworkErrorException("Request error[" + reqResult.getRet() + "]"));

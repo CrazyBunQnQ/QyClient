@@ -1,4 +1,4 @@
-package com.i7676.qyclient.net;
+package com.i7676.qyclient.api;
 
 import retrofit2.http.GET;
 import retrofit2.http.Query;

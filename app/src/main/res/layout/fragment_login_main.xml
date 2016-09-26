@@ -69,7 +69,7 @@
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:text="快速注册"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/colorPrimary"
         />
     <View
         android:layout_width="1px"

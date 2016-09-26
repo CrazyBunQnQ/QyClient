@@ -8,6 +8,10 @@ import android.view.MotionEvent;
 
 /**
  * Created by Administrator on 2016/8/30.
+ *
+ * CAN NOT USE RECYCLER VIEW TOUCH EVENT!!!
+ * CAN NOT USE RECYCLER VIEW TOUCH EVENT!!!
+ * CAN NOT USE RECYCLER VIEW TOUCH EVENT!!!
  */
 public class NonScrollableRecyclerView extends RecyclerView {
     public NonScrollableRecyclerView(Context context) {

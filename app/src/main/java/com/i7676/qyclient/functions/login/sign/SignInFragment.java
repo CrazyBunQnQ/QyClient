@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.i7676.qyclient.QyClient;
 import com.i7676.qyclient.R;
 import com.i7676.qyclient.annotations.Layout;
 import com.i7676.qyclient.entity.AccountEntity;
@@ -68,7 +69,7 @@ import java.util.List;
     }
 
     @Override protected void setupInject() {
-        ((LoginActivity) getActivity()).getAtyComponent().inject(getPresenter());
+        ((QyClient) getActivity().getApplication()).getClientComponent().inject(getPresenter());
     }
 
     @NonNull @Override public SignInFrPresenter providePresenter() {
@@ -83,10 +84,13 @@ import java.util.List;
                 getPresenter().doSignIn(signInAccount);
                 break;
             case R.id.btn_register:
-                ((LoginActivity) getActivity()).getPresenter().showRegisterFr();
+                ((LoginActivity) getActivity()).showRegisterFr();
                 break;
             case R.id.tv_forgetPwd:
-                ((LoginActivity) getActivity()).getPresenter().showForgetPasswordFr();
+                ((LoginActivity) getActivity()).showForgetPasswordFr();
+                break;
+            case R.id.tv_quickRegister:
+                ((LoginActivity) getActivity()).showQuickRegFr();
                 break;
         }
     }
@@ -105,6 +109,10 @@ import java.util.List;
 
     @Override public void setActionBarTitle(String actionBarTitle) {
         ((LoginActivity) getActivity()).getPresenter().getView().setTitle(actionBarTitle);
+    }
+
+    @Override public void signInFailed(String msg) {
+        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
     private AccountEntity buildAccountInfo() {

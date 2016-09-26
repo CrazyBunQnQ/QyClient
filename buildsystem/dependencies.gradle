@@ -13,8 +13,8 @@ ext {
   androidTargetSdkVersion = 22
   androidCompileSdkVersion = 24
   // Libraries
-  androidSupportLibraryVersion = '24.2.0'
-  androidAnnotationsVersion = '24.2.0'
+  androidSupportLibraryVersion = '24.2.1'
+  androidAnnotationsVersion = '24.2.1'
 
   // Test
   jUnitVersion = '4.12'
@@ -35,7 +35,7 @@ ext {
   retrofitAdapterVersion = '2.1.0'
   retrofitFastJsonConverterVersion = '2.1.0'
   jsuopVersion = '1.9.2'
-  recyclerViewAdapterHelper = 'v2.1.1'
+  recyclerViewAdapterHelper = 'v2.1.6'
   thirtyInchVersion = '0.7.1'
 
   // Views

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 import com.i7676.qyclient.annotations.PerActivity;
+import com.orhanobut.logger.Logger;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
@@ -23,7 +24,23 @@ import retrofit2.Response;
     private IWXAPI wxAPI;
     // API
     private WXAPIService apiService;
+    // 用户信息回调
     private Callback<WXUserInfoResponse> mWXUserInfoCallback;
+    // 请求 AccessToken 回调
+    private Callback<WXAccessTokenResponse> mAccessTokenCallback =
+        new Callback<WXAccessTokenResponse>() {
+            @Override public void onResponse(Call<WXAccessTokenResponse> call,
+                Response<WXAccessTokenResponse> response) {
+                if (response.body().errcode != 0) return;
+                // TODO callback 回来，请求用户信息了改,请求完用户信息，就回到 Activity 了
+                apiService.getUserInfo(response.body().accessToken, response.body().openid,
+                    mWXUserInfoCallback);
+            }
+
+            @Override public void onFailure(Call<WXAccessTokenResponse> call, Throwable t) {
+                // TODO 异常处理
+            }
+        };
 
     public void setWXUserInfoCallback(Callback<WXUserInfoResponse> mWXUserInfoCallback) {
         this.mWXUserInfoCallback = mWXUserInfoCallback;
@@ -56,23 +73,8 @@ import retrofit2.Response;
     }
 
     @Override public void onReq(BaseReq baseReq) {
-
+        Logger.i(">>> baseReq: " + baseReq);
     }
-
-    private Callback<WXAccessTokenResponse> mAccessTokenCallback =
-        new Callback<WXAccessTokenResponse>() {
-            @Override public void onResponse(Call<WXAccessTokenResponse> call,
-                Response<WXAccessTokenResponse> response) {
-                if (response.body().errcode != 0) return;
-                // TODO callback 回来，请求用户信息了改,请求完用户信息，就回到 Activity 了
-                apiService.getUserInfo(response.body().accessToken, response.body().openid,
-                    mWXUserInfoCallback);
-            }
-
-            @Override public void onFailure(Call<WXAccessTokenResponse> call, Throwable t) {
-                // TODO 异常处理
-            }
-        };
 
     @Override public void onResp(BaseResp resp) {
         if (resp instanceof SendAuth.Resp) {

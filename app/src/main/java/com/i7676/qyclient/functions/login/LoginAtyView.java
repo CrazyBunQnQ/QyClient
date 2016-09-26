@@ -13,4 +13,12 @@ import com.i7676.qyclient.functions.BaseView;
 
     // ************************************************** Toolbar
     void setTitle(String titleText);
+
+    void showSignInFr();
+
+    void showForgetPasswordFr();
+
+    void showRegisterFr();
+
+    void showQuickRegFr();
 }

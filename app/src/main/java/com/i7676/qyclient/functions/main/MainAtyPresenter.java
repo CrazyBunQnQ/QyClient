@@ -5,7 +5,7 @@ import com.i7676.qyclient.R;
 import com.i7676.qyclient.entity.CategoryEntity;
 import com.i7676.qyclient.functions.BasePresenter;
 import com.i7676.qyclient.functions.main.navigation.MainAtyNavigator;
-import com.i7676.qyclient.net.EgretApiService;
+import com.i7676.qyclient.api.EgretApiService;
 import com.roughike.bottombar.OnTabSelectListener;
 import java.util.ArrayList;
 import javax.inject.Inject;

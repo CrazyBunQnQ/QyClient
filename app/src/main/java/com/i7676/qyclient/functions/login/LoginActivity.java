@@ -10,12 +10,17 @@ import com.i7676.qyclient.QyClient;
 import com.i7676.qyclient.R;
 import com.i7676.qyclient.annotations.Layout;
 import com.i7676.qyclient.functions.BaseActivity;
+import com.i7676.qyclient.functions.login.navigation.LoginNavigator;
+import com.i7676.qyclient.functions.login.rof.RoFFragment;
+import javax.inject.Inject;
 
 /**
  * Created by Administrator on 2016/9/19.
  */
 @Layout(R.layout.activity_login) public class LoginActivity
     extends BaseActivity<LoginAtyPresenter, LoginAtyView> implements LoginAtyView {
+
+    @Inject LoginNavigator navigator;
 
     public static Intent buildIntent(Context from, Bundle args) {
         final Intent mIntent = new Intent(from, LoginActivity.class);
@@ -47,8 +52,7 @@ import com.i7676.qyclient.functions.BaseActivity;
             .qyClientComponent(((QyClient) getApplication()).getClientComponent())
             .build();
 
-        //atyComponent.inject(this);
-        atyComponent.inject(getPresenter());
+        atyComponent.inject(this);
     }
 
     @NonNull @Override public LoginAtyPresenter providePresenter() {
@@ -63,11 +67,31 @@ import com.i7676.qyclient.functions.BaseActivity;
         mToolbar.setTitle(titleText);
     }
 
+    @Override public void showSignInFr() {
+        navigator.showSignInFr();
+    }
+
+    @Override public void showForgetPasswordFr() {
+        Bundle args = new Bundle();
+        args.putString(RoFFragment.RENDER_TYPE, RoFFragment.RENDER_TYPE_FORGET_PASSWORD);
+        navigator.showRofFr(args);
+    }
+
+    @Override public void showRegisterFr() {
+        Bundle args = new Bundle();
+        args.putString(RoFFragment.RENDER_TYPE, RoFFragment.RENDER_TYPE_REGISTER);
+        navigator.showRofFr(args);
+    }
+
+    @Override public void showQuickRegFr() {
+        navigator.showQuickRegFr();
+    }
+
     public LoginAtyComponent getAtyComponent() {
         return atyComponent;
     }
 
     @Override public void onBackPressed() {
-        getPresenter().onBackPress();
+        navigator.onBackPress();
     }
 }

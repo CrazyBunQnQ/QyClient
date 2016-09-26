@@ -1,9 +1,11 @@
 package com.i7676.qyclient;
 
 import android.app.Application;
-import com.i7676.qyclient.net.EgretApiService;
-import com.i7676.qyclient.net.RetrofitFactory;
-import com.i7676.qyclient.net.YNetApiService;
+import com.i7676.qyclient.api.wechat.WXAPIEventHandlerImp;
+import com.i7676.qyclient.api.wechat.WXAPIService;
+import com.i7676.qyclient.api.EgretApiService;
+import com.i7676.qyclient.api.RetrofitFactory;
+import com.i7676.qyclient.api.YNetApiService;
 import dagger.Module;
 import dagger.Provides;
 import javax.inject.Singleton;
@@ -31,5 +33,11 @@ import javax.inject.Singleton;
     @Singleton @Provides YNetApiService providedYNetApiService() {
         return RetrofitFactory.createService(YNetApiService.BASE_URL, YNetApiService.class,
             mApplication.getCacheDir());
+    }
+
+    @Singleton @Provides WXAPIEventHandlerImp providedWXAPIInstance() {
+        return new WXAPIEventHandlerImp(mApplication,
+            RetrofitFactory.createService("https://api.weixin.qq.com", WXAPIService.class,
+                mApplication.getCacheDir()));
     }
 }
