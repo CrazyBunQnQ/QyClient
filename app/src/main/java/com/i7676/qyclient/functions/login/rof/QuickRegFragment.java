@@ -10,6 +10,7 @@ import com.i7676.qyclient.R;
 import com.i7676.qyclient.annotations.Layout;
 import com.i7676.qyclient.functions.BaseFragment;
 import com.i7676.qyclient.functions.login.LoginActivity;
+import com.i7676.qyclient.util.DialogUtils;
 import com.i7676.qyclient.util.RandomUtils;
 
 /**
@@ -68,11 +69,23 @@ import com.i7676.qyclient.util.RandomUtils;
         return etPasswordConfirm.getText().toString();
     }
 
-    @Override public void report2User(String msg) {
+    @Override public void showToast2User(String msg) {
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override public void signInSuccess() {
         getActivity().finish();
+    }
+
+    @Override public void showDialog2User(String msg) {
+        ((LoginActivity) getActivity()).getPresenter().getView().showDialog2User(msg);
+    }
+
+    @Override public void closeDialog() {
+        ((LoginActivity) getActivity()).getPresenter().getView().closeDialog();
+    }
+
+    @Override public void signInFailed(String msg) {
+        DialogUtils.showPrompt(getActivity(), msg, "确定");
     }
 }

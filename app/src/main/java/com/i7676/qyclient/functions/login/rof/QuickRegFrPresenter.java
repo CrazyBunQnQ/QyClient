@@ -44,25 +44,26 @@ public class QuickRegFrPresenter extends BasePresenter<QuickRegFrView>
     }
 
     private void quickRegister() {
+        getView().showDialog2User("正在注册...");
         String accountText = getView().getAccountText();
         String passwordText = getView().getPasswordText();
         String passwordConfirmText = getView().getPasswordConfirmText();
 
         // 数据校验
         if (TextUtils.isEmpty(accountText)) {
-            getView().report2User("请输入账号信息");
+            getView().showToast2User("请输入账号信息");
             return;
         }
         if (TextUtils.isEmpty(passwordText)) {
-            getView().report2User("请输入密码");
+            getView().showToast2User("请输入密码");
             return;
         }
         if (TextUtils.isEmpty(passwordConfirmText)) {
-            getView().report2User("请再次输入密码");
+            getView().showToast2User("请再次输入密码");
             return;
         }
         if (!passwordConfirmText.equals(passwordText)) {
-            getView().report2User("两次密码不一致,请从新输入");
+            getView().showToast2User("两次密码不一致,请从新输入");
             return;
         }
 
@@ -78,7 +79,7 @@ public class QuickRegFrPresenter extends BasePresenter<QuickRegFrView>
             .subscribe(new DefaultSubscriber<ReqResult<String>>() {
                 @Override public void onNext(ReqResult<String> reqResult) {
                     if (reqResult.getRet() == 0) {
-                        getView().report2User("注册成功,正在登陆中...");
+                        getView().showDialog2User("注册成功,正在登陆中...");
                     } else {
                         onError(new NetworkErrorException(
                             "[" + reqResult.getRet() + "]" + reqResult.getData()));
@@ -86,7 +87,8 @@ public class QuickRegFrPresenter extends BasePresenter<QuickRegFrView>
                 }
 
                 @Override public void onError(Throwable e) {
-                    getView().report2User("注册失败:" + e.getMessage());
+                    getView().showToast2User("注册失败:" + e.getMessage());
+                    getView().closeDialog();
                 }
 
                 @Override public void onCompleted() {
@@ -102,14 +104,18 @@ public class QuickRegFrPresenter extends BasePresenter<QuickRegFrView>
             .subscribe(new DefaultSubscriber<ReqResult<UserEntity>>() {
                 @Override public void onCompleted() {
                     getView().signInSuccess();
+                    getView().closeDialog();
                 }
 
                 @Override public void onError(Throwable e) {
                     if (e instanceof NetworkErrorException) {
-                        getView().report2User(e.getMessage());
+                        getView().showToast2User(e.getMessage());
                     } else {
                         Logger.e(">>> " + e.getMessage());
-                        getView().report2User("服务器异常，请稍后再试");
+                        getView().showToast2User("登录失败,请手动登录或重新注册");
+                        getView().closeDialog();
+                        getView().signInFailed(
+                            "用户名: " + accountText + "\n" + "密码: " + passwordConfirmText);
                     }
                 }
 

@@ -95,8 +95,8 @@ import javax.inject.Inject;
     }
 
     @Override public void setupUserInfo(UserEntity userEntity) {
-        imgUserBackground.setImageUrlAndAuthorInfo(userEntity.getAvatar(), null,
-            R.mipmap.default_avatar);
+        //imgUserBackground.setImageUrlAndAuthorInfo(userEntity.getAvatar(), null,
+        //    R.mipmap.profile_bgk);
         imgAvatar.setImageUrlAndAuthorInfo(userEntity.getAvatar(), null, R.mipmap.default_avatar);
         tvUserId.setText("ID:767688" + userEntity.getUserid());
         tvUserNickname.setText(userEntity.getNickname());

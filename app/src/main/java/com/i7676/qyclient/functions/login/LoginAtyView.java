@@ -5,13 +5,7 @@ import com.i7676.qyclient.functions.BaseView;
 /**
  * Created by Administrator on 2016/9/20.
  */
-
-/*package*/ public interface LoginAtyView extends BaseView {
-    int LOG_SIGN_IN = 0;
-    int LOG_FORGET_PASSWORD = 1;
-    int LOG_REGISTER = 2;
-
-    // ************************************************** Toolbar
+public interface LoginAtyView extends BaseView {
     void setTitle(String titleText);
 
     void showSignInFr();
@@ -21,4 +15,8 @@ import com.i7676.qyclient.functions.BaseView;
     void showRegisterFr();
 
     void showQuickRegFr();
+
+    void showDialog2User(String msg);
+
+    void closeDialog();
 }

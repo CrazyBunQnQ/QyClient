@@ -16,7 +16,13 @@ public interface QuickRegFrView extends BaseView {
 
     String getPasswordConfirmText();
 
-    void report2User(String msg);
+    void showToast2User(String msg);
 
     void signInSuccess();
+
+    void showDialog2User(String msg);
+
+    void closeDialog();
+
+    void signInFailed(String msg);
 }

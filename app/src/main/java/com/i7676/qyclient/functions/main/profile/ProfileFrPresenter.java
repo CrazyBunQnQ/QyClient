@@ -38,6 +38,7 @@ public class ProfileFrPresenter extends BasePresenter<ProfileFrView>
     }
 
     private void doSignOff() {
+        if (QyClient.curUser == null) return;
         QyClient.curUser = null;
         CREATE_FLAG = true;
         getView().showHomeFr();

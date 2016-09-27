@@ -151,6 +151,14 @@ import javax.inject.Inject;
         mBottomBar.setVisibility(View.GONE);
     }
 
+    @Override public void showDialog2User(String msg) {
+        this.showProcessDialog(msg);
+    }
+
+    @Override public void closeDialog() {
+        this.closeProcessDialog();
+    }
+
     @Override public void onBackPressed() {
         if (mCategoryPopupWindow != null && mCategoryPopupWindow.isShowing()) {
             mCategoryPopupWindow.dismiss();

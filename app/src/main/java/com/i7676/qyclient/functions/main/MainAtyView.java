@@ -36,4 +36,8 @@ public interface MainAtyView extends BaseView {
     void showBottomBar();
 
     void hideBottomBar();
+
+    void showDialog2User(String msg);
+
+    void closeDialog();
 }

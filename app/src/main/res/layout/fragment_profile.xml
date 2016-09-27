@@ -11,6 +11,7 @@
       android:layout_width="0dp"
       android:layout_height="108dp"
       android:scaleType="fitXY"
+      android:src="@mipmap/profile_bgk"
       app:layout_constraintHorizontal_bias="0.0"
       app:layout_constraintLeft_toLeftOf="parent"
       app:layout_constraintRight_toRightOf="parent"
@@ -22,10 +23,10 @@
       android:layout_width="45dp"
       android:layout_height="45dp"
       android:background="@drawable/profile_avatar"
-      app:layout_constraintBottom_toBottomOf="@+id/img_user_bg"
-      app:layout_constraintLeft_toLeftOf="@+id/img_user_bg"
+      app:layout_constraintBottom_toBottomOf="@id/img_user_bg"
+      app:layout_constraintLeft_toLeftOf="@id/img_user_bg"
       app:layout_constraintRight_toRightOf="parent"
-      app:layout_constraintTop_toTopOf="@+id/img_user_bg"
+      app:layout_constraintTop_toTopOf="@id/img_user_bg"
       app:layout_constraintVertical_bias="0.3"
       app:srcCompat="@drawable/game_list_rank_tag"
       />
@@ -36,10 +37,10 @@
       android:layout_marginTop="8dp"
       android:textSize="@dimen/sp_16"
       android:textStyle="bold"
-      app:layout_constraintBottom_toBottomOf="@+id/img_user_bg"
-      app:layout_constraintLeft_toLeftOf="@+id/img_user_bg"
-      app:layout_constraintRight_toRightOf="@+id/img_user_bg"
-      app:layout_constraintTop_toBottomOf="@+id/img_avatar"
+      app:layout_constraintBottom_toBottomOf="@id/img_user_bg"
+      app:layout_constraintLeft_toLeftOf="@id/img_user_bg"
+      app:layout_constraintRight_toRightOf="@id/img_user_bg"
+      app:layout_constraintTop_toBottomOf="@id/img_avatar"
       app:layout_constraintVertical_bias="0.3"
       />
   <TextView
@@ -48,10 +49,10 @@
       android:layout_height="wrap_content"
       android:background="@drawable/profile_id"
       android:textColor="#ffffff"
-      app:layout_constraintBottom_toBottomOf="@+id/img_user_bg"
+      app:layout_constraintBottom_toBottomOf="@id/img_user_bg"
       app:layout_constraintHorizontal_bias="0.1"
       app:layout_constraintLeft_toLeftOf="parent"
-      app:layout_constraintRight_toLeftOf="@+id/img_avatar"
+      app:layout_constraintRight_toLeftOf="@id/img_avatar"
       app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintVertical_bias="0.100000024"
       />
@@ -59,11 +60,11 @@
       android:id="@+id/img_sign_off"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      app:layout_constraintBottom_toBottomOf="@+id/img_user_bg"
+      app:layout_constraintBottom_toBottomOf="@id/img_user_bg"
       app:layout_constraintHorizontal_bias="0.85"
-      app:layout_constraintLeft_toRightOf="@+id/img_avatar"
-      app:layout_constraintRight_toRightOf="@+id/img_user_bg"
-      app:layout_constraintTop_toTopOf="@+id/img_user_bg"
+      app:layout_constraintLeft_toRightOf="@id/img_avatar"
+      app:layout_constraintRight_toRightOf="@id/img_user_bg"
+      app:layout_constraintTop_toTopOf="@id/img_user_bg"
       app:layout_constraintVertical_bias="0.100000024"
       app:srcCompat="@android:drawable/ic_lock_power_off"
       />
@@ -75,7 +76,7 @@
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintLeft_toLeftOf="parent"
       app:layout_constraintRight_toRightOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/img_user_bg"
+      app:layout_constraintTop_toBottomOf="@id/img_user_bg"
       app:layout_constraintVertical_bias="0.0"
       />
 
@@ -84,9 +85,9 @@
       android:layout_width="0dp"
       android:layout_height="wrap_content"
       app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintLeft_toLeftOf="@+id/rv_game_history"
-      app:layout_constraintRight_toRightOf="@+id/rv_game_history"
-      app:layout_constraintTop_toBottomOf="@+id/rv_game_history"
+      app:layout_constraintLeft_toLeftOf="@id/rv_game_history"
+      app:layout_constraintRight_toRightOf="@id/rv_game_history"
+      app:layout_constraintTop_toBottomOf="@id/rv_game_history"
       app:layout_constraintVertical_bias="0.0"
       />
   <TextView
@@ -96,7 +97,7 @@
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintLeft_toLeftOf="parent"
       app:layout_constraintRight_toRightOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/rv_function"
+      app:layout_constraintTop_toBottomOf="@id/rv_function"
       app:layout_constraintVertical_bias="0.0"
       />
   <TextView
@@ -107,7 +108,7 @@
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintLeft_toLeftOf="parent"
       app:layout_constraintRight_toRightOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/tv_contact_cs"
+      app:layout_constraintTop_toBottomOf="@id/tv_contact_cs"
       app:layout_constraintVertical_bias="0.0"
       />
 

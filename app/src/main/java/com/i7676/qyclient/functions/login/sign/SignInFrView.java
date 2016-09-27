@@ -19,4 +19,6 @@ import java.util.List;
     void setActionBarTitle(String actionBarTitle);
 
     void signInFailed(String msg);
+
+    void go2Web(String url);
 }

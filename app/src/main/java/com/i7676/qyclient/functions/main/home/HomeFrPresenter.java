@@ -78,6 +78,9 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
     }
 
     private void initTopBannerData() {
+        // DialogStarted
+        getView().showDialog2User("加载数据中...");
+
         topBanners.clear();
         topBannerSubscription = mYNetApiService.getBanner()
             // 网络请求线程
@@ -89,7 +92,10 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
                 // next
                 getView()::setupTopBanner,
                 // error
-                throwable -> Logger.e(">>> onError:" + throwable.getMessage()),
+                throwable -> {
+                    Logger.e(">>> onError:" + throwable.getMessage());
+                    getView().closeDialog();
+                },
                 // complement
                 () -> Logger.i(">>> onComplement"));
     }
@@ -110,7 +116,10 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
                 // next
                 getView()::setupRCMDBanner,
                 // error
-                throwable -> Logger.e(">>> onError:" + throwable.getMessage()),
+                throwable -> {
+                    Logger.e(">>> onError:" + throwable.getMessage());
+                    getView().closeDialog();
+                },
                 // complement
                 () -> Logger.i(">>> onComplement"));
     }
@@ -146,7 +155,10 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
                 // next
                 getView()::setupFstGCards,
                 // error
-                throwable -> Logger.e(">>> onError:" + throwable.getMessage()),
+                throwable -> {
+                    Logger.e(">>> onError:" + throwable.getMessage());
+                    getView().closeDialog();
+                },
                 // complement
                 () -> Logger.i(">>> onComplement"));
     }
@@ -184,7 +196,10 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
                 // next
                 getView()::setupSndGCards,
                 // error
-                throwable -> Logger.e(">>> onError:" + throwable.getMessage()),
+                throwable -> {
+                    Logger.e(">>> onError:" + throwable.getMessage());
+                    getView().closeDialog();
+                },
                 // complement
                 () -> Logger.i(">>> onComplement"));
         return fstCardEntities;

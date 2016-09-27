@@ -29,4 +29,8 @@ public interface HomeFrView extends BaseView {
     void setBottomBarIndex(int index);
 
     void showOptionsMenu();
+
+    void showDialog2User(String msg);
+
+    void closeDialog();
 }

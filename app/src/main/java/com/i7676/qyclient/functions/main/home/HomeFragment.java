@@ -86,9 +86,11 @@ import javax.inject.Inject;
 
     @Override public void setupFstGCards(List<GameCardEntity> fstGCards) {
         fstGCardAdapter.setNewData(fstGCards);
+        this.closeDialog();
     }
 
     @Override public void setupSndGCards(List<GameCardEntity> sndGCards) {
+        if (sndGCards == null) return;
         sndGCardAdapter.setNewData(sndGCards);
     }
 
@@ -123,5 +125,13 @@ import javax.inject.Inject;
 
     @Override public void showOptionsMenu() {
         ((MainActivity) getActivity()).getPresenter().getView().showOptionsMenu();
+    }
+
+    @Override public void showDialog2User(String msg) {
+        ((MainActivity) getActivity()).showDialog2User(msg);
+    }
+
+    @Override public void closeDialog() {
+        ((MainActivity) getActivity()).closeDialog();
     }
 }

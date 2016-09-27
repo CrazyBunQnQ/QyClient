@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import com.i7676.qyclient.QyClient;
 import com.i7676.qyclient.R;
 import com.i7676.qyclient.annotations.Layout;
@@ -41,7 +42,7 @@ import javax.inject.Inject;
     @Override public void initViews() {
         initInject();
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.toolbarLayout);
         mToolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(mToolbar);
     }
@@ -87,11 +88,23 @@ import javax.inject.Inject;
         navigator.showQuickRegFr();
     }
 
+    @Override public void showDialog2User(String msg) {
+        this.showProcessDialog(msg);
+    }
+
+    @Override public void closeDialog() {
+        this.closeProcessDialog();
+    }
+
     public LoginAtyComponent getAtyComponent() {
         return atyComponent;
     }
 
     @Override public void onBackPressed() {
         navigator.onBackPress();
+    }
+
+    public void eatAnyClick(View v) {
+        com.orhanobut.logger.Logger.i(">>> eat it. :D");
     }
 }

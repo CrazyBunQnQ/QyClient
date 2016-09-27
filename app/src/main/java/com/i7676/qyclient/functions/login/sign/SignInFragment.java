@@ -15,6 +15,7 @@ import com.i7676.qyclient.R;
 import com.i7676.qyclient.annotations.Layout;
 import com.i7676.qyclient.entity.AccountEntity;
 import com.i7676.qyclient.functions.BaseFragment;
+import com.i7676.qyclient.functions.h5game.PlayGameActivity;
 import com.i7676.qyclient.functions.login.LoginActivity;
 import com.i7676.qyclient.functions.login.sign.adapter.SignWayAdapter;
 import com.i7676.qyclient.functions.login.sign.entity.SignWayEntity;
@@ -113,6 +114,12 @@ import java.util.List;
 
     @Override public void signInFailed(String msg) {
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override public void go2Web(String url) {
+        Bundle args = new Bundle();
+        args.putString(PlayGameActivity.GAME_URL, url);
+        getActivity().startActivity(PlayGameActivity.buildIntent(getContext(), args));
     }
 
     private AccountEntity buildAccountInfo() {

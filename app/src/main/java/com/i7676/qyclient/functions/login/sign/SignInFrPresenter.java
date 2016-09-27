@@ -3,6 +3,7 @@ package com.i7676.qyclient.functions.login.sign;
 import android.accounts.NetworkErrorException;
 import com.i7676.qyclient.QyClient;
 import com.i7676.qyclient.R;
+import com.i7676.qyclient.api.YNetApiService;
 import com.i7676.qyclient.api.wechat.WXAPIEventHandlerImp;
 import com.i7676.qyclient.api.wechat.WXUserInfoResponse;
 import com.i7676.qyclient.entity.AccountEntity;
@@ -11,7 +12,6 @@ import com.i7676.qyclient.entity.UserEntity;
 import com.i7676.qyclient.functions.BasePresenter;
 import com.i7676.qyclient.functions.login.sign.adapter.SignWayAdapter;
 import com.i7676.qyclient.functions.login.sign.entity.SignWayEntity;
-import com.i7676.qyclient.api.YNetApiService;
 import com.orhanobut.logger.Logger;
 import java.util.ArrayList;
 import javax.inject.Inject;
@@ -102,6 +102,7 @@ public class SignInFrPresenter extends BasePresenter<SignInFrView>
     }
 
     private void doSignInWithWx() {
+        //getView().go2Web("http://h5.7676.com/mapiindex.php?m=members&c=loginapi&a=wxLogin");
         wxapiEventHandlerImp.setWXUserInfoCallback(mWXUserInfoCallback);
         wxapiEventHandlerImp.loginAndRegister();
     }
