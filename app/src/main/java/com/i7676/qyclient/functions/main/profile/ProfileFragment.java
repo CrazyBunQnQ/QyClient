@@ -3,7 +3,6 @@ package com.i7676.qyclient.functions.main.profile;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,7 +37,7 @@ import javax.inject.Inject;
     private ImageView imgSignOff;
     private TextView tvUserId;
     private TextView tvUserNickname;
-    private NonScrollableRecyclerView gameHistoryList;
+    //private NonScrollableRecyclerView gameHistoryList;
     private NonScrollableRecyclerView functionList;
     private TextView tvContactCS;
     private TextView tvAboutUs;
@@ -52,7 +51,6 @@ import javax.inject.Inject;
         imgSignOff = (ImageView) rootView.findViewById(R.id.img_sign_off);
         tvUserId = (TextView) rootView.findViewById(R.id.tv_user_id);
         tvUserNickname = (TextView) rootView.findViewById(R.id.tv_user_nick);
-        gameHistoryList = (NonScrollableRecyclerView) rootView.findViewById(R.id.rv_game_history);
         functionList = (NonScrollableRecyclerView) rootView.findViewById(R.id.rv_function);
         tvContactCS = (TextView) rootView.findViewById(R.id.tv_contact_cs);
         tvAboutUs = (TextView) rootView.findViewById(R.id.tv_about_us);
@@ -61,10 +59,6 @@ import javax.inject.Inject;
         imgSignOff.setOnClickListener(getPresenter());
         tvContactCS.setOnClickListener(getPresenter());
         tvAboutUs.setOnClickListener(getPresenter());
-
-        gameHistoryList.setLayoutManager(
-            new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, true));
-        gameHistoryList.setAdapter(categoryAdapter);
 
         functionList.setLayoutManager(new GridLayoutManager(getContext(), 2));
         functionList.setAdapter(categoryAdapter);
@@ -104,14 +98,6 @@ import javax.inject.Inject;
 
     @Override public void setupGameHistory() {
 
-    }
-
-    @Override public void hideGameHistory() {
-        gameHistoryList.setVisibility(View.GONE);
-    }
-
-    @Override public void showGameHistory() {
-        gameHistoryList.setVisibility(View.VISIBLE);
     }
 
     @Override public void setupFunctionPanel() {

@@ -22,10 +22,10 @@ public class ViewUtil {
         // init content view
         final NonScrollableRecyclerView categoryList = new NonScrollableRecyclerView(ctx);
         ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
+            ViewGroup.LayoutParams.WRAP_CONTENT);
         categoryList.setLayoutParams(lp);
         categoryList.setBackgroundColor(Color.WHITE);
-        categoryList.setLayoutManager(new GridLayoutManager(ctx, 4));
+        categoryList.setLayoutManager(new GridLayoutManager(ctx, 2));
         categoryList.setHasFixedSize(true);
         categoryList.setAdapter(adapter);
 

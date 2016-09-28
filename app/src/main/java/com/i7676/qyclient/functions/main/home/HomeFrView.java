@@ -2,6 +2,8 @@ package com.i7676.qyclient.functions.main.home;
 
 import com.i7676.qyclient.entity.CategoryEntity;
 import com.i7676.qyclient.entity.GameCardEntity;
+import com.i7676.qyclient.entity.GameEntity;
+import com.i7676.qyclient.entity.RankingGameEntity;
 import com.i7676.qyclient.functions.BaseView;
 import java.util.List;
 
@@ -20,7 +22,11 @@ public interface HomeFrView extends BaseView {
 
     void setupCategory(List<CategoryEntity> categoryEntities);
 
+    void setupGameGrid(GameEntity gameEntity);
+
     void setActionBarTitle(String titleText);
+
+    void setupUserPlayedHistory(List<RankingGameEntity> gameEntities);
 
     void showActionBar();
 

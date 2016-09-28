@@ -71,6 +71,7 @@ import com.i7676.qyclient.util.RandomUtils;
 
     @Override public void showToast2User(String msg) {
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+        this.closeDialog();
     }
 
     @Override public void signInSuccess() {

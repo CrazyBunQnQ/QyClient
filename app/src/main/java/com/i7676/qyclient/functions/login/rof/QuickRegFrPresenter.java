@@ -88,7 +88,6 @@ public class QuickRegFrPresenter extends BasePresenter<QuickRegFrView>
 
                 @Override public void onError(Throwable e) {
                     getView().showToast2User("注册失败:" + e.getMessage());
-                    getView().closeDialog();
                 }
 
                 @Override public void onCompleted() {
@@ -113,7 +112,6 @@ public class QuickRegFrPresenter extends BasePresenter<QuickRegFrView>
                     } else {
                         Logger.e(">>> " + e.getMessage());
                         getView().showToast2User("登录失败,请手动登录或重新注册");
-                        getView().closeDialog();
                         getView().signInFailed(
                             "用户名: " + accountText + "\n" + "密码: " + passwordConfirmText);
                     }

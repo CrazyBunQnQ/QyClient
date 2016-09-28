@@ -66,7 +66,7 @@ public class MainAtyNavigator {
     }
 
     private void transform(int index, BaseFragment fragment) {
-        cacheFragment(index, fragment);
+        //cacheFragment(index, fragment);
         mAty.getSupportFragmentManager()
             .beginTransaction()
             .replace(mAty.getFrPlaceHolderResId(), fragment, fragment.getClass().getCanonicalName())

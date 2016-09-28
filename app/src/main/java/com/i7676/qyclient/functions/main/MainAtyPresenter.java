@@ -2,29 +2,20 @@ package com.i7676.qyclient.functions.main;
 
 import android.support.annotation.IdRes;
 import com.i7676.qyclient.R;
-import com.i7676.qyclient.entity.CategoryEntity;
+import com.i7676.qyclient.api.YNetApiService;
 import com.i7676.qyclient.functions.BasePresenter;
 import com.i7676.qyclient.functions.main.navigation.MainAtyNavigator;
-import com.i7676.qyclient.api.EgretApiService;
 import com.roughike.bottombar.OnTabSelectListener;
-import java.util.ArrayList;
 import javax.inject.Inject;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2016/9/19.
  */
 public class MainAtyPresenter extends BasePresenter<MainAtyView> implements OnTabSelectListener {
 
-    public static ArrayList<CategoryEntity> CATEGORIES = new ArrayList<CategoryEntity>() {
-        {
-            add(new CategoryEntity("http://cdn-img.easyicon.net/png/11324/1132448.gif", "最新上线"));
-            add(new CategoryEntity("http://cdn-img.easyicon.net/png/11324/1132435.gif", "网络游戏"));
-            add(new CategoryEntity("http://cdn-img.easyicon.net/png/11324/1132444.gif", "小游戏"));
-            add(new CategoryEntity("http://cdn-img.easyicon.net/png/11324/1132433.gif", "专题游戏"));
-        }
-    };
-
-    @Inject EgretApiService mEgretApiService;
+    @Inject YNetApiService mYNetApiService;
     @Inject MainAtyNavigator navigator;
 
     // Activity的生命周期被Presenter来接管了
@@ -43,7 +34,17 @@ public class MainAtyPresenter extends BasePresenter<MainAtyView> implements OnTa
     }
 
     private void reqCategoryData() {
-        getView().setupCategoryPopupWindow(CATEGORIES);
+        mYNetApiService.getCategory()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .map(reqResult -> {
+                if (reqResult.getRet() == 0) {
+                    return reqResult.getData();
+                } else {
+                    throw new NullPointerException("ERROR: MainAtyPresenter#reqCategoryData");
+                }
+            })
+            .subscribe(getView()::setupCategoryPopupWindow);
     }
 
     @Override public void onTabSelected(@IdRes int tabId) {

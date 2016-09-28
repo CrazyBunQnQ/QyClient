@@ -21,9 +21,5 @@ public interface ProfileFrView extends BaseView {
 
     void setupGameHistory();
 
-    void hideGameHistory();
-
-    void showGameHistory();
-
     void setupFunctionPanel();
 }

@@ -18,8 +18,8 @@ public class CategoryAdapter extends BaseQuickAdapter<CategoryEntity> {
 
     @Override protected void convert(BaseViewHolder baseViewHolder, CategoryEntity categoryEntity) {
         ((AutoLoadImageView) baseViewHolder.getConvertView()
-            .findViewById(R.id.category_img)).setImageUrlAndAuthorInfo(categoryEntity.getImageURL(),
+            .findViewById(R.id.category_img)).setImageUrlAndAuthorInfo(categoryEntity.getThumb(),
             null);
-        baseViewHolder.setText(R.id.category_text, categoryEntity.getCategoryText());
+        baseViewHolder.setText(R.id.category_text, categoryEntity.getCatName());
     }
 }

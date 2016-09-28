@@ -8,6 +8,8 @@ import com.i7676.qyclient.functions.main.activity.ActivityFragment;
 import com.i7676.qyclient.functions.main.adapters.ActivityFrAdapter;
 import com.i7676.qyclient.functions.main.adapters.CategoryAdapter;
 import com.i7676.qyclient.functions.main.adapters.GameCardAdapter;
+import com.i7676.qyclient.functions.main.adapters.GameGridAdapter;
+import com.i7676.qyclient.functions.main.adapters.GameHistoryAdapter;
 import com.i7676.qyclient.functions.main.home.HomeFrPresenter;
 import com.i7676.qyclient.functions.main.home.HomeFragment;
 import com.i7676.qyclient.functions.main.navigation.MainAtyNavigator;
@@ -45,7 +47,11 @@ public interface MainAtyComponent {
 
     CategoryAdapter getCategoryAdapter();
 
+    GameHistoryAdapter getGameHistoryAdapter();
+
     GameCardAdapter getGameCardAdapter();
+
+    GameGridAdapter getGameGridAdapter();
 
     ActivityFrAdapter getActivityFrAdapter();
 }

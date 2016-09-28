@@ -5,16 +5,7 @@
     android:layout_height="match_parent"
     android:layout_margin="8dp"
     >
-  <TextView
-      android:id="@+id/tv_gameText"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintLeft_toLeftOf="parent"
-      app:layout_constraintRight_toRightOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/img_gameIcon"
-      app:layout_constraintVertical_bias="0.100000024"
-      />
+
   <ImageView
       android:id="@+id/img_gameIcon"
       android:layout_width="wrap_content"
@@ -26,4 +17,15 @@
       app:layout_constraintVertical_bias="0.26"
       app:srcCompat="@mipmap/placeholder"
       />
+  <TextView
+      android:id="@+id/tv_gameText"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintRight_toRightOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/img_gameIcon"
+      app:layout_constraintVertical_bias="0.100000024"
+      />
+
 </android.support.constraint.ConstraintLayout>

@@ -6,6 +6,8 @@ import com.i7676.qyclient.annotations.PerActivity;
 import com.i7676.qyclient.functions.main.adapters.ActivityFrAdapter;
 import com.i7676.qyclient.functions.main.adapters.CategoryAdapter;
 import com.i7676.qyclient.functions.main.adapters.GameCardAdapter;
+import com.i7676.qyclient.functions.main.adapters.GameGridAdapter;
+import com.i7676.qyclient.functions.main.adapters.GameHistoryAdapter;
 import com.i7676.qyclient.functions.main.navigation.MainAtyNavigator;
 import dagger.Module;
 import dagger.Provides;
@@ -42,7 +44,15 @@ import java.util.ArrayList;
         return new CategoryAdapter(R.layout.item_game_category, new ArrayList<>());
     }
 
+    @Provides GameHistoryAdapter providedGameHistoryAdapter() {
+        return new GameHistoryAdapter(R.layout.item_game_category, new ArrayList<>());
+    }
+
     @Provides GameCardAdapter providedGameCardAdapter() {
         return new GameCardAdapter(R.layout.item_game_card, new ArrayList<>());
+    }
+
+    @Provides GameGridAdapter providedGameGridAdapter() {
+        return new GameGridAdapter(R.layout.item_game_list_grid, new ArrayList<>());
     }
 }

@@ -2,21 +2,24 @@ package com.i7676.qyclient.functions.main.home;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.i7676.qyclient.QyClient;
+import com.i7676.qyclient.api.EgretApiService;
+import com.i7676.qyclient.api.YNetApiService;
 import com.i7676.qyclient.entity.BannerEntity;
 import com.i7676.qyclient.entity.GameCardEntity;
 import com.i7676.qyclient.entity.GameEntity;
 import com.i7676.qyclient.functions.BasePresenter;
-import com.i7676.qyclient.functions.main.MainAtyPresenter;
 import com.i7676.qyclient.functions.main.MainAtyView;
-import com.i7676.qyclient.api.EgretApiService;
-import com.i7676.qyclient.api.YNetApiService;
 import com.i7676.qyclient.rx.ServerCallbackHandler;
 import com.i7676.qyclient.util.ColorConstants;
 import com.i7676.qyclient.widgets.ObservableScrollView;
 import com.orhanobut.logger.Logger;
 import com.recker.flybanner.FlyBanner;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import rx.Observable;
@@ -36,6 +39,7 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
     private Subscription topBannerSubscription;
     private Subscription RCMDBannerSubscription;
     private Subscription gCardsSubscription;
+    private Subscription userPlayedHistory;
 
     private static List<String> DEFAULT_BANNER_IMAGE = new ArrayList<String>() {
         {
@@ -52,8 +56,41 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
 
         toolbarSetup();
         initTopBannerData();
-        initCategory();
-        initFstGCards();
+        //initCategory();
+        //initFstGCards();
+        //initGameGrid();
+        initUserPlayedHistory();
+    }
+
+    void initUserPlayedHistory() {
+        if (QyClient.curUser == null) return;
+
+        Map<String, String> params = new HashMap<>();
+        params.put("page", "1");
+        params.put("size", "10");
+        params.put("token", QyClient.curUser.getToken());
+
+        userPlayedHistory = mYNetApiService.getUserPlayedGames(params)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map(reqResult -> {
+                if (reqResult.getRet() == 0) {
+                    return reqResult.getData();
+                } else {
+                    throw new NullPointerException();
+                }
+            })
+            .subscribe(getView()::setupUserPlayedHistory,
+                // error
+                throwable -> {
+                    Logger.e(">>> onError:" + throwable.getMessage());
+                    getView().closeDialog();
+                },
+                // complement
+                () -> {
+                    Logger.i(">>> onComplement: getGameList");
+                    getView().closeDialog();
+                });
     }
 
     @Override protected void onDestroy() {
@@ -61,6 +98,7 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
         doUnsubscribe(topBannerSubscription);
         doUnsubscribe(RCMDBannerSubscription);
         doUnsubscribe(gCardsSubscription);
+        doUnsubscribe(userPlayedHistory);
     }
 
     private void doUnsubscribe(Subscription subscription) {
@@ -79,7 +117,7 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
 
     private void initTopBannerData() {
         // DialogStarted
-        getView().showDialog2User("加载数据中...");
+        //getView().showDialog2User("加载数据中...");
 
         topBanners.clear();
         topBannerSubscription = mYNetApiService.getBanner()
@@ -129,7 +167,7 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
         if (bannerEntities == null) return Observable.just(DEFAULT_BANNER_IMAGE);
 
         topBanners.addAll(bannerEntities);
-        initRCMDBannerData();
+        //initRCMDBannerData();
         ArrayList<String> images = new ArrayList<>();
         for (BannerEntity entity : topBanners) {
             images.add(entity.getImageURL());
@@ -137,8 +175,29 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
         return Observable.just(images);
     }
 
-    private void initCategory() {
-        getView().setupCategory(MainAtyPresenter.CATEGORIES);
+    //private void initCategory() {
+    //    getView().setupCategory(MainAtyPresenter.CATEGORIES);
+    //}
+
+    private void initGameGrid() {
+        gCardsSubscription = mEgretApiService.getGameList("20814")
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map(this::map2GameEntity)
+            .flatMap(Observable::from)
+            .subscribe(
+                // next
+                getView()::setupGameGrid,
+                // error
+                throwable -> {
+                    Logger.e(">>> onError:" + throwable.getMessage());
+                    getView().closeDialog();
+                },
+                // complement
+                () -> {
+                    Logger.i(">>> onComplement");
+                    getView().closeDialog();
+                });
     }
 
     private void initFstGCards() {
@@ -166,7 +225,10 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
     private List<GameEntity> map2GameEntity(Object obj) {
         JSONObject response = JSONObject.parseObject(obj.toString());
         if (response != null && "0".equals(String.valueOf(response.get("code")))) {
-            return JSONArray.parseArray(response.getString("game_list"), GameEntity.class);
+            List<GameEntity> tempList =
+                JSONArray.parseArray(response.getString("game_list"), GameEntity.class);
+            Collections.reverse(tempList);
+            return tempList;
         } else {
             return null;
         }

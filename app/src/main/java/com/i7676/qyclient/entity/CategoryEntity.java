@@ -1,19 +1,31 @@
 package com.i7676.qyclient.entity;
 
 public class CategoryEntity {
-  private String imageURL;
-  private String categoryText;
+    private int catId;
+    private String thumb;
+    private String catName;
 
-  public CategoryEntity(String imageURL, String categoryText) {
-    this.imageURL = imageURL;
-    this.categoryText = categoryText;
-  }
+    public int getCatId() {
+        return catId;
+    }
 
-  public String getImageURL() {
-    return imageURL;
-  }
+    public void setCatId(int catId) {
+        this.catId = catId;
+    }
 
-  public String getCategoryText() {
-    return categoryText;
-  }
+    public String getThumb() {
+        return thumb;
+    }
+
+    public void setThumb(String thumb) {
+        this.thumb = thumb;
+    }
+
+    public String getCatName() {
+        return catName;
+    }
+
+    public void setCatName(String catName) {
+        this.catName = catName;
+    }
 }

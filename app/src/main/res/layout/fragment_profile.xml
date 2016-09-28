@@ -70,17 +70,6 @@
       />
 
   <com.i7676.qyclient.widgets.NonScrollableRecyclerView
-      android:id="@+id/rv_game_history"
-      android:layout_width="0dp"
-      android:layout_height="wrap_content"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintLeft_toLeftOf="parent"
-      app:layout_constraintRight_toRightOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/img_user_bg"
-      app:layout_constraintVertical_bias="0.0"
-      />
-
-  <com.i7676.qyclient.widgets.NonScrollableRecyclerView
       android:id="@+id/rv_function"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
