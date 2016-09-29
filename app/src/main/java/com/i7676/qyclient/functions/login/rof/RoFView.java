@@ -23,4 +23,6 @@ import com.i7676.qyclient.functions.BaseView;
     void report2User(String msg);
 
     void doSignInUp(String accountInfo, String password);
+
+    void freeze();
 }

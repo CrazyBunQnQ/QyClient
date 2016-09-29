@@ -26,4 +26,6 @@ public interface LoginAtyView extends BaseView {
     void signUpFailed(String msg);
 
     void storeUser(UserEntity userEntity);
+
+    void freezeBackEvent();
 }

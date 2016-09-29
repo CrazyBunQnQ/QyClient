@@ -113,6 +113,12 @@ import javax.inject.Inject;
             .saveSerializable(QyClient.CURRENT_USER_SP_TAG, userEntity);
     }
 
+    private boolean freezeTag = false;
+
+    @Override public void freezeBackEvent() {
+        freezeTag = !freezeTag;
+    }
+
     public LoginAtyComponent getAtyComponent() {
         return atyComponent;
     }

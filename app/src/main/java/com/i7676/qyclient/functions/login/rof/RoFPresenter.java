@@ -146,6 +146,7 @@ public class RoFPresenter extends BasePresenter<RoFView> implements View.OnClick
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io());
         getView().captchaBtnCountDown();
+        getView().freeze();
     }
 
     @Override public void onClick(View v) {

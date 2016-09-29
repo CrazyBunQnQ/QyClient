@@ -53,6 +53,7 @@ import com.i7676.qyclient.functions.login.LoginActivity;
                         btnGetVCode.setBackgroundColor(
                             getResources().getColor(R.color.colorPrimary));
                         btnGetVCode.setText("获取验证码");
+                        freeze();
                     } else {
                         btnGetVCode.setText(CAPTCHA_COUNT_DOWN_TIME + "S");
                     }
@@ -138,5 +139,9 @@ import com.i7676.qyclient.functions.login.LoginActivity;
 
     @Override public void doSignInUp(String accountInfo, String password) {
         ((LoginActivity) getActivity()).getPresenter().signInUp(accountInfo, password);
+    }
+
+    @Override public void freeze() {
+        ((LoginActivity) getActivity()).freezeBackEvent();
     }
 }
