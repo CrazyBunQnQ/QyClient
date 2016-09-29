@@ -17,7 +17,6 @@ import com.i7676.qyclient.entity.GameEntity;
 import com.i7676.qyclient.entity.RankingGameEntity;
 import com.i7676.qyclient.functions.BaseFragment;
 import com.i7676.qyclient.functions.main.MainActivity;
-import com.i7676.qyclient.functions.main.adapters.CategoryAdapter;
 import com.i7676.qyclient.functions.main.adapters.GameHistoryAdapter;
 import com.i7676.qyclient.functions.main.adapters.HomeFrVPAdapter;
 import com.i7676.qyclient.widgets.NonScrollableViewPager;
@@ -50,7 +49,6 @@ import javax.inject.Inject;
     private NonScrollableViewPager viewPager;
     private NavigationTabStrip navigationTabStrip;
 
-    @Inject CategoryAdapter categoryAdapter;
     @Inject GameHistoryAdapter gameHistoryAdapter;
     private HomeFrVPAdapter homeFrVPAdapter;
     //@Inject GameCardAdapter fstGCardAdapter;
@@ -120,7 +118,9 @@ import javax.inject.Inject;
     }
 
     @Override public void setupCategory(List<CategoryEntity> categoryEntities) {
-        categoryAdapter.setNewData(categoryEntities);
+        ((MainActivity) getActivity()).getPresenter()
+            .getView()
+            .setupCategoryPopupWindow(categoryEntities);
     }
 
     @Override public void setupGameGrid(GameEntity gameEntity) {
