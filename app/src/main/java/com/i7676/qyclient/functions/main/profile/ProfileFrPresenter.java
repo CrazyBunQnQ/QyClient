@@ -32,7 +32,7 @@ public class ProfileFrPresenter extends BasePresenter<ProfileFrView>
             CREATE_FLAG = false;
         } else {
             getView().setupUserInfo(QyClient.curUser == null ? DEFAULT_USER : QyClient.curUser);
-            getView().setupGameHistory();
+            //getView().setupGameHistory();
             getView().setupFunctionPanel();
         }
     }
@@ -41,7 +41,7 @@ public class ProfileFrPresenter extends BasePresenter<ProfileFrView>
         if (QyClient.curUser == null) return;
         QyClient.curUser = null;
         CREATE_FLAG = true;
-        getView().showHomeFr();
+        getView().doSignOff();
     }
 
     @Override public void onClick(View v) {

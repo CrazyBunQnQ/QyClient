@@ -21,7 +21,7 @@
         android:layout_below="@id/toolbarLayout"
         />
 
-    <com.i7676.qyclient.widgets.NonScrollableRecyclerView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_game_history"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

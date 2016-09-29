@@ -10,15 +10,9 @@ import java.util.List;
 
 /*package*/ interface SignInFrView extends BaseView {
 
-    void signInSuccess();
-
     void render3rdPartySignInWay(List<SignWayEntity> signWayEntities);
 
-    void finishAty();
-
     void setActionBarTitle(String actionBarTitle);
-
-    void signInFailed(String msg);
 
     void go2Web(String url);
 }

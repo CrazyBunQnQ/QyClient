@@ -38,4 +38,6 @@ public final class LoginConstants {
     int ACCOUNT_ALREADY_EXIST = -12;
     // 昵称为空
     int NICKNAME_IS_NULL = -13;
+    // 请求数据为空
+    int RESPONSE_DATA_IS_NULL = -14;
 }

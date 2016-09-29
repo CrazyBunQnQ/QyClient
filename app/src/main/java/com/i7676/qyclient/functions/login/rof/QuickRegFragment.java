@@ -89,4 +89,8 @@ import com.i7676.qyclient.util.RandomUtils;
     @Override public void signInFailed(String msg) {
         DialogUtils.showPrompt(getActivity(), msg, "确定");
     }
+
+    @Override public void doSignInUp(String accountInfo, String password) {
+        ((LoginActivity) getActivity()).getPresenter().signInUp(accountInfo, password);
+    }
 }

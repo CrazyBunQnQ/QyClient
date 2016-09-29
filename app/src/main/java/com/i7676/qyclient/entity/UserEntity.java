@@ -1,10 +1,12 @@
 package com.i7676.qyclient.entity;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2016/9/21.
  */
 
-public class UserEntity {
+public class UserEntity implements Serializable {
     private String userid;
     private String groupid;
     private String username;

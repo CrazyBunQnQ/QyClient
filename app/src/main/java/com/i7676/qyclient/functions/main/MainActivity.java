@@ -136,7 +136,7 @@ import javax.inject.Inject;
     }
 
     @Override public void showHomeFr() {
-        getPresenter().showHomeFr();
+        getPresenter().navigator.showHomeFr();
     }
 
     @Override public void setBottomBarIndex(int index) {
@@ -157,6 +157,10 @@ import javax.inject.Inject;
 
     @Override public void closeDialog() {
         this.closeProcessDialog();
+    }
+
+    @Override public void showLogin() {
+        getPresenter().navigator.showLoginAty();
     }
 
     @Override public void onBackPressed() {

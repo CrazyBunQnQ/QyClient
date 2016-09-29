@@ -6,6 +6,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.i7676.qyclient.QyClient;
 import com.i7676.qyclient.R;
 import com.i7676.qyclient.annotations.Layout;
 import com.i7676.qyclient.entity.UserEntity;
@@ -13,6 +14,7 @@ import com.i7676.qyclient.functions.BaseFragment;
 import com.i7676.qyclient.functions.main.MainActivity;
 import com.i7676.qyclient.functions.main.adapters.CategoryAdapter;
 import com.i7676.qyclient.functions.main.navigation.MainAtyNavigator;
+import com.i7676.qyclient.util.SharedPreferencesUtil;
 import com.i7676.qyclient.widgets.AutoLoadImageView;
 import com.i7676.qyclient.widgets.NonScrollableRecyclerView;
 import javax.inject.Inject;
@@ -84,7 +86,9 @@ import javax.inject.Inject;
         navigator.showLoginAty();
     }
 
-    @Override public void showHomeFr() {
+    @Override public void doSignOff() {
+        SharedPreferencesUtil.getInstance(getContext())
+            .saveSerializable(QyClient.CURRENT_USER_SP_TAG, null);
         ((MainActivity) getActivity()).getPresenter().getView().showHomeFr();
     }
 

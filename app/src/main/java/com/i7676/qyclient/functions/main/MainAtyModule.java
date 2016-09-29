@@ -45,7 +45,7 @@ import java.util.ArrayList;
     }
 
     @Provides GameHistoryAdapter providedGameHistoryAdapter() {
-        return new GameHistoryAdapter(R.layout.item_game_category, new ArrayList<>());
+        return new GameHistoryAdapter(R.layout.item_game_history, new ArrayList<>());
     }
 
     @Provides GameCardAdapter providedGameCardAdapter() {

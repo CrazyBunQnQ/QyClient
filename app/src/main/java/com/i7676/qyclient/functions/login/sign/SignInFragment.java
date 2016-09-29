@@ -82,7 +82,8 @@ import java.util.List;
             case R.id.btn_signIn:
                 AccountEntity signInAccount = buildAccountInfo();
                 if (signInAccount == null) break;
-                getPresenter().doSignIn(signInAccount);
+                ((LoginActivity) getActivity()).getPresenter()
+                    .signInUp(signInAccount.getAccount(), signInAccount.getPassword());
                 break;
             case R.id.btn_register:
                 ((LoginActivity) getActivity()).showRegisterFr();
@@ -96,24 +97,12 @@ import java.util.List;
         }
     }
 
-    @Override public void signInSuccess() {
-        getActivity().finish();
-    }
-
     @Override public void render3rdPartySignInWay(List<SignWayEntity> signWayEntities) {
         mSignInWayAdapter.setNewData(signWayEntities);
     }
 
-    @Override public void finishAty() {
-        getActivity().finish();
-    }
-
     @Override public void setActionBarTitle(String actionBarTitle) {
         ((LoginActivity) getActivity()).getPresenter().getView().setTitle(actionBarTitle);
-    }
-
-    @Override public void signInFailed(String msg) {
-        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override public void go2Web(String url) {

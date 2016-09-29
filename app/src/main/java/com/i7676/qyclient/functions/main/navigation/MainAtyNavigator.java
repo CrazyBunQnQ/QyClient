@@ -20,7 +20,7 @@ public class MainAtyNavigator {
 
     private MainActivity mAty;
     private BaseFragment selectedFragment;
-    private int tabIndex;
+    private int tabIndex = -1;
     private SparseArray<BaseFragment> frCached = new SparseArray<>(5);
 
     private MainAtyNavigator(MainActivity mAty) {
@@ -28,12 +28,16 @@ public class MainAtyNavigator {
     }
 
     public void showHomeFr() {
+        if (tabIndex == MainAtyView.TAB_INDEX_HOME) return;
+
         tabIndex = MainAtyView.TAB_INDEX_HOME;
         transform(tabIndex, selectedFragment =
             (frCached.get(tabIndex) != null ? frCached.get(tabIndex) : HomeFragment.create(null)));
     }
 
     public void showActivityFr() {
+        if (tabIndex == MainAtyView.TAB_INDEX_ACTIVITY) return;
+
         tabIndex = MainAtyView.TAB_INDEX_ACTIVITY;
         transform(tabIndex, selectedFragment =
             (frCached.get(tabIndex) != null ? frCached.get(tabIndex)
@@ -45,6 +49,8 @@ public class MainAtyNavigator {
     }
 
     public void showProfileFr() {
+        if (tabIndex == MainAtyView.TAB_INDEX_PROFILE) return;
+
         tabIndex = MainAtyView.TAB_INDEX_PROFILE;
         transform(tabIndex, selectedFragment =
             (frCached.get(tabIndex) != null ? frCached.get(tabIndex)

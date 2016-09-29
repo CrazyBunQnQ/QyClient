@@ -2,6 +2,7 @@ package com.i7676.qyclient.functions;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import net.grandcentrix.thirtyinch.TiActivity;
 
 /**
@@ -10,7 +11,7 @@ import net.grandcentrix.thirtyinch.TiActivity;
 public abstract class BaseActivity<P extends BasePresenter<V>, V extends BaseView>
     extends TiActivity<P, V> implements BaseView {
 
-    private ProgressDialog mDialog;
+    private ProgressDialog mProgressDialog;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,17 +23,17 @@ public abstract class BaseActivity<P extends BasePresenter<V>, V extends BaseVie
     }
 
     protected void showProcessDialog(String msg) {
-        if (mDialog == null) {
-            mDialog = ProgressDialog.show(this, null, msg);
+        if (mProgressDialog == null) {
+            mProgressDialog = ProgressDialog.show(this, null, msg);
         } else {
-            mDialog.setMessage(msg);
+            mProgressDialog.setMessage(msg);
         }
-        mDialog.show();
+        mProgressDialog.show();
     }
 
     protected void closeProcessDialog() {
-        if (mDialog == null || !mDialog.isShowing()) return;
+        if (mProgressDialog == null || !mProgressDialog.isShowing()) return;
 
-        mDialog.dismiss();
+        mProgressDialog.dismiss();
     }
 }

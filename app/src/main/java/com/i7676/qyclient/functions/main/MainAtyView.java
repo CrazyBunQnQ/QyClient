@@ -40,4 +40,6 @@ public interface MainAtyView extends BaseView {
     void showDialog2User(String msg);
 
     void closeDialog();
+
+    void showLogin();
 }

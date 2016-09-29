@@ -8,8 +8,10 @@ import com.i7676.qyclient.api.YNetApiService;
 import com.i7676.qyclient.entity.BannerEntity;
 import com.i7676.qyclient.entity.GameCardEntity;
 import com.i7676.qyclient.entity.GameEntity;
+import com.i7676.qyclient.entity.HomeFrEntity;
 import com.i7676.qyclient.functions.BasePresenter;
 import com.i7676.qyclient.functions.main.MainAtyView;
+import com.i7676.qyclient.rx.DefaultSubscriber;
 import com.i7676.qyclient.rx.ServerCallbackHandler;
 import com.i7676.qyclient.util.ColorConstants;
 import com.i7676.qyclient.widgets.ObservableScrollView;
@@ -40,6 +42,8 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
     private Subscription RCMDBannerSubscription;
     private Subscription gCardsSubscription;
     private Subscription userPlayedHistory;
+    private Subscription userPlayedHistorySubscription;
+    private Subscription indexInfoSubscription;
 
     private static List<String> DEFAULT_BANNER_IMAGE = new ArrayList<String>() {
         {
@@ -53,13 +57,84 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
 
     @Override protected void onWakeUp() {
         super.onWakeUp();
-
         toolbarSetup();
-        initTopBannerData();
+        //initTopBannerData();
         //initCategory();
         //initFstGCards();
         //initGameGrid();
-        initUserPlayedHistory();
+        //initUserPlayedHistory();
+        renderData2View();
+    }
+
+    @Override protected void onSleep() {
+        super.onSleep();
+        //doUnsubscribe(topBannerSubscription);
+        //doUnsubscribe(RCMDBannerSubscription);
+        //doUnsubscribe(gCardsSubscription);
+        //doUnsubscribe(userPlayedHistory);
+        doUnsubscribe(indexInfoSubscription);
+    }
+
+    void renderData2View() {
+        Map<String, String> params = new HashMap<>();
+        if (QyClient.curUser != null) {
+            params.put("token", QyClient.curUser.getToken());
+        }
+
+        // 清空banner holder
+        topBanners.clear();
+
+        indexInfoSubscription = mYNetApiService.getIndexInfo(params)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map(reqResult -> {
+                if (reqResult.getRet() == 0) {
+                    return reqResult.getData();
+                } else {
+                    throw new NullPointerException("Server error: [" + reqResult.getRet() + "]");
+                }
+            })
+            .subscribe(new DefaultSubscriber<HomeFrEntity>() {
+                @Override public void onStart() {
+                    super.onStart();
+                    Logger.i(">>> 首页信息获取成功,正在解析...");
+                    getView().showDialog2User("加载中...");
+                }
+
+                @Override public void onNext(HomeFrEntity homeFrEntity) {
+                    super.onNext(homeFrEntity);
+                    // banner
+                    topBanners.addAll(homeFrEntity.getBanner());
+                    ArrayList<String> images = new ArrayList<>();
+                    for (BannerEntity entity : topBanners) {
+                        images.add(entity.getImageURL());
+                    }
+                    getView().setupTopBanner(images);
+                    // played history
+                    getView().setupUserPlayedHistory(homeFrEntity.getHistory());
+                    // category
+                    getView().setupCategory(homeFrEntity.getCategory());
+                    // newest
+                    getView().renderGameRanking(ShowGameFragment.SHOW_CATEGORY_NEWEST,
+                        homeFrEntity.getNewgame());
+                    // hottest
+                    getView().renderGameRanking(ShowGameFragment.SHOW_CATEGORY_HOTTEST,
+                        homeFrEntity.getHotgame());
+                }
+
+                @Override public void onError(Throwable e) {
+                    super.onError(e);
+                    Logger.i(">>> 首页信息获取成功,正在解析错误: " + e.getMessage());
+                    //getView().closeDialog();
+                    getView().serverFuckedUp();
+                }
+
+                @Override public void onCompleted() {
+                    super.onCompleted();
+                    Logger.i(">>> 首页信息获取成功,正在解析完成.");
+                    getView().closeDialog();
+                }
+            });
     }
 
     void initUserPlayedHistory() {
@@ -91,14 +166,6 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
                     Logger.i(">>> onComplement: getGameList");
                     getView().closeDialog();
                 });
-    }
-
-    @Override protected void onDestroy() {
-        super.onDestroy();
-        doUnsubscribe(topBannerSubscription);
-        doUnsubscribe(RCMDBannerSubscription);
-        doUnsubscribe(gCardsSubscription);
-        doUnsubscribe(userPlayedHistory);
     }
 
     private void doUnsubscribe(Subscription subscription) {

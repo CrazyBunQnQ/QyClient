@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.i7676.qyclient.QyClient;
 import com.i7676.qyclient.R;
 import com.i7676.qyclient.entity.RankingGameEntity;
 import com.i7676.qyclient.functions.h5game.PlayGameActivity;
+import com.i7676.qyclient.functions.main.MainActivity;
 import com.i7676.qyclient.util.ValueMapper;
 import com.i7676.qyclient.widgets.AutoLoadImageView;
 import java.util.List;
@@ -23,7 +25,7 @@ public class GameGridAdapter extends BaseQuickAdapter<RankingGameEntity> {
 
     @Override protected void convert(BaseViewHolder baseViewHolder, RankingGameEntity gameEntity) {
         ((AutoLoadImageView) baseViewHolder.getConvertView()
-            .findViewById(R.id.img_game_logo)).setImageUrlAndAuthorInfo(gameEntity.getGameIco(),
+            .findViewById(R.id.img_game_logo)).setImageUrlAndAuthorInfo(gameEntity.getThumb(),
             null);
         baseViewHolder.setText(R.id.tv_game_name, gameEntity.getCatname())
             .setText(R.id.tv_game_type, ValueMapper.parseIsWebGame(gameEntity.getIswebgame()))
@@ -44,8 +46,14 @@ public class GameGridAdapter extends BaseQuickAdapter<RankingGameEntity> {
         }
 
         @Override public void onClick(View v) {
+            if (QyClient.curUser == null) {
+                ((MainActivity) mContext).showLogin();
+                return;
+            }
+
             Bundle args = new Bundle();
-            args.putString(PlayGameActivity.GAME_URL, gameUrl);
+            args.putString(PlayGameActivity.GAME_URL,
+                gameUrl + "&token=" + QyClient.curUser.getToken());
             mContext.startActivity(PlayGameActivity.buildIntent(mContext, args));
         }
     }

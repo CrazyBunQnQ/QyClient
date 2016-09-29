@@ -1,9 +1,12 @@
 package com.i7676.qyclient.functions.main.home;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import com.gigamole.navigationtabstrip.NavigationTabStrip;
 import com.i7676.qyclient.R;
@@ -17,10 +20,10 @@ import com.i7676.qyclient.functions.main.MainActivity;
 import com.i7676.qyclient.functions.main.adapters.CategoryAdapter;
 import com.i7676.qyclient.functions.main.adapters.GameHistoryAdapter;
 import com.i7676.qyclient.functions.main.adapters.HomeFrVPAdapter;
-import com.i7676.qyclient.widgets.NonScrollableRecyclerView;
 import com.i7676.qyclient.widgets.NonScrollableViewPager;
 import com.i7676.qyclient.widgets.ObservableScrollView;
 import com.recker.flybanner.FlyBanner;
+import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 
@@ -43,12 +46,13 @@ import javax.inject.Inject;
     //private NonScrollableRecyclerView categoryRecyclerView;
     //private NonScrollableRecyclerView fstGCardsRecyclerView;
     //private NonScrollableRecyclerView sndGCardsRecyclerView;
-    private NonScrollableRecyclerView gameHistory;
+    private RecyclerView gameHistory;
     private NonScrollableViewPager viewPager;
     private NavigationTabStrip navigationTabStrip;
 
     @Inject CategoryAdapter categoryAdapter;
     @Inject GameHistoryAdapter gameHistoryAdapter;
+    private HomeFrVPAdapter homeFrVPAdapter;
     //@Inject GameCardAdapter fstGCardAdapter;
     //@Inject GameCardAdapter sndGCardAdapter;
     //@Inject GameGridAdapter gameGridAdapter;
@@ -79,14 +83,15 @@ import javax.inject.Inject;
         //    new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         //sndGCardsRecyclerView.setAdapter(sndGCardAdapter);
 
-        gameHistory = (NonScrollableRecyclerView) rootView.findViewById(R.id.rv_game_history);
+        gameHistory = (RecyclerView) rootView.findViewById(R.id.rv_game_history);
         gameHistory.setLayoutManager(
             new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, true));
         gameHistory.setAdapter(gameHistoryAdapter);
 
         navigationTabStrip = (NavigationTabStrip) rootView.findViewById(R.id.nts);
         viewPager = (NonScrollableViewPager) rootView.findViewById(R.id.vp_home);
-        viewPager.setAdapter(new HomeFrVPAdapter(getChildFragmentManager()));
+        homeFrVPAdapter = new HomeFrVPAdapter(getChildFragmentManager());
+        viewPager.setAdapter(homeFrVPAdapter);
         viewPager.setOffscreenPageLimit(2);
 
         navigationTabStrip.setTitles("热力推荐", "最新上线");
@@ -139,7 +144,7 @@ import javax.inject.Inject;
     @Override public void setupUserPlayedHistory(List<RankingGameEntity> gameEntities) {
         if (gameEntities != null && !gameEntities.isEmpty()) {
             gameHistory.setVisibility(View.VISIBLE);
-            gameHistoryAdapter.addData(gameEntities);
+            gameHistoryAdapter.setNewData(gameEntities);
         } else {
             gameHistory.setVisibility(View.GONE);
         }
@@ -168,4 +173,51 @@ import javax.inject.Inject;
     @Override public void closeDialog() {
         ((MainActivity) getActivity()).closeDialog();
     }
+
+    @Override
+    public void renderGameRanking(int showCategoryType, ArrayList<RankingGameEntity> data) {
+        Bundle args = new Bundle();
+        args.putInt(ShowGameFragment.SHOW_CATEGORY_TYPE, showCategoryType);
+        args.putParcelableArrayList(ShowGameFragment.SHOW_DATA, data);
+        homeFrVPAdapter.addFr(ShowGameFragment.create(args));
+    }
+
+    @Override public void serverFuckedUp() {
+        new Thread() {
+            @Override public void run() {
+                super.run();
+                int i = 10;
+                while (i-- > 0) {
+                    Message mMessage = Message.obtain();
+                    mMessage.what = SERVER_FUCKED_UP;
+                    mMessage.arg1 = i;
+                    mUIHandler.sendMessage(mMessage);
+
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }.start();
+    }
+
+    private static final int SERVER_FUCKED_UP = 0;
+
+    private Handler mUIHandler = new Handler() {
+        @Override public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case SERVER_FUCKED_UP:
+                    ((MainActivity) getActivity()).showDialog2User(
+                        "服务器已爆炸，APP将在" + msg.arg1 + "秒之后自毁...");
+                    break;
+            }
+
+            if (msg.arg1 <= 0) {
+                System.exit(0);
+            }
+        }
+    };
 }

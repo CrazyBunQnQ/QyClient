@@ -25,12 +25,8 @@ public class MainAtyPresenter extends BasePresenter<MainAtyView> implements OnTa
 
     @Override protected void onWakeUp() {
         super.onWakeUp();
-        reqCategoryData();
+        //reqCategoryData();
         navigator.showSelectedFragment();
-    }
-
-    public void showHomeFr() {
-        navigator.showHomeFr();
     }
 
     private void reqCategoryData() {

@@ -17,6 +17,8 @@ public interface LoginAtyComponent {
 
     void inject(LoginActivity activity);
 
+    void inject(LoginAtyPresenter presenter);
+
     void inject(RoFPresenter presenter);
 
     void inject(QuickRegFrPresenter presenter);

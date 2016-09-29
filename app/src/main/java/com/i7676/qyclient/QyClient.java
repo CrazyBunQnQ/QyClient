@@ -2,6 +2,7 @@ package com.i7676.qyclient;
 
 import android.app.Application;
 import com.i7676.qyclient.entity.UserEntity;
+import com.i7676.qyclient.util.SharedPreferencesUtil;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.Settings;
@@ -16,11 +17,16 @@ import javax.inject.Singleton;
     private QyClientComponent mQyClientComponent;
 
     public static UserEntity curUser;
+    public static final String CURRENT_USER_SP_TAG = "CURRENT_USER_SP_TAG";
 
     @Override public void onCreate() {
         super.onCreate();
         initDaggerComponent();
         init3rdPartyLibs(BuildConfig.DEBUG);
+
+        // 载入用户
+        curUser = (UserEntity) SharedPreferencesUtil.getInstance(this)
+            .restoreSerializable(CURRENT_USER_SP_TAG);
     }
 
     private void init3rdPartyLibs(boolean isDebug) {

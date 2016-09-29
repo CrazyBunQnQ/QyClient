@@ -136,7 +136,7 @@ import com.i7676.qyclient.functions.login.LoginActivity;
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
-    @Override public void signInSuccess() {
-        getActivity().finish();
+    @Override public void doSignInUp(String accountInfo, String password) {
+        ((LoginActivity) getActivity()).getPresenter().signInUp(accountInfo, password);
     }
 }

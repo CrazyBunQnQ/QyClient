@@ -18,7 +18,8 @@ public class GameHistoryAdapter extends BaseQuickAdapter<RankingGameEntity> {
 
     @Override protected void convert(BaseViewHolder baseViewHolder, RankingGameEntity gameEntity) {
         ((AutoLoadImageView) baseViewHolder.getConvertView()
-            .findViewById(R.id.category_img)).setImageUrlAndAuthorInfo(gameEntity.getThumb(), null);
+            .findViewById(R.id.category_img)).setImageUrlAndAuthorInfo(gameEntity.getGameIco(),
+            null);
         baseViewHolder.setText(R.id.category_text, gameEntity.getCatname());
     }
 }

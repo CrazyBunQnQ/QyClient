@@ -15,7 +15,7 @@ public interface ProfileFrView extends BaseView {
 
     void showLoginAty();
 
-    void showHomeFr();
+    void doSignOff();
 
     void setupUserInfo(UserEntity userEntity);
 

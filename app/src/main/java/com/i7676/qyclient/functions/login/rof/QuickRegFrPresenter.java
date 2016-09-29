@@ -3,15 +3,12 @@ package com.i7676.qyclient.functions.login.rof;
 import android.accounts.NetworkErrorException;
 import android.text.TextUtils;
 import android.view.View;
-import com.i7676.qyclient.QyClient;
 import com.i7676.qyclient.R;
 import com.i7676.qyclient.api.YNetApiService;
 import com.i7676.qyclient.entity.ReqResult;
-import com.i7676.qyclient.entity.UserEntity;
 import com.i7676.qyclient.functions.BasePresenter;
 import com.i7676.qyclient.functions.login.LoginConstants;
 import com.i7676.qyclient.rx.DefaultSubscriber;
-import com.orhanobut.logger.Logger;
 import java.util.HashMap;
 import javax.inject.Inject;
 import rx.android.schedulers.AndroidSchedulers;
@@ -91,40 +88,7 @@ public class QuickRegFrPresenter extends BasePresenter<QuickRegFrView>
                 }
 
                 @Override public void onCompleted() {
-                    signInUp(accountText, passwordConfirmText);
-                }
-            });
-    }
-
-    private void signInUp(String accountText, String passwordConfirmText) {
-        mYNetApiService.login(accountText, passwordConfirmText)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(new DefaultSubscriber<ReqResult<UserEntity>>() {
-                @Override public void onCompleted() {
-                    getView().signInSuccess();
-                    getView().closeDialog();
-                }
-
-                @Override public void onError(Throwable e) {
-                    if (e instanceof NetworkErrorException) {
-                        getView().showToast2User(e.getMessage());
-                    } else {
-                        Logger.e(">>> " + e.getMessage());
-                        getView().showToast2User("登录失败,请手动登录或重新注册");
-                        getView().signInFailed(
-                            "用户名: " + accountText + "\n" + "密码: " + passwordConfirmText);
-                    }
-                }
-
-                @Override public void onNext(ReqResult<UserEntity> reqResult) {
-                    if (reqResult.getRet() == 0) {
-                        QyClient.curUser = reqResult.getData();
-                        Logger.i(QyClient.curUser.toString());
-                    } else {
-                        onError(
-                            new NetworkErrorException("Request error[" + reqResult.getRet() + "]"));
-                    }
+                    getView().doSignInUp(accountText, passwordConfirmText);
                 }
             });
     }

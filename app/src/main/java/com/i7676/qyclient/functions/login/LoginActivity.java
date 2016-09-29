@@ -7,12 +7,15 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Toast;
 import com.i7676.qyclient.QyClient;
 import com.i7676.qyclient.R;
 import com.i7676.qyclient.annotations.Layout;
+import com.i7676.qyclient.entity.UserEntity;
 import com.i7676.qyclient.functions.BaseActivity;
 import com.i7676.qyclient.functions.login.navigation.LoginNavigator;
 import com.i7676.qyclient.functions.login.rof.RoFFragment;
+import com.i7676.qyclient.util.SharedPreferencesUtil;
 import javax.inject.Inject;
 
 /**
@@ -54,6 +57,7 @@ import javax.inject.Inject;
             .build();
 
         atyComponent.inject(this);
+        atyComponent.inject(getPresenter());
     }
 
     @NonNull @Override public LoginAtyPresenter providePresenter() {
@@ -94,6 +98,19 @@ import javax.inject.Inject;
 
     @Override public void closeDialog() {
         this.closeProcessDialog();
+    }
+
+    @Override public void signUpSuccess() {
+        this.finish();
+    }
+
+    @Override public void signUpFailed(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override public void storeUser(UserEntity userEntity) {
+        SharedPreferencesUtil.getInstance(this)
+            .saveSerializable(QyClient.CURRENT_USER_SP_TAG, userEntity);
     }
 
     public LoginAtyComponent getAtyComponent() {

@@ -5,6 +5,7 @@ import com.i7676.qyclient.entity.GameCardEntity;
 import com.i7676.qyclient.entity.GameEntity;
 import com.i7676.qyclient.entity.RankingGameEntity;
 import com.i7676.qyclient.functions.BaseView;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,4 +40,8 @@ public interface HomeFrView extends BaseView {
     void showDialog2User(String msg);
 
     void closeDialog();
+
+    void renderGameRanking(int showCategoryType, ArrayList<RankingGameEntity> data);
+
+    void serverFuckedUp();
 }

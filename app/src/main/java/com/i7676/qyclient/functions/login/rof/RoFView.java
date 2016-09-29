@@ -22,5 +22,5 @@ import com.i7676.qyclient.functions.BaseView;
 
     void report2User(String msg);
 
-    void signInSuccess();
+    void doSignInUp(String accountInfo, String password);
 }

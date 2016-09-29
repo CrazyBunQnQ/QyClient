@@ -25,4 +25,6 @@ public interface QuickRegFrView extends BaseView {
     void closeDialog();
 
     void signInFailed(String msg);
+
+    void doSignInUp(String accountInfo, String password);
 }

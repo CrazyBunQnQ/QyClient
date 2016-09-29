@@ -2,6 +2,7 @@ package com.i7676.qyclient.api;
 
 import com.i7676.qyclient.entity.BannerEntity;
 import com.i7676.qyclient.entity.CategoryEntity;
+import com.i7676.qyclient.entity.HomeFrEntity;
 import com.i7676.qyclient.entity.RankingGameEntity;
 import com.i7676.qyclient.entity.ReqResult;
 import com.i7676.qyclient.entity.UserEntity;
@@ -37,6 +38,11 @@ public interface YNetApiService {
     String RANKING_GAMES = "mapiindex.php?m=index&c=indexapi";//&getNewGame&page=1&size=10
     // 用户历史数据  &page=1&size=10&token=d
     String USER_PLAYED_GAMES = "mapiindex.php?m=index&c=indexapi&a=getUserGame";
+    // 首页数据集
+    String INDEX = "mapiindex.php?m=index&c=indexapi&a=getIndex";
+
+    @GET(INDEX) Observable<ReqResult<HomeFrEntity>> getIndexInfo(
+        @QueryMap Map<String, String> params);
 
     @GET(USER_PLAYED_GAMES) Observable<ReqResult<List<RankingGameEntity>>> getUserPlayedGames(
         @QueryMap Map<String, String> params);
