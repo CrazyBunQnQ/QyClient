@@ -1,6 +1,7 @@
 package com.i7676.qyclient.functions.h5game;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import com.i7676.qyclient.util.DialogUtils;
 
 public class PlayGameActivity extends AppCompatActivity {
 
@@ -75,6 +77,24 @@ public class PlayGameActivity extends AppCompatActivity {
             mGameView.goBack();
             return true;
         }
+        exitConfirm();
         return super.onKeyDown(keyCode, event);
     }
+
+    void exitConfirm() {
+        DialogUtils.showAlert(this, "提示", "退出游戏并返回主页面？", "确认", confirmListener, "取消",
+            confirmListener);
+    }
+
+    private DialogInterface.OnClickListener confirmListener = (dialog, which) -> {
+        switch (which) {
+            case -1: // 确认
+                finish();
+                break;
+            default:
+            case -2: // 取消
+                dialog.dismiss();
+                break;
+        }
+    };
 }
