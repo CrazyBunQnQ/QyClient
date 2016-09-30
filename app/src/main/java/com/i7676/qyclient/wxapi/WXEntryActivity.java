@@ -14,7 +14,6 @@ import javax.inject.Singleton;
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initInject();
-
         wxapiEventHandlerImp.handleIntent(getIntent());
         finish();
     }

@@ -40,6 +40,13 @@ public interface YNetApiService {
     String USER_PLAYED_GAMES = "mapiindex.php?m=index&c=indexapi&a=getUserGame";
     // 首页数据集
     String INDEX = "mapiindex.php?m=index&c=indexapi&a=getIndex";
+    // 第三方登录请求-微信
+    String WX_SIGN_IN = "mapiindex.php?m=members&c=loginapi&a=thirdLogin&type=wx";
+
+    //&nickname=张三&openid=xxxxxxxxx&iconurl=http://aaaaa"
+    @FormUrlEncoded @POST(WX_SIGN_IN) Observable<ReqResult<UserEntity>> wxSignIn(
+        @Field("openid") String openid, @Field("nickname") String nickname,
+        @Field("iconurl") String iconurl);
 
     @GET(INDEX) Observable<ReqResult<HomeFrEntity>> getIndexInfo(
         @QueryMap Map<String, String> params);

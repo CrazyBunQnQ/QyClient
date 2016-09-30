@@ -14,6 +14,7 @@ import com.i7676.qyclient.QyClient;
 import com.i7676.qyclient.R;
 import com.i7676.qyclient.annotations.Layout;
 import com.i7676.qyclient.entity.AccountEntity;
+import com.i7676.qyclient.entity.UserEntity;
 import com.i7676.qyclient.functions.BaseFragment;
 import com.i7676.qyclient.functions.h5game.PlayGameActivity;
 import com.i7676.qyclient.functions.login.LoginActivity;
@@ -109,6 +110,26 @@ import java.util.List;
         Bundle args = new Bundle();
         args.putString(PlayGameActivity.GAME_URL, url);
         getActivity().startActivity(PlayGameActivity.buildIntent(getContext(), args));
+    }
+
+    @Override public void storeUser(UserEntity userEntity) {
+        ((LoginActivity) getActivity()).storeUser(userEntity);
+    }
+
+    @Override public void signUpSuccess() {
+        ((LoginActivity) getActivity()).signUpSuccess();
+    }
+
+    @Override public void signUpFailed(String str) {
+        ((LoginActivity) getActivity()).signUpFailed(str);
+    }
+
+    @Override public void showDialog2User(String msg) {
+        ((LoginActivity) getActivity()).showDialog2User(msg);
+    }
+
+    @Override public void closeDialog() {
+        ((LoginActivity) getActivity()).closeDialog();
     }
 
     private AccountEntity buildAccountInfo() {

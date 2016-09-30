@@ -106,6 +106,7 @@ import javax.inject.Inject;
 
     @Override public void signUpFailed(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        closeDialog();
     }
 
     @Override public void storeUser(UserEntity userEntity) {

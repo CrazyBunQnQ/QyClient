@@ -5,9 +5,9 @@ package com.i7676.qyclient.api.wechat;
  */
 
 public class WXAccessTokenResponse extends WXBaseEntity {
-    public String accessToken;
-    public long expiresIn;
+    public String access_token;
+    public long expires_in;
     public String openid;
-    public String refreshToken;
+    public String refresh__token;
     public String scope;
 }
