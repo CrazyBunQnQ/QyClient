@@ -2,7 +2,7 @@ package com.i7676.qyclient.functions;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
+import android.widget.Toast;
 import net.grandcentrix.thirtyinch.TiActivity;
 
 /**
@@ -35,5 +35,9 @@ public abstract class BaseActivity<P extends BasePresenter<V>, V extends BaseVie
         if (mProgressDialog == null || !mProgressDialog.isShowing()) return;
 
         mProgressDialog.dismiss();
+    }
+
+    protected void shwoToast2User(String msg, int duration) {
+        Toast.makeText(this, msg, duration).show();
     }
 }

@@ -155,6 +155,10 @@ import javax.inject.Inject;
         this.showProcessDialog(msg);
     }
 
+    @Override public void toast2User(String msg, int duration) {
+        this.shwoToast2User(msg, duration);
+    }
+
     @Override public void closeDialog() {
         this.closeProcessDialog();
     }

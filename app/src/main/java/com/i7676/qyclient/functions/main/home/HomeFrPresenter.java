@@ -390,7 +390,16 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
             Logger.w(">>> Click position is [" + position + "] and topBanners is empty!");
             return;
         }
-        Logger.i(">>> topBannerInfo: " + topBanners.get(position).getDes());
+        BannerEntity target = topBanners.get(position);
+        Logger.i(">>> topBannerInfo: " + target.getDes());
+
+        if (QyClient.curUser == null) {
+            getView().toast2User("请先登录");
+        } else {
+            if (target.getType() == HomeFrView.BANNER_TYPE_H5) {
+                getView().go2PlayH5Game(target.getRemark());
+            }
+        }
     };
 
     private final FlyBanner.OnItemClickListener RCMDBannerListener = position -> {

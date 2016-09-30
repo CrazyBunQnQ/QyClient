@@ -13,6 +13,11 @@ import java.util.List;
  */
 public interface HomeFrView extends BaseView {
 
+    // 首页 Banner 区分位
+    int BANNER_TYPE_H5 = 0;
+    int BANNER_TYPE_APP = 1;
+    int BANNER_TYPE_OTHERS = 2;
+
     void setupTopBanner(List<String> bannerImgURLs);
 
     void setupRCMDBanner(List<String> bannerImgURLs);
@@ -39,9 +44,13 @@ public interface HomeFrView extends BaseView {
 
     void showDialog2User(String msg);
 
+    void toast2User(String msg);
+
     void closeDialog();
 
     void renderGameRanking(int showCategoryType, ArrayList<RankingGameEntity> data);
 
     void serverFuckedUp();
+
+    void go2PlayH5Game(String url);
 }

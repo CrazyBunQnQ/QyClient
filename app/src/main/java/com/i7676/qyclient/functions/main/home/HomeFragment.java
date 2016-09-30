@@ -8,7 +8,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Toast;
 import com.gigamole.navigationtabstrip.NavigationTabStrip;
+import com.i7676.qyclient.QyClient;
 import com.i7676.qyclient.R;
 import com.i7676.qyclient.annotations.Layout;
 import com.i7676.qyclient.entity.CategoryEntity;
@@ -16,6 +18,7 @@ import com.i7676.qyclient.entity.GameCardEntity;
 import com.i7676.qyclient.entity.GameEntity;
 import com.i7676.qyclient.entity.RankingGameEntity;
 import com.i7676.qyclient.functions.BaseFragment;
+import com.i7676.qyclient.functions.h5game.PlayGameActivity;
 import com.i7676.qyclient.functions.main.MainActivity;
 import com.i7676.qyclient.functions.main.adapters.GameHistoryAdapter;
 import com.i7676.qyclient.functions.main.adapters.HomeFrVPAdapter;
@@ -203,6 +206,16 @@ import javax.inject.Inject;
         }.start();
     }
 
+    @Override public void toast2User(String msg) {
+        ((MainActivity) getActivity()).toast2User(msg, Toast.LENGTH_SHORT);
+    }
+
+    @Override public void go2PlayH5Game(String url) {
+        Bundle args = new Bundle();
+        args.putString(PlayGameActivity.GAME_URL, url + "&token=" + QyClient.curUser.getToken());
+        startActivity(PlayGameActivity.buildIntent(getContext(), args));
+    }
+
     private static final int SERVER_FUCKED_UP = 0;
 
     private Handler mUIHandler = new Handler() {
@@ -211,7 +224,7 @@ import javax.inject.Inject;
             switch (msg.what) {
                 case SERVER_FUCKED_UP:
                     ((MainActivity) getActivity()).showDialog2User(
-                        "服务器已爆炸，APP将在" + msg.arg1 + "秒之后自毁...");
+                        "请检查网络状态,或者服务器已爆炸，APP将在" + msg.arg1 + "秒之后自毁...");
                     break;
             }
 

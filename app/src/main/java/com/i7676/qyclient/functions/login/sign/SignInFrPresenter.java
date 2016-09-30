@@ -1,6 +1,8 @@
 package com.i7676.qyclient.functions.login.sign;
 
 import android.accounts.NetworkErrorException;
+import android.os.Handler;
+import android.os.Message;
 import com.i7676.qyclient.QyClient;
 import com.i7676.qyclient.R;
 import com.i7676.qyclient.api.YNetApiService;
@@ -15,7 +17,6 @@ import com.i7676.qyclient.rx.DefaultSubscriber;
 import com.orhanobut.logger.Logger;
 import java.util.ArrayList;
 import javax.inject.Inject;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
@@ -52,7 +53,6 @@ public class SignInFrPresenter extends BasePresenter<SignInFrView>
 
     @Override public void onItemClick(int position, SignWayEntity signWayEntity) {
         Logger.i(">>> [" + position + "] way 2: " + signWayEntity.getText());
-        getView().showDialog2User("加载中...");
         switch (signWayEntity.getType()) {
             case SIGN_IN_WITH_QQ:
                 doSignInWithQQ();
@@ -70,7 +70,7 @@ public class SignInFrPresenter extends BasePresenter<SignInFrView>
     }
 
     private void doSignInWithWx() {
-        //getView().go2Web("http://h5.7676.com/mapiindex.php?m=members&c=loginapi&a=wxLogin");
+        getView().showDialog2User("加载中...");
         wxapiEventHandlerImp.setWXUserInfoCallback(mWXUserInfoCallback);
         wxapiEventHandlerImp.loginAndRegister();
     }
@@ -81,13 +81,13 @@ public class SignInFrPresenter extends BasePresenter<SignInFrView>
     private WXAPIEventHandlerImp.NetCallback<WXUserInfoResponse> mWXUserInfoCallback =
         new WXAPIEventHandlerImp.NetCallback<WXUserInfoResponse>() {
             @Override public void onResponse(WXUserInfoResponse wxUserInfoResponse) {
-                getView().showDialog2User("微信一键登录成功,请稍后...");
                 Logger.i(">>> " + wxUserInfoResponse);
+                UIHandler.sendEmptyMessage(DIALOG_TAG_WX);
                 // 向服务端发送微信用户信息
                 mYNetApiService.wxSignIn(wxUserInfoResponse.openid, wxUserInfoResponse.nickname,
                     wxUserInfoResponse.headimgurl)
                     .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
+                    .observeOn(Schedulers.io())
                     .subscribe(new DefaultSubscriber<ReqResult<UserEntity>>() {
                         @Override public void onCompleted() {
                             getView().storeUser(QyClient.curUser);
@@ -101,6 +101,7 @@ public class SignInFrPresenter extends BasePresenter<SignInFrView>
                                 Logger.e(">>> " + e.getMessage());
                                 getView().signUpFailed("微信登录失败,请稍后再试...");
                             }
+                            UIHandler.sendEmptyMessage(DIALOG_TAG_CLOSE);
                         }
 
                         @Override public void onNext(ReqResult<UserEntity> reqResult) {
@@ -117,7 +118,24 @@ public class SignInFrPresenter extends BasePresenter<SignInFrView>
 
             @Override public void onFailure(Throwable e) {
                 Logger.i(">>> " + e.getMessage());
-                getView().closeDialog();
+                UIHandler.sendEmptyMessage(DIALOG_TAG_CLOSE);
             }
         };
+
+    private static final int DIALOG_TAG_WX = 0;
+    private static final int DIALOG_TAG_CLOSE = 1;
+
+    private Handler UIHandler = new Handler() {
+        @Override public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case DIALOG_TAG_WX:
+                    getView().showDialog2User("微信一键登录成功,请稍后...");
+                    break;
+                case DIALOG_TAG_CLOSE:
+                    getView().closeDialog();
+                    break;
+            }
+        }
+    };
 }
