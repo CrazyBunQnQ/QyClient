@@ -2,11 +2,11 @@ package com.i7676.qyclient.functions.main;
 
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.PopupWindow;
 import com.i7676.qyclient.QyClient;
 import com.i7676.qyclient.R;
@@ -29,7 +29,8 @@ import javax.inject.Inject;
     private Toolbar mToolbar;
     private BottomBar mBottomBar;
     private PopupWindow mCategoryPopupWindow;
-    private EditText etSearch;
+    //private EditText etSearch;
+    private SearchView mSearchView;
     @Inject CategoryAdapter mCategoryAdapter;
 
     // Dagger
@@ -49,7 +50,11 @@ import javax.inject.Inject;
         mBottomBar = (BottomBar) findViewById(R.id.bottomBar);
         mBottomBar.setOnTabSelectListener(getPresenter());
 
-        etSearch = (EditText) findViewById(R.id.et_search);
+        //etSearch = (EditText) findViewById(R.id.et_search);
+        mSearchView = (SearchView) findViewById(R.id.mSearchView);
+        mSearchView.setQueryHint("倚天屠龙");
+        mSearchView.setOnQueryTextListener(getPresenter());
+
 
         mCategoryPopupWindow = ViewUtil.createPopWindow(this, mCategoryAdapter);
     }
@@ -116,12 +121,12 @@ import javax.inject.Inject;
 
     @Override public void hideActionBar() {
         getSupportActionBar().hide();
-        this.etSearch.setVisibility(View.GONE);
+        //this.etSearch.setVisibility(View.GONE);
     }
 
     @Override public void showActionBar() {
         getSupportActionBar().show();
-        this.etSearch.setVisibility(View.VISIBLE);
+        //this.etSearch.setVisibility(View.VISIBLE);
     }
 
     @Override public void hideOptionsMenu() {
@@ -152,15 +157,22 @@ import javax.inject.Inject;
     }
 
     @Override public void showDialog2User(String msg) {
-        this.showProcessDialog(msg);
+        this.showProgressDialog(msg);
     }
 
     @Override public void toast2User(String msg, int duration) {
-        this.shwoToast2User(msg, duration);
+        this.showToast2User(msg, duration);
     }
 
     @Override public void closeDialog() {
-        this.closeProcessDialog();
+        this.closeProgressDialog();
+    }
+
+    @Override public String getKeywords() {
+        return mSearchView.getQuery().toString();
+    }
+
+    @Override public void goSearch(String keywords) {
     }
 
     @Override public void showLogin() {

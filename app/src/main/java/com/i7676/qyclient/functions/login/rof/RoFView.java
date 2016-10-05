@@ -12,11 +12,13 @@ import com.i7676.qyclient.functions.BaseView;
 
     void setupWidgetsHint(String hints[]);
 
-    String getAccountText();
+    String getPhoneNumberText();
 
     String getPasswordText();
 
     String getCaptchaText();
+
+    void clearEditTexts();
 
     void captchaBtnCountDown();
 

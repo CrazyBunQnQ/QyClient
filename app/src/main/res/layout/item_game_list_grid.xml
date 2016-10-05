@@ -82,7 +82,6 @@
       android:layout_width="66dp"
       android:layout_height="24dp"
       android:layout_alignParentRight="true"
-      android:layout_below="@id/img_game_item"
       android:background="@drawable/selector_game_start"
       android:text="开  始"
       android:textColor="#ffffff"

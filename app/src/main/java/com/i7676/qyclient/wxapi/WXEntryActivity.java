@@ -9,16 +9,16 @@ import javax.inject.Singleton;
 
 @Singleton public class WXEntryActivity extends Activity {
 
-    @Inject WXAPIEventHandlerImp wxapiEventHandlerImp;
+  @Inject WXAPIEventHandlerImp wxapiEventHandlerImp;
 
-    @Override public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        initInject();
-        wxapiEventHandlerImp.handleIntent(getIntent());
-        finish();
-    }
+  @Override public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    initInject();
+    wxapiEventHandlerImp.handleIntent(getIntent());
+    finish();
+  }
 
-    private void initInject() {
-        ((QyClient) getApplication()).getClientComponent().inject(this);
-    }
+  private void initInject() {
+    ((QyClient) getApplication()).getClientComponent().inject(this);
+  }
 }

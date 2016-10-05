@@ -1,6 +1,8 @@
 package com.i7676.qyclient.functions.main;
 
 import android.support.annotation.IdRes;
+import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import com.i7676.qyclient.R;
 import com.i7676.qyclient.api.YNetApiService;
 import com.i7676.qyclient.functions.BasePresenter;
@@ -13,7 +15,8 @@ import rx.schedulers.Schedulers;
 /**
  * Created by Administrator on 2016/9/19.
  */
-public class MainAtyPresenter extends BasePresenter<MainAtyView> implements OnTabSelectListener {
+public class MainAtyPresenter extends BasePresenter<MainAtyView>
+    implements OnTabSelectListener, SearchView.OnQueryTextListener {
 
     @Inject YNetApiService mYNetApiService;
     @Inject MainAtyNavigator navigator;
@@ -59,5 +62,15 @@ public class MainAtyPresenter extends BasePresenter<MainAtyView> implements OnTa
                 navigator.showProfileFr();
                 break;
         }
+    }
+
+    @Override public boolean onQueryTextSubmit(String query) {
+        if (TextUtils.isEmpty(query)) return false;
+        navigator.goSearch(query);
+        return true;
+    }
+
+    @Override public boolean onQueryTextChange(String newText) {
+        return false;
     }
 }

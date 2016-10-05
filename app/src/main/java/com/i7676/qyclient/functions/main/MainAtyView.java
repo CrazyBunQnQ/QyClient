@@ -43,5 +43,9 @@ public interface MainAtyView extends BaseView {
 
     void closeDialog();
 
+    String getKeywords();
+
+    void goSearch(String keywords);
+
     void showLogin();
 }

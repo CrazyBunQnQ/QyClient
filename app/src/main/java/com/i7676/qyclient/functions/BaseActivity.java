@@ -22,7 +22,7 @@ public abstract class BaseActivity<P extends BasePresenter<V>, V extends BaseVie
         initViews();
     }
 
-    protected void showProcessDialog(String msg) {
+    protected void showProgressDialog(String msg) {
         if (mProgressDialog == null) {
             mProgressDialog = ProgressDialog.show(this, null, msg);
         } else {
@@ -31,13 +31,16 @@ public abstract class BaseActivity<P extends BasePresenter<V>, V extends BaseVie
         mProgressDialog.show();
     }
 
-    protected void closeProcessDialog() {
+    protected void closeProgressDialog() {
         if (mProgressDialog == null || !mProgressDialog.isShowing()) return;
-
         mProgressDialog.dismiss();
     }
 
-    protected void shwoToast2User(String msg, int duration) {
+    protected void showToast2User(String msg, int duration) {
         Toast.makeText(this, msg, duration).show();
     }
+
+    //protected View.OnClickListener clickAsPressBack = v -> {
+    //    onBackPressed();
+    //};
 }

@@ -1,5 +1,6 @@
 package com.i7676.qyclient.functions.main.navigation;
 
+import android.os.Bundle;
 import android.util.SparseArray;
 import com.i7676.qyclient.functions.BaseFragment;
 import com.i7676.qyclient.functions.login.LoginActivity;
@@ -7,6 +8,7 @@ import com.i7676.qyclient.functions.main.MainActivity;
 import com.i7676.qyclient.functions.main.MainAtyView;
 import com.i7676.qyclient.functions.main.activity.ActivityFragment;
 import com.i7676.qyclient.functions.main.home.HomeFragment;
+import com.i7676.qyclient.functions.main.home.list.GameListActivity;
 import com.i7676.qyclient.functions.main.profile.ProfileFragment;
 
 /**
@@ -46,6 +48,13 @@ public class MainAtyNavigator {
 
     public void showLoginAty() {
         mAty.startActivity(LoginActivity.buildIntent(mAty, null));
+    }
+
+    public void goSearch(String keyword) {
+        final Bundle args = new Bundle();
+        args.putInt(GameListActivity.TAG_TYPE, GameListActivity.SEARCH_TASK);
+        args.putString(GameListActivity.SEARCH_KEYWORD_TAG, keyword);
+        mAty.startActivity(GameListActivity.buildIntent(mAty, args));
     }
 
     public void showProfileFr() {

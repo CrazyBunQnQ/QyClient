@@ -2,6 +2,7 @@ package com.i7676.qyclient.api;
 
 import com.i7676.qyclient.entity.BannerEntity;
 import com.i7676.qyclient.entity.CategoryEntity;
+import com.i7676.qyclient.entity.GameEntity;
 import com.i7676.qyclient.entity.HomeFrEntity;
 import com.i7676.qyclient.entity.RankingGameEntity;
 import com.i7676.qyclient.entity.ReqResult;
@@ -42,6 +43,24 @@ public interface YNetApiService {
     String INDEX = "mapiindex.php?m=index&c=indexapi&a=getIndex";
     // 第三方登录请求-微信
     String WX_SIGN_IN = "mapiindex.php?m=members&c=loginapi&a=thirdLogin&type=wx";
+    // 忘记密码
+    String FORGET_PASSWORD = "mapiindex.php?m=members&c=loginapi&a=forget";
+    // 分类列表游戏数据
+    String CATEGORY_GAME_LIST = "mapiindex.php?m=index&c=indexapi&a=getGame";
+    // 游戏搜索接口
+    String GAME_SEARCH = "mapiindex.php?m=index&c=indexapi&a=searchGame";
+
+    //&name=00
+    @GET(GAME_SEARCH) Observable<ReqResult<List<GameEntity>>> searchByGameName(
+        @Query("name") String gameName);
+
+    //&catid=11&page=1&size=10
+    @GET(CATEGORY_GAME_LIST) Observable<ReqResult<List<GameEntity>>> getCategoryGameList(
+        @QueryMap Map<String, String> params);
+
+    // &mobile=189xxxxxx&password=aaaaa&code=23141
+    @POST(FORGET_PASSWORD) @FormUrlEncoded Observable<ReqResult<Object>> forgetPassword(
+        @FieldMap Map<String, String> params);
 
     //&nickname=张三&openid=xxxxxxxxx&iconurl=http://aaaaa"
     @FormUrlEncoded @POST(WX_SIGN_IN) Observable<ReqResult<UserEntity>> wxSignIn(

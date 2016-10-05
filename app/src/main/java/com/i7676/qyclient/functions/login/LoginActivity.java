@@ -93,11 +93,11 @@ import javax.inject.Inject;
     }
 
     @Override public void showDialog2User(String msg) {
-        this.showProcessDialog(msg);
+        this.showProgressDialog(msg);
     }
 
     @Override public void closeDialog() {
-        this.closeProcessDialog();
+        this.closeProgressDialog();
     }
 
     @Override public void signUpSuccess() {
