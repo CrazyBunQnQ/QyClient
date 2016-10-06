@@ -23,7 +23,7 @@
   <string name="no_token_id">订单号为空或位数不对，请检查输入的订单号！</string>
   <string name="new_token">或生成一个新的测试订单号</string>
   <string name="buy">去财付通支付</string>
-  <string name="loading">正在生成token_id中..</string>
+  <string name="pay_loading">正在生成token_id中..</string>
   <string name="order_query">订单查询</string>
   <string name="order_id">请输入订单号查询</string>
 
@@ -31,7 +31,7 @@
   <string name="action_stream">流水</string>
   <string name="action_count">统计</string>
   <string name="action_share">分享</string>
-  <string name="getting_all_access">正在获取全部订单...</string>
+  <string name="getting_all_access">正在获取全部订单..</string>
   <string name="pay_result_callback_msg" formatted="false">微信支付结果：%s</string>
   <string name="order_success">支付成功</string>
   <string name="action_cancel">你取消了支付</string>

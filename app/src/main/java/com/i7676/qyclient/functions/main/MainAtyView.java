@@ -37,6 +37,8 @@ public interface MainAtyView extends BaseView {
 
     void hideBottomBar();
 
+    void closePopupWindowIfOpening();
+
     void showDialog2User(String msg);
 
     void toast2User(String msg, int duration);
@@ -48,4 +50,6 @@ public interface MainAtyView extends BaseView {
     void goSearch(String keywords);
 
     void showLogin();
+
+    void clearFocus();
 }

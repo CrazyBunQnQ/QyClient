@@ -3,11 +3,15 @@ package com.i7676.qyclient.functions.main.home.list;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
+import com.alibaba.fastjson.JSONArray;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.i7676.qyclient.QyClient;
+import com.i7676.qyclient.api.ServerConstans;
 import com.i7676.qyclient.api.YNetApiService;
+import com.i7676.qyclient.entity.RankingGameEntity;
 import com.i7676.qyclient.functions.BasePresenter;
 import java.util.HashMap;
+import java.util.List;
 import javax.inject.Inject;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -18,6 +22,8 @@ import rx.schedulers.Schedulers;
 
 class GameListAtyPresenter extends BasePresenter<GameListAtyView>
     implements BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
+
+    private static final String NICE_AND_FRIENDLY = ",请稍后再试 :)";
 
     @Inject YNetApiService mYNetApiService;
     private Bundle args;
@@ -31,8 +37,12 @@ class GameListAtyPresenter extends BasePresenter<GameListAtyView>
 
     @Override protected void onWakeUp() {
         super.onWakeUp();
-        int listRenderType = args.getInt(GameListActivity.TAG_TYPE);
         renderTitle();
+        getDataFromCloud();
+    }
+
+    private void getDataFromCloud() {
+        int listRenderType = args.getInt(GameListActivity.TAG_TYPE);
         switch (listRenderType) {
             case GameListActivity.CATEGORY_TASK:
                 requestCategoryGames();
@@ -54,7 +64,7 @@ class GameListAtyPresenter extends BasePresenter<GameListAtyView>
 
     private void requestCategoryGames() {
         HashMap<String, String> params = new HashMap<>();
-        params.put("catid", args.getString(GameListActivity.CATEGORY_ID_TAG));
+        params.put("catid", args.getInt(GameListActivity.CATEGORY_ID_TAG) + "");
         params.put("token", QyClient.curUser.getToken());
         params.put("size", pageSize + "");
         params.put("page", pageNum + "");
@@ -62,7 +72,15 @@ class GameListAtyPresenter extends BasePresenter<GameListAtyView>
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(resp -> {
-                if (resp.getRet() == 0) getView().add2List(resp.getData());
+                if (resp.getRet() == 0) {
+                    List<RankingGameEntity> data =
+                        JSONArray.parseArray(resp.getData().toString(), RankingGameEntity.class);
+                    getView().add2List(data);
+                } else if (resp.getRet() == ServerConstans.RESPONSE_DATA_IS_NULL) {
+                    getView().loadCompleted();
+                } else {
+                    getView().showEmpty(resp.getData().toString() + NICE_AND_FRIENDLY);
+                }
             });
     }
 
@@ -71,7 +89,15 @@ class GameListAtyPresenter extends BasePresenter<GameListAtyView>
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(resp -> {
-                if (resp.getRet() == 0) getView().add2List(resp.getData());
+                if (resp.getRet() == 0) {
+                    List<RankingGameEntity> data =
+                        JSONArray.parseArray(resp.getData().toString(), RankingGameEntity.class);
+                    getView().add2List(data);
+                } else if (resp.getRet() == ServerConstans.RESPONSE_DATA_IS_NULL) {
+                    getView().loadCompleted();
+                } else {
+                    getView().showEmpty(resp.getData().toString() + NICE_AND_FRIENDLY);
+                }
             });
     }
 
@@ -83,6 +109,6 @@ class GameListAtyPresenter extends BasePresenter<GameListAtyView>
     @Override public void onRefresh() {
         pageNum = 1;
         getView().clearList();
-        requestCategoryGames();
+        getDataFromCloud();
     }
 }

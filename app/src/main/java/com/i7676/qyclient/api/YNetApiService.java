@@ -2,7 +2,6 @@ package com.i7676.qyclient.api;
 
 import com.i7676.qyclient.entity.BannerEntity;
 import com.i7676.qyclient.entity.CategoryEntity;
-import com.i7676.qyclient.entity.GameEntity;
 import com.i7676.qyclient.entity.HomeFrEntity;
 import com.i7676.qyclient.entity.RankingGameEntity;
 import com.i7676.qyclient.entity.ReqResult;
@@ -51,11 +50,11 @@ public interface YNetApiService {
     String GAME_SEARCH = "mapiindex.php?m=index&c=indexapi&a=searchGame";
 
     //&name=00
-    @GET(GAME_SEARCH) Observable<ReqResult<List<GameEntity>>> searchByGameName(
+    @GET(GAME_SEARCH) Observable<ReqResult<Object>> searchByGameName(
         @Query("name") String gameName);
 
     //&catid=11&page=1&size=10
-    @GET(CATEGORY_GAME_LIST) Observable<ReqResult<List<GameEntity>>> getCategoryGameList(
+    @GET(CATEGORY_GAME_LIST) Observable<ReqResult<Object>> getCategoryGameList(
         @QueryMap Map<String, String> params);
 
     // &mobile=189xxxxxx&password=aaaaa&code=23141

@@ -3,19 +3,24 @@ package com.i7676.qyclient.functions.main.home.list;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.TextView;
 import com.i7676.qyclient.QyClient;
 import com.i7676.qyclient.R;
 import com.i7676.qyclient.annotations.Layout;
-import com.i7676.qyclient.entity.GameEntity;
+import com.i7676.qyclient.entity.RankingGameEntity;
 import com.i7676.qyclient.functions.BaseActivity;
 import com.i7676.qyclient.functions.main.adapters.GameListAtyAdapter;
+import com.i7676.qyclient.util.DensityUtil;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +49,7 @@ import java.util.List;
     private RecyclerView mRecyclerView;
     private GameListAtyAdapter mAdapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private View emptyView;
+    private View mEmptyView;
     private Toolbar mToolbar;
 
     private GameListAtyComponent atyComponent;
@@ -55,12 +60,12 @@ import java.util.List;
         mRecyclerView = (RecyclerView) findViewById(R.id.mRecyclerView);
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.mSwipeRefreshLayout);
         mToolbar = (Toolbar) findViewById(R.id.toolbarLayout);
-        emptyView = findViewById(R.id.mLayoutEmpty);
+        mEmptyView = findViewById(R.id.mLayoutEmpty);
 
         mToolbar.setTitleTextColor(Color.WHITE);
-        mToolbar.setTitle(DEFAULT_TITLE_TEXT);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+        mToolbar.setNavigationOnClickListener(clickAsPressBack);
 
         mAdapter = new GameListAtyAdapter(R.layout.item_game_list, new ArrayList<>());
         //mAdapter.setEmptyView(emptyView);
@@ -71,6 +76,7 @@ import java.util.List;
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(
             new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        mRecyclerView.addItemDecoration(new SpacesItemDecoration(DensityUtil.dip2px(this, 8.0f)));
     }
 
     private void setupInject() {
@@ -85,8 +91,16 @@ import java.util.List;
         return new GameListAtyPresenter(getIntent().getExtras());
     }
 
-    @Override public void add2List(List<GameEntity> gameEntities) {
+    @Override public void add2List(List<RankingGameEntity> gameEntities) {
+        mRecyclerView.setVisibility(View.VISIBLE);
+        mEmptyView.setVisibility(View.GONE);
         mAdapter.addData(gameEntities);
+        if (mSwipeRefreshLayout.isRefreshing()) mSwipeRefreshLayout.setRefreshing(Boolean.FALSE);
+    }
+
+    @Override public void loadCompleted() {
+        mAdapter.loadComplete();
+        Snackbar.make(mToolbar, "无更多数据", Snackbar.LENGTH_LONG).show();
     }
 
     @Override public void clearList() {
@@ -103,5 +117,36 @@ import java.util.List;
 
     @Override public void closeDialog() {
         this.closeProgressDialog();
+    }
+
+    @Override public void showEmpty(String msg) {
+        if (mSwipeRefreshLayout.isRefreshing()) mSwipeRefreshLayout.setRefreshing(Boolean.FALSE);
+
+        mRecyclerView.setVisibility(View.GONE);
+
+        if (!TextUtils.isEmpty(msg)) {
+            TextView mErrorMsg = (TextView) mEmptyView.findViewById(R.id.tv_error_msg);
+            mErrorMsg.setText(msg);
+        }
+
+        mEmptyView.setVisibility(View.VISIBLE);
+    }
+
+    public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
+        private int space;
+
+        SpacesItemDecoration(int space) {
+            this.space = space;
+        }
+
+        @Override public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
+            RecyclerView.State state) {
+            outRect.left = space;
+            outRect.right = space;
+            outRect.bottom = space;
+
+            // Add top margin only for the first item to avoid double space between items
+            if (parent.getChildAdapterPosition(view) == 0) outRect.top = space;
+        }
     }
 }

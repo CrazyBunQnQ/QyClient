@@ -21,6 +21,10 @@ public class GameHistoryAdapter extends BaseQuickAdapter<RankingGameEntity> {
         openLoadAnimation();
     }
 
+    public void clear() {
+        getData().clear();
+    }
+
     @Override protected void convert(BaseViewHolder baseViewHolder, RankingGameEntity gameEntity) {
         ((AutoLoadImageView) baseViewHolder.getConvertView()
             .findViewById(R.id.category_img)).setImageUrlAndAuthorInfo(gameEntity.getGameIco(),

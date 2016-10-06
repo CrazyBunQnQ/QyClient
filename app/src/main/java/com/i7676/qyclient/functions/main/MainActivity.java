@@ -15,6 +15,7 @@ import com.i7676.qyclient.entity.CategoryEntity;
 import com.i7676.qyclient.functions.BaseActivity;
 import com.i7676.qyclient.functions.main.adapters.CategoryAdapter;
 import com.i7676.qyclient.util.ViewUtil;
+import com.orhanobut.logger.Logger;
 import com.roughike.bottombar.BottomBar;
 import java.util.List;
 import javax.inject.Inject;
@@ -24,6 +25,8 @@ import javax.inject.Inject;
  */
 @Layout(R.layout.activity_main) public class MainActivity
     extends BaseActivity<MainAtyPresenter, MainAtyView> implements MainAtyView {
+
+    public static String DEFAULT_QUERY_TEXT = "倚天屠龙";
 
     // Views
     private Toolbar mToolbar;
@@ -52,9 +55,9 @@ import javax.inject.Inject;
 
         //etSearch = (EditText) findViewById(R.id.et_search);
         mSearchView = (SearchView) findViewById(R.id.mSearchView);
-        mSearchView.setQueryHint("倚天屠龙");
+        mSearchView.setQueryHint(DEFAULT_QUERY_TEXT);
+        mSearchView.clearFocus();
         mSearchView.setOnQueryTextListener(getPresenter());
-
 
         mCategoryPopupWindow = ViewUtil.createPopWindow(this, mCategoryAdapter);
     }
@@ -122,11 +125,13 @@ import javax.inject.Inject;
     @Override public void hideActionBar() {
         getSupportActionBar().hide();
         //this.etSearch.setVisibility(View.GONE);
+        this.mSearchView.setVisibility(View.GONE);
     }
 
     @Override public void showActionBar() {
         getSupportActionBar().show();
         //this.etSearch.setVisibility(View.VISIBLE);
+        this.mSearchView.setVisibility(View.VISIBLE);
     }
 
     @Override public void hideOptionsMenu() {
@@ -138,6 +143,10 @@ import javax.inject.Inject;
     @Override public void showOptionsMenu() {
         opMenuVisibility = true;
         invalidateOptionsMenu();
+    }
+
+    @Override public void closePopupWindowIfOpening() {
+        if (mCategoryPopupWindow.isShowing()) mCategoryPopupWindow.dismiss();
     }
 
     @Override public void showHomeFr() {
@@ -177,6 +186,14 @@ import javax.inject.Inject;
 
     @Override public void showLogin() {
         getPresenter().navigator.showLoginAty();
+    }
+
+    @Override public void clearFocus() {
+        try {
+            this.getCurrentFocus().clearFocus();
+        } catch (Exception e) {
+            Logger.e(">>> clearFocus failed.");
+        }
     }
 
     @Override public void onBackPressed() {

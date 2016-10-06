@@ -1,11 +1,13 @@
 package com.i7676.qyclient.functions.main;
 
+import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import com.i7676.qyclient.R;
 import com.i7676.qyclient.api.YNetApiService;
 import com.i7676.qyclient.functions.BasePresenter;
+import com.i7676.qyclient.functions.main.home.list.GameListActivity;
 import com.i7676.qyclient.functions.main.navigation.MainAtyNavigator;
 import com.roughike.bottombar.OnTabSelectListener;
 import javax.inject.Inject;
@@ -29,6 +31,7 @@ public class MainAtyPresenter extends BasePresenter<MainAtyView>
     @Override protected void onWakeUp() {
         super.onWakeUp();
         //reqCategoryData();
+        getView().clearFocus();
         navigator.showSelectedFragment();
     }
 
@@ -65,9 +68,20 @@ public class MainAtyPresenter extends BasePresenter<MainAtyView>
     }
 
     @Override public boolean onQueryTextSubmit(String query) {
-        if (TextUtils.isEmpty(query)) return false;
-        navigator.goSearch(query);
+        if (TextUtils.isEmpty(query)) {
+            query = MainActivity.DEFAULT_QUERY_TEXT;
+        }
+
+        final Bundle args = new Bundle();
+        args.putString(GameListActivity.TITLE_TEXT_TAG, "搜索结果");
+        args.putInt(GameListActivity.TAG_TYPE, GameListActivity.SEARCH_TASK);
+        args.putString(GameListActivity.SEARCH_KEYWORD_TAG, query);
+        showGameListAty(args);
         return true;
+    }
+
+    public void showGameListAty(Bundle args) {
+        navigator.showGameList(args);
     }
 
     @Override public boolean onQueryTextChange(String newText) {

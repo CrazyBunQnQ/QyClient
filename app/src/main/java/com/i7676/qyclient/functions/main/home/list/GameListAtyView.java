@@ -1,6 +1,6 @@
 package com.i7676.qyclient.functions.main.home.list;
 
-import com.i7676.qyclient.entity.GameEntity;
+import com.i7676.qyclient.entity.RankingGameEntity;
 import com.i7676.qyclient.functions.BaseView;
 import java.util.List;
 
@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface GameListAtyView extends BaseView {
 
-    void add2List(List<GameEntity> gameEntities);
+    void add2List(List<RankingGameEntity> gameEntities);
 
     void clearList();
 
@@ -19,4 +19,8 @@ public interface GameListAtyView extends BaseView {
     void showDialog(String msg);
 
     void closeDialog();
+
+    void showEmpty(String msg);
+
+    void loadCompleted();
 }

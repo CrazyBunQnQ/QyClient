@@ -50,13 +50,10 @@ public class MainAtyNavigator {
         mAty.startActivity(LoginActivity.buildIntent(mAty, null));
     }
 
-    public void goSearch(String keyword) {
-        final Bundle args = new Bundle();
-        args.putInt(GameListActivity.TAG_TYPE, GameListActivity.SEARCH_TASK);
-        args.putString(GameListActivity.SEARCH_KEYWORD_TAG, keyword);
+    public void showGameList(Bundle args) {
+        mAty.closePopupWindowIfOpening();
         mAty.startActivity(GameListActivity.buildIntent(mAty, args));
     }
-
     public void showProfileFr() {
         if (tabIndex == MainAtyView.TAB_INDEX_PROFILE) return;
 

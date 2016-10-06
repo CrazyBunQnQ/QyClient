@@ -46,8 +46,10 @@ import javax.inject.Inject;
         initInject();
 
         mToolbar = (Toolbar) findViewById(R.id.toolbarLayout);
-        mToolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(mToolbar);
+        mToolbar.setTitleTextColor(Color.WHITE);
+        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+        mToolbar.setNavigationOnClickListener(clickAsPressBack);
     }
 
     private void initInject() {

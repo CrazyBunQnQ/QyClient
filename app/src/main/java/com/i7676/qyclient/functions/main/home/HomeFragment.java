@@ -49,6 +49,7 @@ import javax.inject.Inject;
     //private NonScrollableRecyclerView fstGCardsRecyclerView;
     //private NonScrollableRecyclerView sndGCardsRecyclerView;
     private RecyclerView gameHistory;
+    private View gameHistoryHead;
     private NonScrollableViewPager viewPager;
     private NavigationTabStrip navigationTabStrip;
 
@@ -85,6 +86,7 @@ import javax.inject.Inject;
         //sndGCardsRecyclerView.setAdapter(sndGCardAdapter);
 
         gameHistory = (RecyclerView) rootView.findViewById(R.id.rv_game_history);
+        gameHistoryHead = rootView.findViewById(R.id.view_game_history_head);
         gameHistory.setLayoutManager(
             new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, true));
         gameHistory.setAdapter(gameHistoryAdapter);
@@ -147,9 +149,11 @@ import javax.inject.Inject;
     @Override public void setupUserPlayedHistory(List<RankingGameEntity> gameEntities) {
         if (gameEntities != null && !gameEntities.isEmpty()) {
             gameHistory.setVisibility(View.VISIBLE);
+            gameHistoryHead.setVisibility(View.VISIBLE);
             gameHistoryAdapter.setNewData(gameEntities);
         } else {
             gameHistory.setVisibility(View.GONE);
+            gameHistoryHead.setVisibility(View.GONE);
         }
     }
 

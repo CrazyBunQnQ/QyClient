@@ -2,6 +2,7 @@ package com.i7676.qyclient.functions;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 import net.grandcentrix.thirtyinch.TiActivity;
 
@@ -40,7 +41,7 @@ public abstract class BaseActivity<P extends BasePresenter<V>, V extends BaseVie
         Toast.makeText(this, msg, duration).show();
     }
 
-    //protected View.OnClickListener clickAsPressBack = v -> {
-    //    onBackPressed();
-    //};
+    protected View.OnClickListener clickAsPressBack = v -> {
+        onBackPressed();
+    };
 }

@@ -2,10 +2,13 @@ package com.i7676.qyclient.functions.main.adapters;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.i7676.qyclient.QyClient;
 import com.i7676.qyclient.R;
 import com.i7676.qyclient.entity.CategoryEntity;
+import com.i7676.qyclient.functions.main.MainActivity;
 import com.i7676.qyclient.functions.main.home.list.GameListActivity;
 import com.i7676.qyclient.widgets.AutoLoadImageView;
 import java.util.List;
@@ -26,21 +29,29 @@ public class CategoryAdapter extends BaseQuickAdapter<CategoryEntity> {
         baseViewHolder.setText(R.id.category_text, categoryEntity.getCatName());
 
         baseViewHolder.setOnClickListener(R.id.category_img,
-            new YetAnotherClickListener(categoryEntity.getCatId()));
+            new YetAnotherClickListener(categoryEntity.getCatId(), categoryEntity.getCatName()));
     }
 
     private class YetAnotherClickListener implements View.OnClickListener {
         private int categoryId;
+        private String categoryText;
 
-        YetAnotherClickListener(int categoryId) {
+        YetAnotherClickListener(int categoryId, String categoryText) {
             this.categoryId = categoryId;
+            this.categoryText = categoryText;
         }
 
         @Override public void onClick(View v) {
-            Bundle args = new Bundle();
+            if (QyClient.curUser == null) {
+                Toast.makeText(mContext, "请先登录", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            final Bundle args = new Bundle();
+            args.putString(GameListActivity.TITLE_TEXT_TAG, categoryText);
             args.putInt(GameListActivity.TAG_TYPE, GameListActivity.CATEGORY_TASK);
             args.putInt(GameListActivity.CATEGORY_ID_TAG, categoryId);
-            mContext.startActivity(GameListActivity.buildIntent(mContext, args));
+            ((MainActivity) mContext).getPresenter().showGameListAty(args);
         }
     }
 }

@@ -1,14 +1,9 @@
 package com.i7676.qyclient.functions.main.adapters;
 
-import android.os.Bundle;
-import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.i7676.qyclient.QyClient;
 import com.i7676.qyclient.R;
 import com.i7676.qyclient.entity.RankingGameEntity;
-import com.i7676.qyclient.functions.h5game.PlayGameActivity;
-import com.i7676.qyclient.functions.main.MainActivity;
 import com.i7676.qyclient.util.ValueMapper;
 import com.i7676.qyclient.widgets.AutoLoadImageView;
 import java.util.List;
@@ -31,30 +26,9 @@ public class GameGridAdapter extends BaseQuickAdapter<RankingGameEntity> {
             .setText(R.id.tv_game_type, ValueMapper.parseIsWebGame(gameEntity.getIswebgame()))
             .setText(R.id.tv_game_online_count, "|  " + gameEntity.getGameSize() + "人");
 
-        GotoGame mGotoGame = new GotoGame(gameEntity.getHref());
+        GotoGame mGotoGame = new GotoGame(mContext, gameEntity.getHref());
 
         baseViewHolder.setOnClickListener(R.id.img_game_logo, mGotoGame);
         baseViewHolder.setOnClickListener(R.id.btn_game_start, mGotoGame);
-    }
-
-    private class GotoGame implements View.OnClickListener {
-
-        private String gameUrl;
-
-        GotoGame(String gameUrl) {
-            this.gameUrl = gameUrl;
-        }
-
-        @Override public void onClick(View v) {
-            if (QyClient.curUser == null) {
-                ((MainActivity) mContext).showLogin();
-                return;
-            }
-
-            Bundle args = new Bundle();
-            args.putString(PlayGameActivity.GAME_URL,
-                gameUrl + "&token=" + QyClient.curUser.getToken());
-            mContext.startActivity(PlayGameActivity.buildIntent(mContext, args));
-        }
     }
 }

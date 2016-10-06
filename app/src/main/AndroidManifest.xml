@@ -33,7 +33,9 @@
     <activity
         android:name=".functions.login.LoginActivity"
         android:launchMode="singleInstance"/>
-    <activity android:name=".functions.h5game.PlayGameActivity"/>
+    <activity
+        android:name=".functions.h5game.PlayGameActivity"
+        android:launchMode="singleInstance"/>
     <activity android:name=".functions.main.home.list.GameListActivity"/>
 
     <!--微信-->

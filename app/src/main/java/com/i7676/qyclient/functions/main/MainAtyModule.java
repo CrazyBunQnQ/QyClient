@@ -44,7 +44,7 @@ import java.util.ArrayList;
         return new CategoryAdapter(R.layout.item_game_category, new ArrayList<>());
     }
 
-    @Provides GameHistoryAdapter providedGameHistoryAdapter() {
+    @Provides @PerActivity GameHistoryAdapter providedGameHistoryAdapter() {
         return new GameHistoryAdapter(R.layout.item_game_history, new ArrayList<>());
     }
 
