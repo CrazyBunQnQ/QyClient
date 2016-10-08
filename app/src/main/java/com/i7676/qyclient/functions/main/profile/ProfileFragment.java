@@ -75,6 +75,10 @@ import javax.inject.Inject;
         functionList.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void SimpleOnItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+                if (QyClient.curUser == null) {
+                    showLoginAty();
+                    return;
+                }
                 Logger.i(
                     ">>> menu: " + i + "[" + ((ProfileMenuEntity) baseQuickAdapter.getData().get(i))
                         .getName() + "] was clicked.");
