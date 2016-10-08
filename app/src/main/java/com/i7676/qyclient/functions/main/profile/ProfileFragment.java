@@ -3,20 +3,26 @@ package com.i7676.qyclient.functions.main.profile;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.i7676.qyclient.QyClient;
 import com.i7676.qyclient.R;
 import com.i7676.qyclient.annotations.Layout;
+import com.i7676.qyclient.entity.ProfileMenuEntity;
 import com.i7676.qyclient.entity.UserEntity;
 import com.i7676.qyclient.functions.BaseFragment;
 import com.i7676.qyclient.functions.main.MainActivity;
-import com.i7676.qyclient.functions.main.adapters.CategoryAdapter;
+import com.i7676.qyclient.functions.main.adapters.FunctionMenuAdapter;
 import com.i7676.qyclient.functions.main.navigation.MainAtyNavigator;
 import com.i7676.qyclient.util.SharedPreferencesUtil;
 import com.i7676.qyclient.widgets.AutoLoadImageView;
-import com.i7676.qyclient.widgets.NonScrollableRecyclerView;
+import com.orhanobut.logger.Logger;
+import java.util.ArrayList;
+import java.util.List;
 import javax.inject.Inject;
 
 /**
@@ -26,7 +32,6 @@ import javax.inject.Inject;
  */
 @Layout(R.layout.fragment_profile) public class ProfileFragment
     extends BaseFragment<ProfileFrPresenter, ProfileFrView> implements ProfileFrView {
-
     public static ProfileFragment create(Bundle args) {
         final ProfileFragment fragment = new ProfileFragment();
         fragment.setArguments(args);
@@ -40,11 +45,12 @@ import javax.inject.Inject;
     private TextView tvUserId;
     private TextView tvUserNickname;
     //private NonScrollableRecyclerView gameHistoryList;
-    private NonScrollableRecyclerView functionList;
+    private RecyclerView functionList;
+    private View fucntionListHead;
     private TextView tvContactCS;
     private TextView tvAboutUs;
+    private FunctionMenuAdapter mMenuAdapter;
 
-    @Inject CategoryAdapter categoryAdapter;
     @Inject MainAtyNavigator navigator;
 
     @Override protected void initRootViews(View rootView) {
@@ -53,7 +59,8 @@ import javax.inject.Inject;
         imgSignOff = (ImageView) rootView.findViewById(R.id.img_sign_off);
         tvUserId = (TextView) rootView.findViewById(R.id.tv_user_id);
         tvUserNickname = (TextView) rootView.findViewById(R.id.tv_user_nick);
-        functionList = (NonScrollableRecyclerView) rootView.findViewById(R.id.rv_function);
+        functionList = (RecyclerView) rootView.findViewById(R.id.rv_function);
+        fucntionListHead = rootView.findViewById(R.id.view_profile_function_head);
         tvContactCS = (TextView) rootView.findViewById(R.id.tv_contact_cs);
         tvAboutUs = (TextView) rootView.findViewById(R.id.tv_about_us);
 
@@ -62,8 +69,17 @@ import javax.inject.Inject;
         tvContactCS.setOnClickListener(getPresenter());
         tvAboutUs.setOnClickListener(getPresenter());
 
+        mMenuAdapter = new FunctionMenuAdapter(R.layout.item_profile_menu, new ArrayList<>());
         functionList.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        functionList.setAdapter(categoryAdapter);
+        functionList.setAdapter(mMenuAdapter);
+        functionList.addOnItemTouchListener(new OnItemClickListener() {
+            @Override
+            public void SimpleOnItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+                Logger.i(
+                    ">>> menu: " + i + "[" + ((ProfileMenuEntity) baseQuickAdapter.getData().get(i))
+                        .getName() + "] was clicked.");
+            }
+        });
     }
 
     @Override protected void setupInject() {
@@ -100,11 +116,7 @@ import javax.inject.Inject;
         tvUserNickname.setText(userEntity.getNickname());
     }
 
-    @Override public void setupGameHistory() {
-
-    }
-
-    @Override public void setupFunctionPanel() {
-
+    @Override public void setupFunctionPanel(List<ProfileMenuEntity> menuEntities) {
+        mMenuAdapter.setNewData(menuEntities);
     }
 }
