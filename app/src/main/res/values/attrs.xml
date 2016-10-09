@@ -12,4 +12,12 @@
       <enum name="rectangle" value="2"/>
     </attr>
   </declare-styleable>
+
+
+  <!--自定义的领取礼包进度条-->
+  <declare-styleable name="RoundedRectProgressBar">
+    <attr name="backColor" format="color" />
+    <attr name="barColor" format="color" />
+    <attr name="textColor" format="color" />
+  </declare-styleable>
 </resources>

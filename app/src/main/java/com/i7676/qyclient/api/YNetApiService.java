@@ -6,8 +6,10 @@ import com.i7676.qyclient.entity.HomeFrEntity;
 import com.i7676.qyclient.entity.RankingGameEntity;
 import com.i7676.qyclient.entity.ReqResult;
 import com.i7676.qyclient.entity.UserEntity;
+
 import java.util.List;
 import java.util.Map;
+
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
@@ -49,6 +51,13 @@ public interface YNetApiService {
     // 游戏搜索接口
     String GAME_SEARCH = "mapiindex.php?m=index&c=indexapi&a=searchGame";
 
+    // 活动历史接口
+    String Activity_PAST="mapiindex.php?m=activities&c=index&a=getHisAct";
+
+
+    //礼包接口
+    String GIFT_Home="mapiindex.php?m=gift&c=index&a=index";
+
     //&name=00
     @GET(GAME_SEARCH) Observable<ReqResult<Object>> searchByGameName(
         @Query("name") String gameName);
@@ -87,4 +96,14 @@ public interface YNetApiService {
         @FieldMap Map<String, String> params);
 
     @GET(CAPTCHA) Observable<Void> getCaptcha(@Query("mobile") String mobile);
+
+
+    //活动历史接口
+
+    @GET(Activity_PAST)Observable<ReqResult<List<Object>>>getActivityList();
+
+
+    //礼包首页接口
+    @GET(GIFT_Home)Observable<ReqResult<List<Object>>> getGiftList(
+    @QueryMap Map<String, String> params);
 }

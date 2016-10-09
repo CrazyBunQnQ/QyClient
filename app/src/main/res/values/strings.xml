@@ -37,4 +37,8 @@
   <string name="action_cancel">你取消了支付</string>
   <string name="action_sourch_null">查询不到订单</string>
   <string name="scan_text">将二维码放入框内, 即可自动扫描</string>
+
+
+  <!--礼包中心-->
+  <string name="gitcenter">礼包中心</string>
 </resources>

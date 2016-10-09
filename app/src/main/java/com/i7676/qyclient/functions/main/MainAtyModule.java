@@ -1,6 +1,7 @@
 package com.i7676.qyclient.functions.main;
 
 import android.content.Context;
+
 import com.i7676.qyclient.R;
 import com.i7676.qyclient.annotations.PerActivity;
 import com.i7676.qyclient.functions.main.adapters.ActivityFrAdapter;
@@ -8,10 +9,13 @@ import com.i7676.qyclient.functions.main.adapters.CategoryAdapter;
 import com.i7676.qyclient.functions.main.adapters.GameCardAdapter;
 import com.i7676.qyclient.functions.main.adapters.GameGridAdapter;
 import com.i7676.qyclient.functions.main.adapters.GameHistoryAdapter;
+import com.i7676.qyclient.functions.main.adapters.GiftListAdapter;
 import com.i7676.qyclient.functions.main.navigation.MainAtyNavigator;
+
+import java.util.ArrayList;
+
 import dagger.Module;
 import dagger.Provides;
-import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2016/9/19.
@@ -54,5 +58,9 @@ import java.util.ArrayList;
 
     @Provides GameGridAdapter providedGameGridAdapter() {
         return new GameGridAdapter(R.layout.item_game_list_grid, new ArrayList<>());
+    }
+    @Provides
+    GiftListAdapter providetGiftListAdapter() {
+        return new GiftListAdapter(R.layout.item_gifts_list, new ArrayList<>());
     }
 }

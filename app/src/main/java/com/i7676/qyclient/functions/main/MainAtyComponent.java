@@ -10,6 +10,9 @@ import com.i7676.qyclient.functions.main.adapters.CategoryAdapter;
 import com.i7676.qyclient.functions.main.adapters.GameCardAdapter;
 import com.i7676.qyclient.functions.main.adapters.GameGridAdapter;
 import com.i7676.qyclient.functions.main.adapters.GameHistoryAdapter;
+import com.i7676.qyclient.functions.main.adapters.GiftListAdapter;
+import com.i7676.qyclient.functions.main.gift.GiftFragment;
+import com.i7676.qyclient.functions.main.gift.GiftFtPresenter;
 import com.i7676.qyclient.functions.main.home.HomeFrPresenter;
 import com.i7676.qyclient.functions.main.home.HomeFragment;
 import com.i7676.qyclient.functions.main.navigation.MainAtyNavigator;
@@ -35,6 +38,11 @@ public interface MainAtyComponent {
 
     void inject(ActivityFrPresenter presenter);
 
+
+    void inject(GiftFragment fragment);
+
+    void inject(GiftFtPresenter presenter);
+
     void inject(ProfileFragment fragment);
 
     void inject(ProfileFrPresenter presenter);
@@ -54,4 +62,7 @@ public interface MainAtyComponent {
     GameGridAdapter getGameGridAdapter();
 
     ActivityFrAdapter getActivityFrAdapter();
+
+
+    GiftListAdapter  getGiftListAdapter();
 }

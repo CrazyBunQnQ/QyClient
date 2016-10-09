@@ -37,6 +37,15 @@
         android:name=".functions.h5game.PlayGameActivity"
         android:launchMode="singleInstance"/>
     <activity android:name=".functions.main.home.list.GameListActivity"/>
+    <activity android:name=".functions.main.activity.pastactivity.PastListActivity">
+
+
+
+
+    </activity>
+
+
+
 
     <!--微信-->
     <activity

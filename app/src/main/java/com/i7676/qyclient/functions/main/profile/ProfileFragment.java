@@ -25,7 +25,7 @@ import javax.inject.Inject;
  * 主页-个人信息
  */
 @Layout(R.layout.fragment_profile) public class ProfileFragment
-    extends BaseFragment<ProfileFrPresenter, ProfileFrView> implements ProfileFrView {
+    extends BaseFragment<ProfileFrPresenter, ProFileFrView> implements ProFileFrView {
 
     public static ProfileFragment create(Bundle args) {
         final ProfileFragment fragment = new ProfileFragment();
