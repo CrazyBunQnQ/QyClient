@@ -7,4 +7,16 @@ import com.i7676.qyclient.functions.BaseView;
  */
 
 interface TelBindFraView extends BaseView {
+
+    String getPhoneText();
+
+    String getCaptchaText();
+
+    void msg2User(String msg);
+
+    void captchaBtnCountDown();
+
+    void clearEditTextInputs();
+
+    void abortCaptchaCountDown();
 }

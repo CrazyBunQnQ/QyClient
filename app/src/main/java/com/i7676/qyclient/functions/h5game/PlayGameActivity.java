@@ -43,8 +43,16 @@ public class PlayGameActivity extends AppCompatActivity {
         // 加载中操作
         @Override public void onPageStarted(WebView view, String url, Bitmap favicon) {
             // 登录拦截
-            if (shouldSignInUpInterceptor(url)) {
+            if (signInUpInterceptor(url)) {
                 UIHandler.sendEmptyMessage(PlayGameActivity.TOKEN_OVERDUE);
+                return;
+            }
+            // 支付拦截
+            if (payCheckInterceptor(url)) {
+                final Message msg = new Message();
+                msg.what = PlayGameActivity.INIT_PAY_CHECK;
+                msg.obj = url;
+                UIHandler.sendMessage(msg);
                 return;
             }
             super.onPageStarted(view, url, favicon);
@@ -55,9 +63,14 @@ public class PlayGameActivity extends AppCompatActivity {
             super.onPageFinished(view, url);
         }
 
-        private boolean shouldSignInUpInterceptor(String url) {
+        private boolean signInUpInterceptor(String url) {
             final String signUpURL =
                 "http://h5.7676.com/index.php?m=member&c=index&a=login&type=app";
+            return url.equals(signUpURL);
+        }
+
+        private boolean payCheckInterceptor(String url) {
+            final String signUpURL = "paycheck";
             return url.equals(signUpURL);
         }
 
@@ -123,6 +136,7 @@ public class PlayGameActivity extends AppCompatActivity {
     public static final int TOKEN_OVERDUE = -1;
     public static final int GAME_LOAD_EXCEPTION = -3;
     public static final int FORCE_TO_EXIT = -2;
+    public static final int INIT_PAY_CHECK = -4;
     private AlertDialog mAlertDialog;
     private int dialogWhat = FORCE_TO_EXIT;
 
@@ -132,6 +146,9 @@ public class PlayGameActivity extends AppCompatActivity {
             switch (msg.what) {
                 case TOKEN_OVERDUE:
                     showAlterDialog("登录已过期，请重新登录再进入游戏.", TOKEN_OVERDUE);
+                    break;
+                case INIT_PAY_CHECK:
+
                     break;
                 default:
                 case GAME_LOAD_EXCEPTION:

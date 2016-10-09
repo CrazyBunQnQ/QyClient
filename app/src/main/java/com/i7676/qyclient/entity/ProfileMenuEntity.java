@@ -5,6 +5,7 @@ package com.i7676.qyclient.entity;
  */
 
 public class ProfileMenuEntity {
+    private int id;
     private int icon;
     private String name;
     private String desc;
@@ -14,12 +15,22 @@ public class ProfileMenuEntity {
     public ProfileMenuEntity() {
     }
 
-    public ProfileMenuEntity(int icon, String name, String desc, String desc1, boolean available) {
+    public ProfileMenuEntity(int id, int icon, String name, String desc, String desc1,
+        boolean available) {
+        this.id = id;
         this.icon = icon;
         this.name = name;
         this.desc = desc;
         this.desc1 = desc1;
         this.available = available;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getIcon() {

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
+import android.view.View;
 import android.view.WindowManager;
 
 /**
@@ -28,6 +29,7 @@ public class DialogUtils {
      * @param cancelable 是否允许通过点击返回按钮或者点击对话框之外的位置关闭对话框
      * @param onCancelListener 取消监听器
      * @param onDismissListener 销毁监听器
+     * @param customView 自定义Dialog视图
      * @return 对话框
      */
     public static AlertDialog showAlert(Context context, String title, String message,
@@ -36,7 +38,7 @@ public class DialogUtils {
         String cancelButton, DialogInterface.OnClickListener cancelButtonClickListener,
         DialogInterface.OnShowListener onShowListener, boolean cancelable,
         DialogInterface.OnCancelListener onCancelListener,
-        DialogInterface.OnDismissListener onDismissListener) {
+        DialogInterface.OnDismissListener onDismissListener, View customView) {
         AlertDialog.Builder promptBuilder = new AlertDialog.Builder(context);
         if (title != null) {
             promptBuilder.setTitle(title);
@@ -53,7 +55,10 @@ public class DialogUtils {
         if (cancelButton != null) {
             promptBuilder.setNegativeButton(cancelButton, cancelButtonClickListener);
         }
-        promptBuilder.setCancelable(true);
+        if (customView != null) {
+            promptBuilder.setView(customView);
+        }
+        promptBuilder.setCancelable(cancelable);
         if (cancelable) {
             promptBuilder.setOnCancelListener(onCancelListener);
         }
@@ -65,6 +70,22 @@ public class DialogUtils {
         alertDialog.setOnShowListener(onShowListener);
         alertDialog.show();
         return alertDialog;
+    }
+
+    /**
+     * 显示一个自定义view的对话框
+     *
+     * @param context 当前上下文对象
+     * @param customView 要显示的view
+     * @param title 标题
+     * @param confirmBtn 确认按钮
+     * @param cancelable 是否可关闭
+     * @return 对话框
+     */
+    public static AlertDialog showSpaicalViewDialog(Context context, View customView, String title,
+        String confirmBtn, boolean cancelable) {
+        return showAlert(context, title, null, confirmBtn, null, null, null, null, null, null,
+            cancelable, null, null, customView);
     }
 
     /**
@@ -83,7 +104,7 @@ public class DialogUtils {
         String confirmButton, DialogInterface.OnClickListener confirmButtonClickListener,
         String cancelButton, DialogInterface.OnClickListener cancelButtonClickListener) {
         return showAlert(context, title, message, confirmButton, confirmButtonClickListener, null,
-            null, cancelButton, cancelButtonClickListener, null, true, null, null);
+            null, cancelButton, cancelButtonClickListener, null, true, null, null, null);
     }
 
     /**
@@ -95,7 +116,7 @@ public class DialogUtils {
      */
     public static AlertDialog showPrompt(Context context, String message, String confirmButton) {
         return showAlert(context, null, message, confirmButton, null, null, null, null, null, null,
-            true, null, null);
+            true, null, null, null);
     }
 
     /**
@@ -106,6 +127,6 @@ public class DialogUtils {
      */
     public static AlertDialog showPrompt(Context context, String message) {
         return showAlert(context, null, message, "OK", null, null, null, null, null, null, true,
-            null, null);
+            null, null, null);
     }
 }

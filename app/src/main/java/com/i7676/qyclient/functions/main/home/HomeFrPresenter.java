@@ -124,7 +124,7 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
 
                 @Override public void onError(Throwable e) {
                     super.onError(e);
-                    Logger.i(">>> 首页信息获取成功,正在解析错误: " + e.getMessage());
+                    Logger.e(">>> 首页信息获取成功,正在解析错误: " + e.getMessage());
                     //getView().closeDialog();
                     getView().serverFuckedUp();
                 }

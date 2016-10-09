@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="92dp"
+      android:layout_marginTop="16dp"
+      android:background="#ffffff"
+      android:gravity="center_vertical"
+      >
+
+    <TextView
+        android:id="@+id/tv_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:textSize="16sp"
+        />
+
+    <com.i7676.qyclient.widgets.AutoLoadImageView
+        android:id="@+id/img_account_avatar"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        />
+
+  </RelativeLayout>
+
+  <TextView
+      android:id="@+id/changeNickName"
+      android:layout_marginTop="16dp"
+      android:drawableEnd="@drawable/ic_chevron_right_grey_300_36dp"
+      android:drawableRight="@drawable/ic_chevron_right_grey_300_36dp"
+      android:text="    修改昵称"
+      style="@style/TextViewSectionStyle"
+      />
+  <TextView
+      android:id="@+id/changePassword"
+      android:drawableEnd="@drawable/ic_chevron_right_grey_300_36dp"
+      android:drawableRight="@drawable/ic_chevron_right_grey_300_36dp"
+      android:text="    修改密码"
+      style="@style/TextViewSectionStyle"
+      />
+
+</LinearLayout>

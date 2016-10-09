@@ -6,5 +6,7 @@ import com.i7676.qyclient.functions.BaseView;
  * Created by Administrator on 2016/10/8.
  */
 
-public interface MenuMetailAtyView extends BaseView {
+public interface MenuDetailAtyView extends BaseView {
+
+    void msg2User(String msg);
 }

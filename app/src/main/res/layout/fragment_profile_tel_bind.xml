@@ -6,7 +6,6 @@
     android:layout_below="@id/toolbarLayout"
     android:layout_margin="16dp"
     android:background="@android:color/background_light"
-    android:onClick="eatAnyClick"
     >
 
   <EditText
@@ -40,20 +39,15 @@
       style="@style/editTextStyle"
       />
 
-  <EditText
-      android:id="@+id/et_password"
-      android:layout_below="@id/btn_get_vCode"
-      android:drawableLeft="@drawable/ic_lock_outline_grey_500_24dp"
-      android:drawableStart="@drawable/ic_lock_outline_grey_500_24dp"
-      android:hint="请输入新密码"
-      android:inputType="textPassword"
-      style="@style/editTextStyle"
-      />
-
   <Button
       android:id="@+id/btn_submit"
-      android:layout_below="@id/et_password"
-      android:text="更 改 密 码"
+      android:layout_below="@id/et_vCode"
+      android:text="立 即 绑 定"
       style="@style/buttonStyle"
+      />
+
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
       />
 </RelativeLayout>

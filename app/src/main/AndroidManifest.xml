@@ -37,6 +37,7 @@
         android:name=".functions.h5game.PlayGameActivity"
         android:launchMode="singleInstance"/>
     <activity android:name=".functions.main.home.list.GameListActivity"/>
+    <activity android:name=".functions.main.profile.detail.MenuDetailActivity"/>
 
     <!--微信-->
     <activity

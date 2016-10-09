@@ -3,6 +3,7 @@ package com.i7676.qyclient.api;
 import com.i7676.qyclient.entity.BannerEntity;
 import com.i7676.qyclient.entity.CategoryEntity;
 import com.i7676.qyclient.entity.HomeFrEntity;
+import com.i7676.qyclient.entity.ProfileEntity;
 import com.i7676.qyclient.entity.RankingGameEntity;
 import com.i7676.qyclient.entity.ReqResult;
 import com.i7676.qyclient.entity.UserEntity;
@@ -48,6 +49,30 @@ public interface YNetApiService {
     String CATEGORY_GAME_LIST = "mapiindex.php?m=index&c=indexapi&a=getGame";
     // 游戏搜索接口
     String GAME_SEARCH = "mapiindex.php?m=index&c=indexapi&a=searchGame";
+    // 修改密码
+    String MODIFY_PASSWORD = "mapiindex.php?m=members&c=info&a=modifyPass";
+    // 修改昵称
+    String MODIFY_NICKNAME = "mapiindex.php?m=members&c=info&a=modifyNick";
+    // 手机绑定
+    String TEL_BIND = "mapiindex.php?m=members&c=info&a=bindMobile";
+    // 手机绑定状态检测
+    String TEL_BIND_STATUS = "mapiindex.php?m=members&c=info&a=index";
+
+    //&token
+    @GET(TEL_BIND_STATUS) Observable<ReqResult<ProfileEntity>> getProfileInfo(
+        @Query("token") String token);
+
+    //&mobile=xxxxx&token=oo&code=23414
+    @POST(TEL_BIND) @FormUrlEncoded Observable<ReqResult<String>> telBind(
+        @FieldMap Map<String, String> params);
+
+    //&oldpass=ss&newpass=ddd&token
+    @POST(MODIFY_PASSWORD) @FormUrlEncoded Observable<ReqResult<String>> modifyPassword(
+        @FieldMap Map<String, String> params);
+
+    //&nickname=aa&token
+    @POST(MODIFY_NICKNAME) @FormUrlEncoded Observable<ReqResult<String>> modifyNickname(
+        @Field("token") String token, @Field("nickname") String nickname);
 
     //&name=00
     @GET(GAME_SEARCH) Observable<ReqResult<Object>> searchByGameName(
@@ -86,5 +111,5 @@ public interface YNetApiService {
     @FormUrlEncoded @POST(REGISTER) Observable<ReqResult<String>> register(
         @FieldMap Map<String, String> params);
 
-    @GET(CAPTCHA) Observable<Void> getCaptcha(@Query("mobile") String mobile);
+    @GET(CAPTCHA) Observable<ReqResult<String>> getCaptcha(@Query("mobile") String mobile);
 }

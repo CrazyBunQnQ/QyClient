@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.widget.FrameLayout;
+import android.widget.Toast;
+import com.i7676.qyclient.QyClient;
 import com.i7676.qyclient.R;
 import com.i7676.qyclient.annotations.Layout;
 import com.i7676.qyclient.functions.BaseActivity;
@@ -16,17 +18,9 @@ import com.i7676.qyclient.functions.BaseActivity;
  */
 
 @Layout(R.layout.activity_menu_detail) public class MenuDetailActivity
-    extends BaseActivity<MenuDetailAtyPresenter, MenuMetailAtyView> implements MenuMetailAtyView {
+    extends BaseActivity<MenuDetailAtyPresenter, MenuDetailAtyView> implements MenuDetailAtyView {
 
     public static final String SHOW_TAG = "SHOW_TAG";
-    // 账号设置
-    public static final int TAG_ACCOUNT = 1;
-    // 我的好友
-    public static final int TAG_FRIENDS = 2;
-    // 充值中心
-    public static final int TAG_RECHARGE = 3;
-    // 绑定手机
-    public static final int TAG_TEL_BIND = 4;
 
     public static Intent buildIntent(Context from, Bundle args) {
         final Intent mIntent = new Intent(from, MenuDetailActivity.class);
@@ -36,14 +30,20 @@ import com.i7676.qyclient.functions.BaseActivity;
 
     private FrameLayout mContainer;
     private Toolbar mToolbar;
-    private MenuDetailAtyNavigator navigator;
+    private MenuDetailComponent atyComponent;
+
+    public MenuDetailComponent getAtyComponent() {
+        return atyComponent;
+    }
 
     @Override public void initViews() {
-        navigator = new MenuDetailAtyNavigator(this);
+        setupInject();
 
         mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
-        mToolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(mToolbar);
+        mToolbar.setTitleTextColor(Color.WHITE);
+        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+        mToolbar.setNavigationOnClickListener(clickAsPressBack);
 
         mContainer = (FrameLayout) findViewById(R.id.container);
     }
@@ -52,7 +52,18 @@ import com.i7676.qyclient.functions.BaseActivity;
         return R.id.container;
     }
 
+    private void setupInject() {
+        atyComponent = DaggerMenuDetailComponent.builder()
+            .qyClientComponent(((QyClient) getApplication()).getClientComponent())
+            .build();
+    }
+
     @NonNull @Override public MenuDetailAtyPresenter providePresenter() {
-        return new MenuDetailAtyPresenter(navigator);
+        return new MenuDetailAtyPresenter(getIntent().getExtras(),
+            new MenuDetailAtyNavigator(this));
+    }
+
+    @Override public void msg2User(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
     }
 }

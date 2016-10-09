@@ -18,6 +18,7 @@ import com.i7676.qyclient.functions.BaseFragment;
 import com.i7676.qyclient.functions.main.MainActivity;
 import com.i7676.qyclient.functions.main.adapters.FunctionMenuAdapter;
 import com.i7676.qyclient.functions.main.navigation.MainAtyNavigator;
+import com.i7676.qyclient.functions.main.profile.detail.MenuDetailActivity;
 import com.i7676.qyclient.util.SharedPreferencesUtil;
 import com.i7676.qyclient.widgets.AutoLoadImageView;
 import com.orhanobut.logger.Logger;
@@ -75,19 +76,30 @@ import javax.inject.Inject;
         functionList.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void SimpleOnItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+                Logger.i(
+                    ">>> menu: " + i + "[" + ((ProfileMenuEntity) baseQuickAdapter.getData().get(i))
+                        .getName() + "] was clicked.");
+                // 登录检查
                 if (QyClient.curUser == null) {
                     showLoginAty();
                     return;
                 }
-                Logger.i(
-                    ">>> menu: " + i + "[" + ((ProfileMenuEntity) baseQuickAdapter.getData().get(i))
-                        .getName() + "] was clicked.");
+                // 功能是否可用检查
+                if (!((ProfileMenuEntity) baseQuickAdapter.getData().get(i)).isAvailable()) {
+                    return;
+                }
+                // 跳转
+                Bundle args = new Bundle();
+                args.putInt(MenuDetailActivity.SHOW_TAG,
+                    ((ProfileMenuEntity) baseQuickAdapter.getData().get(i)).getId());
+                startActivity(MenuDetailActivity.buildIntent(getContext(), args));
             }
         });
     }
 
     @Override protected void setupInject() {
         ((MainActivity) getActivity()).getAtyComponent().inject(this);
+        ((MainActivity) getActivity()).getAtyComponent().inject(getPresenter());
     }
 
     @NonNull @Override public ProfileFrPresenter providePresenter() {

@@ -41,6 +41,8 @@ import javax.inject.Inject;
         return fragment;
     }
 
+    private static final int FUCKED_UP_TIME = 3;//seconds
+
     // views
     private ObservableScrollView rootScroll;
     private FlyBanner topBanner;
@@ -193,13 +195,12 @@ import javax.inject.Inject;
         new Thread() {
             @Override public void run() {
                 super.run();
-                int i = 10;
+                int i = FUCKED_UP_TIME;
                 while (i-- > 0) {
                     Message mMessage = Message.obtain();
                     mMessage.what = SERVER_FUCKED_UP;
                     mMessage.arg1 = i;
                     mUIHandler.sendMessage(mMessage);
-
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
