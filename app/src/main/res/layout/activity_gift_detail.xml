@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary"
+
+            >
+            <ImageView
+                android:id="@+id/gift_search"
+                android:layout_marginLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/gift_back"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="130dp"
+                android:textSize="18sp"
+                android:textColor="@color/colorwhite"
+                android:text="礼包" />
+
+        </android.support.v7.widget.Toolbar>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#BDBDBD"
+        android:orientation="vertical"
+        >
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@color/colorwhite"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp"
+            >
+            <ImageView
+                android:layout_marginLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_grade_amber_900_24dp"
+                />
+            <TextView
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/gitcenter"
+                android:layout_marginLeft="2dp"
+                />
+        </LinearLayout>
+        <!-- 礼包的详情界面-->
+
+        <android.support.v7.widget.CardView layout_height="match_parent"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_height="80dp"
+            android:layout_width="match_parent"
+            app:cardCornerRadius="8dp"
+            xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@color/colorwhite"
+                android:weightSum="1"
+                >
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <com.i7676.qyclient.widgets.CustomImageView
+                        android:id="@+id/img_gift_logo"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_width="60dp"
+                        android:layout_height="50dp"
+                        android:src="@mipmap/placeholder"
+                        />
+
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:id="@+id/tv_gift_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="15dp"
+                        android:layout_toRightOf="@id/img_gift_logo"
+
+                        android:text="萌神赵子龙中秋节礼包"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_marginLeft="5dp"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        />
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toRightOf="@id/tv_gift_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/gift_quanfu_shape"
+                        android:text="全服"
+                        android:textColor="@color/colorwhite"
+                        />
+                    <TextView
+                        android:id="@+id/tv_game_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="15dp"
+                        android:layout_toRightOf="@id/img_gift_logo"
+                        android:layout_below="@id/tv_gift_name"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="5dp"
+                        android:text="萌神赵子龙"
+                        android:textSize="12sp"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        />
+                    <TextView
+                        android:id="@+id/gift_leftNum"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toRightOf="@id/img_gift_logo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_game_name"
+                        android:text="剩余："
+                        />
+                    <com.i7676.qyclient.widgets.RoundedRectProgressBarView
+                        android:layout_width="150dp"
+                        android:layout_toRightOf="@id/gift_leftNum"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_game_name"
+                        android:max="100"
+                        android:id="@+id/bar"
+                        app:backColor="#E6E6E6"
+                        app:barColor="#33CC99"
+                        app:textColor="#FFFFFF"
+                        style="@android:style/Widget.ProgressBar.Horizontal"/>
+
+                </RelativeLayout>
+
+
+                <Button
+                    android:id="@+id/gift_btn_get"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentRight="true"
+                    android:text="开始游戏"
+                    android:textColor="@color/colorwhite"
+                    android:textSize="12sp"
+
+                    android:background="@drawable/btn_shape"
+                    />
+
+
+
+
+
+
+
+            </RelativeLayout>
+
+
+
+
+        </android.support.v7.widget.CardView>
+
+
+        <!--兑换码-->
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/background_white"
+            android:layout_marginLeft="10dp"
+            >
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/gift_redeemcode"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:textColor="#A94442"
+                android:gravity="center"
+                android:text="兑换码：125465632233"
+                android:textIsSelectable="true"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+
+                android:gravity="center"
+                android:text=" 请长按兑换码进行复制"
+                />
+
+        </LinearLayout>
+
+        <!--礼包详情的碎片-->
+        <!--<RelativeLayout-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@color/colorwhite"-->
+            <!--&gt;-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/tv_gift_other"-->
+                <!--android:layout_toRightOf="@id/tv_gift_detail"-->
+                <!--android:layout_width="200dp"-->
+                <!--android:gravity="center"-->
+                <!--android:layout_height="30dp"-->
+                <!--android:text="相关礼包"-->
+                <!--/>-->
+            <!--<TextView-->
+                <!--android:id="@+id/tv_line_detail"-->
+                <!--android:layout_width="200dp"-->
+                <!--android:layout_height="5dp"-->
+                <!--android:layout_below="@id/tv_gift_detail"-->
+                <!--android:background="@color/colorPrimary"-->
+
+                <!--/>-->
+            <!--<TextView-->
+                <!--android:id="@+id/tv_line_other"-->
+                <!--android:layout_width="200dp"-->
+                <!--android:layout_height="5dp"-->
+                <!--android:layout_below="@id/tv_gift_other"-->
+                <!--android:background="@color/colorPrimary"-->
+                <!--android:layout_toRightOf="@id/tv_line_detail"-->
+                <!--android:visibility="invisible"-->
+
+                <!--/>-->
+
+            <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+                <!--&lt;!&ndash;android:id="@+id/tv_gift_detail"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_width="200dp"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:gravity="center"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:textColor="@color/colorPrimary"&ndash;&gt;-->
+
+                <!--&lt;!&ndash;android:layout_height="30dp"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:text="礼包详情"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_alignParentBottom="true"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_alignParentLeft="true"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_alignParentStart="true" />&ndash;&gt;-->
+        <!--</RelativeLayout>-->
+
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/Fragment_group"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
+
+        <!--</RelativeLayout>-->
+        <android.support.design.widget.TabLayout
+            android:layout_marginTop="5dp"
+            android:id="@+id/Gift_tab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tabSelectedTextColor="@color/colorPrimary"
+            tabTextColor="@color/cardview_light_background"
+            tabIndicatorColor="@color/colorPrimary"
+            >
+
+        </android.support.design.widget.TabLayout>
+
+        <com.i7676.qyclient.widgets.MyViewPager
+            android:isScrollContainer="true"
+            android:id="@+id/Gift_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </com.i7676.qyclient.widgets.MyViewPager>
+
+
+
+
+
+
+    </LinearLayout>
+
+</LinearLayout>

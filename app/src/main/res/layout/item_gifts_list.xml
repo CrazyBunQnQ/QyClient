@@ -22,8 +22,8 @@
                 android:id="@+id/img_gift_logo"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="5dp"
-                android:layout_width="60dp"
-                android:layout_height="50dp"
+                android:layout_width="80dp"
+                android:layout_height="60dp"
                 android:src="@mipmap/placeholder"
                 />
 
@@ -38,8 +38,7 @@
                 android:textColor="@color/colorPrimary"
                 android:layout_marginLeft="5dp"
                 android:ellipsize="end"
-                android:singleLine="true"
-                />
+                android:maxLines="1" />
             <TextView
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="5dp"
@@ -54,6 +53,7 @@
                 android:id="@+id/tv_gift_introduce"
                 android:layout_width="wrap_content"
                 android:layout_height="15dp"
+
                 android:layout_toRightOf="@id/img_gift_logo"
                 android:layout_below="@id/tv_gift_name"
                 android:layout_marginLeft="5dp"
@@ -86,15 +86,6 @@
                 style="@android:style/Widget.ProgressBar.Horizontal"/>
 
         </RelativeLayout>
-        <View
-            android:layout_toRightOf="@id/Rl_gifit"
-            android:background="@drawable/gitft_stroke"
-            android:layout_marginLeft="-10dp"
-            android:layout_marginRight="-10dp"
-            android:layerType="software"
-            android:layout_width="60dp"
-            android:layout_height="80dp"/>
-
 
 
         <Button
@@ -111,10 +102,18 @@
             android:background="@drawable/btn_shape"
             />
 
-
-
-
-
+        <TextView
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/gitft_stroke"
+            android:layerType="software"
+            android:layout_width="60dp"
+            android:layout_height="80dp"
+            android:id="@+id/view"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/gift_btnGet"
+            android:layout_toRightOf="@id/Rl_gifit"
+        />
 
 
     </RelativeLayout>

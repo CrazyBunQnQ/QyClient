@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import com.i7676.qyclient.R;
 import com.i7676.qyclient.annotations.Layout;
+import com.i7676.qyclient.entity.ActivitiesEntity;
 import com.i7676.qyclient.functions.BaseFragment;
 import com.i7676.qyclient.functions.main.MainActivity;
 import com.i7676.qyclient.functions.main.adapters.ActivityFrAdapter;
@@ -48,8 +49,14 @@ import javax.inject.Inject;
         return new ActivityFrPresenter();
     }
 
-    @Override public void setupActivityData(List<String> activities) {
-        activityFrAdapter.setNewData(activities);
+//    @Override public void setupActivityData(List<ActivitiesEntity> activities) {
+//        activityFrAdapter.setNewData(activities);
+//    }
+
+    @Override
+    public void setupActivityData(List<ActivitiesEntity> activities) {
+       activityFrAdapter.addData(activities);
+
     }
 
     @Override public void setActionBarTitle(String titleText) {
@@ -70,5 +77,10 @@ import javax.inject.Inject;
 
     @Override public void hideOptionsMenu() {
         ((MainActivity) getActivity()).getPresenter().getView().hideOptionsMenu();
+    }
+
+    @Override
+    public void showEnty() {
+
     }
 }

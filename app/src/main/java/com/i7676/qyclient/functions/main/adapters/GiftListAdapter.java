@@ -14,6 +14,8 @@ import java.util.List;
 
 public class GiftListAdapter  extends BaseQuickAdapter<GiftEntity> {
 
+    private BaseViewHolder butGift_get;
+
 
     public GiftListAdapter(int layoutResId, List<GiftEntity> data) {
         super(layoutResId, data);
@@ -33,6 +35,17 @@ public class GiftListAdapter  extends BaseQuickAdapter<GiftEntity> {
         ((AutoLoadImageView)baseViewHolder.getConvertView()
                 .findViewById(R.id.img_gift_logo)).setImageUrlAndAuthorInfo(giftEntity.getIcon(),
                 null);
+//        baseViewHolder.setOnItemClickListener(R.id.gift_btnGet, (parent, view, position, id) -> {
+//            if (QyClient.curUser == null) {
+//                ((MainActivity) mContext).showLogin();
+//                return;
+//            }
+//
+//
+//        });
+
+    baseViewHolder.addOnClickListener(R.id.gift_btnGet);
+
 
 
 

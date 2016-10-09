@@ -51,12 +51,20 @@ public interface YNetApiService {
     // 游戏搜索接口
     String GAME_SEARCH = "mapiindex.php?m=index&c=indexapi&a=searchGame";
 
+
+    //正在进行的活动
+    String ACTIVITY_CURRENT="mapiindex.php?m=activities&c=index&a=getNowAct";
+
     // 活动历史接口
     String Activity_PAST="mapiindex.php?m=activities&c=index&a=getHisAct";
 
 
     //礼包接口
     String GIFT_Home="mapiindex.php?m=gift&c=index&a=index";
+    //礼包领取接口
+    String GIFT_GET="mapiindex.php?m=gift&c=index&a=recGift";
+    // 礼包详情接口
+    String GIFT_DETAIL="mapiindex.php?m=gift&c=index&a=getDetail";
 
     //&name=00
     @GET(GAME_SEARCH) Observable<ReqResult<Object>> searchByGameName(
@@ -95,8 +103,12 @@ public interface YNetApiService {
     @FormUrlEncoded @POST(REGISTER) Observable<ReqResult<String>> register(
         @FieldMap Map<String, String> params);
 
-    @GET(CAPTCHA) Observable<Void> getCaptcha(@Query("mobile") String mobile);
+    @GET(CAPTCHA) Observable<Void> getCaptcha(@Query("moble") String mobile);
 
+
+
+    //正在进行 的活动
+    @GET(ACTIVITY_CURRENT)Observable<ReqResult<List<Object>>> getCurrentAcitivyList();
 
     //活动历史接口
 
@@ -106,4 +118,16 @@ public interface YNetApiService {
     //礼包首页接口
     @GET(GIFT_Home)Observable<ReqResult<List<Object>>> getGiftList(
     @QueryMap Map<String, String> params);
+    //礼包领取接口
+    //h5.7676.com/mapiindex.php?m=gift&c=index&a=recGift&bid=50&token
+   @GET(GIFT_GET)Observable<ReqResult<List<Object>>> receiveGift(
+           @QueryMap Map<String,String> params);
+
+
+    //礼包详情界面
+    @GET(GIFT_DETAIL)Observable<ReqResult<List<Object>>> getGiftDetail(
+            @QueryMap Map<String,String> params);
+
+
+
 }

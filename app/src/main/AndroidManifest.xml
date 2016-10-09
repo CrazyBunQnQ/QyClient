@@ -29,6 +29,7 @@
 
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
+
     </activity>
     <activity
         android:name=".functions.login.LoginActivity"
@@ -37,12 +38,11 @@
         android:name=".functions.h5game.PlayGameActivity"
         android:launchMode="singleInstance"/>
     <activity android:name=".functions.main.home.list.GameListActivity"/>
-    <activity android:name=".functions.main.activity.pastactivity.PastListActivity">
+    <activity android:name=".functions.main.activity.pastactivity.PastListActivity"/>
 
+    <activity android:name=".functions.main.gift.giftdetail.GiftDetailActivity"/>
 
-
-
-    </activity>
+    <activity android:name=".functions.main.activity.detail.ActyDetaiActivity"/>
 
 
 

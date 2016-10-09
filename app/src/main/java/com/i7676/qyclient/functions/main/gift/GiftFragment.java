@@ -1,5 +1,6 @@
 package com.i7676.qyclient.functions.main.gift;
 
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,13 +9,18 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Toast;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.i7676.qyclient.R;
 import com.i7676.qyclient.annotations.Layout;
 import com.i7676.qyclient.entity.GiftEntity;
 import com.i7676.qyclient.functions.BaseFragment;
 import com.i7676.qyclient.functions.main.MainActivity;
 import com.i7676.qyclient.functions.main.adapters.GiftListAdapter;
+import com.i7676.qyclient.functions.main.gift.giftdetail.GiftDetailActivity;
+import com.i7676.qyclient.widgets.MyDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,16 +53,26 @@ public class GiftFragment extends BaseFragment<GiftFtPresenter,GiftFrView> imple
         mAdapter= new GiftListAdapter(R.layout.item_gifts_list,new ArrayList<>());
         mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.gift_swipeResh);
        // mRecyclerView.setAdapter(mAdapter);
+
         mRecyclerView.setLayoutManager(
                 new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        mRecyclerView.addItemDecoration(new MyDecoration(getActivity(), MyDecoration.VERTICAL_LIST));
         mAdapter.setOnLoadMoreListener(getPresenter());
 
         mSwipeRefreshLayout.setOnRefreshListener(getPresenter());
 
         mRecyclerView.setAdapter(mAdapter);
         //mRecyclerView.addItemDecoration(SpacesItemDecoration(DensityUtil.dip2px(ge, 8.0f)));
+       // mRecyclerView.addItemDecoration(new GameListActivity.SpacesItemDecoration(DensityUtil.dip2px(, 8.0f)));
+        mRecyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
+            @Override
+            public void SimpleOnItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+                Toast.makeText(getActivity(),"你好啊",Toast.LENGTH_SHORT).show();
+                Intent intent= new Intent(getActivity(), GiftDetailActivity.class);
+                startActivity(intent);
 
-
+            }
+        });
 
 
 

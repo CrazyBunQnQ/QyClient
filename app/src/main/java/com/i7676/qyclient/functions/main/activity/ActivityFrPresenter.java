@@ -1,15 +1,20 @@
 package com.i7676.qyclient.functions.main.activity;
 
+import com.i7676.qyclient.api.YNetApiService;
 import com.i7676.qyclient.functions.BasePresenter;
 import com.i7676.qyclient.functions.main.MainAtyView;
 import com.i7676.qyclient.util.ColorConstants;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
+
+import javax.inject.Inject;
 
 /**
  * Created by Administrator on 2016/9/19.
  */
 public class ActivityFrPresenter extends BasePresenter<ActivityFrView> {
+
+
+    @Inject
+    YNetApiService mYNetApiService;
 
     @Override protected void onWakeUp() {
         super.onWakeUp();
@@ -19,10 +24,23 @@ public class ActivityFrPresenter extends BasePresenter<ActivityFrView> {
     }
 
     private void initActivityFrData() {
-        Observable.from(new String[] { "1", "2", "3" })
-            .observeOn(AndroidSchedulers.mainThread())
-            .toList()
-            .subscribe(getView()::setupActivityData);
+//        Observable.from(new String[] { "1", "2", "3" })
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .toList()
+//            .subscribe(getView()::setupActivityData);
+
+//        mYNetApiService.getCurrentAcitivyList().subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(request ->{
+//                    if (request.getRet()==0){
+//                        List<ActivitiesEntity> data= JSONArray.parseArray(request.getData().toString(),ActivitiesEntity.class);
+//                        getView().setupActivityData(data);
+//                    }else  if (request.getRet()== RESPONSE_DATA_IS_NULL){
+//                        //getView().showEnty(request.getData().toString()+"" );
+//                        Log.e("1111111", request.toString());
+//                    }
+//                });
+
     }
 
     private void toolbarSetup() {
