@@ -64,6 +64,6 @@ import com.i7676.qyclient.functions.BaseActivity;
     }
 
     @Override public void msg2User(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+        showToast2User(msg, Toast.LENGTH_SHORT);
     }
 }

@@ -7,6 +7,7 @@ import com.i7676.qyclient.R;
 import com.i7676.qyclient.api.ServerConstans;
 import com.i7676.qyclient.api.YNetApiService;
 import com.i7676.qyclient.functions.BasePresenter;
+import com.i7676.qyclient.functions.main.profile.ProfileConstants;
 import com.i7676.qyclient.util.RegexUtils;
 import java.util.HashMap;
 import javax.inject.Inject;
@@ -61,7 +62,8 @@ public class TelBindFraPresenter extends BasePresenter<TelBindFraView>
                     break;
                 }
                 // 发送获取验证码请求
-                mYNetApiService.getCaptcha(phoneText)
+                mYNetApiService.getCaptcha(phoneText,
+                    String.valueOf(ProfileConstants.CAPTCHA_TYPE_REGISTER))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(response -> {

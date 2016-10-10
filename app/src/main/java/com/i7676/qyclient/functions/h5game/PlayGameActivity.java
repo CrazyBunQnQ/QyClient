@@ -45,6 +45,7 @@ public class PlayGameActivity extends AppCompatActivity {
             // 登录拦截
             if (signInUpInterceptor(url)) {
                 UIHandler.sendEmptyMessage(PlayGameActivity.TOKEN_OVERDUE);
+                view.onPause();
                 return;
             }
             // 支付拦截
@@ -53,6 +54,7 @@ public class PlayGameActivity extends AppCompatActivity {
                 msg.what = PlayGameActivity.INIT_PAY_CHECK;
                 msg.obj = url;
                 UIHandler.sendMessage(msg);
+                view.onPause();
                 return;
             }
             super.onPageStarted(view, url, favicon);
@@ -70,8 +72,9 @@ public class PlayGameActivity extends AppCompatActivity {
         }
 
         private boolean payCheckInterceptor(String url) {
-            final String signUpURL = "paycheck";
-            return url.equals(signUpURL);
+            final String payTag1 = "http://h5.7676.com/index.php?m=index&c=PayH5&a=transaction";
+            final String payTag2 = "http://h5.7676.com/api/transaction";
+            return url.contains(payTag1) || url.contains(payTag2);
         }
 
         // url重载操作
@@ -148,12 +151,28 @@ public class PlayGameActivity extends AppCompatActivity {
                     showAlterDialog("登录已过期，请重新登录再进入游戏.", TOKEN_OVERDUE);
                     break;
                 case INIT_PAY_CHECK:
-
+                    final String payCheckUrl = (String) msg.obj;
+                    final Bundle payParams = parseURL(payCheckUrl);
+                    // 跳转支付页面
+                    startActivity(LoginActivity.buildIntent(PlayGameActivity.this, null));
                     break;
                 default:
                 case GAME_LOAD_EXCEPTION:
                     break;
             }
+        }
+
+        private Bundle parseURL(String url) {
+            final Bundle payParams = new Bundle();
+            String paramsStr = url.split("[?]")[1];
+            String params[] = paramsStr.split("[&]");
+            for (String param : params) {
+                String temp[] = param.split("[=]");
+                if (temp.length == 2) {
+                    payParams.putString(temp[0], temp[1]);
+                }
+            }
+            return payParams;
         }
     };
 
@@ -196,6 +215,12 @@ public class PlayGameActivity extends AppCompatActivity {
             getSettings().setDatabaseEnabled(true);
             getSettings().setDomStorageEnabled(true);
             getSettings().setDefaultTextEncodingName("UTF-8");
+        }
+
+        @Override public void onPause() {
+            super.onPause();
+            Logger.i(">>> WebView onPause");
+            this.stopLoading();
         }
     }
 

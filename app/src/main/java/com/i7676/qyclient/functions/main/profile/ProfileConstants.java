@@ -17,4 +17,8 @@ public interface ProfileConstants {
     int MENU_FRIENDS = 102405;
     // 充值中心
     int MENU_RECHARGE = 102406;
+
+    // 获取验证码用途的类型
+    int CAPTCHA_TYPE_REGISTER = 2; // 第一次注册
+    int CAPTCHA_TYPE_OTHERS = 1;    // 已注册
 }

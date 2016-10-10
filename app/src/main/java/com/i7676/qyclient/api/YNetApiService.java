@@ -111,5 +111,7 @@ public interface YNetApiService {
     @FormUrlEncoded @POST(REGISTER) Observable<ReqResult<String>> register(
         @FieldMap Map<String, String> params);
 
-    @GET(CAPTCHA) Observable<ReqResult<String>> getCaptcha(@Query("mobile") String mobile);
+    @GET(CAPTCHA) Observable<ReqResult<String>> getCaptcha(@Query("mobile") String mobile,
+        @Query("type") String type);
+    //@GET(CAPTCHA) Observable<ReqResult<String>> getCaptcha(@Query("mobile") String mobile);
 }

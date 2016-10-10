@@ -10,6 +10,7 @@ import com.i7676.qyclient.api.YNetApiService;
 import com.i7676.qyclient.entity.ReqResult;
 import com.i7676.qyclient.functions.BasePresenter;
 import com.i7676.qyclient.functions.login.LoginConstants;
+import com.i7676.qyclient.functions.main.profile.ProfileConstants;
 import com.i7676.qyclient.rx.DefaultSubscriber;
 import com.i7676.qyclient.util.RegexUtils;
 import com.orhanobut.logger.Logger;
@@ -47,6 +48,8 @@ public class RoFPresenter extends BasePresenter<RoFView> implements View.OnClick
     private String passwordText;
     private String captchaText;
 
+    private int captchaType;
+
     public RoFPresenter(Bundle args) {
         this.args = args;
     }
@@ -69,10 +72,12 @@ public class RoFPresenter extends BasePresenter<RoFView> implements View.OnClick
             case RENDER_TYPE_REGISTER:
                 getView().setActionBarTitle(TITLE_TEXTS_REGISTER);
                 hintsAndTexts = REGISTER_TEXTS;
+                captchaType = ProfileConstants.CAPTCHA_TYPE_REGISTER;
                 break;
             case RENDER_TYPE_FORGET_PASSWORD:
                 getView().setActionBarTitle(TITLE_TEXTS_FORGET_PASSWORD);
                 hintsAndTexts = FGTPASS_TEXTS;
+                captchaType = ProfileConstants.CAPTCHA_TYPE_OTHERS;
                 break;
         }
         getView().setupWidgetsHint(hintsAndTexts);
@@ -173,7 +178,7 @@ public class RoFPresenter extends BasePresenter<RoFView> implements View.OnClick
             });
     }
 
-    private void getCaptchaCode() {
+    private void getCaptchaCode(int type) {
         String phoneNumberText = getView().getPhoneNumberText();
         // 空校验
         if (TextUtils.isEmpty(phoneNumberText)) {
@@ -186,7 +191,7 @@ public class RoFPresenter extends BasePresenter<RoFView> implements View.OnClick
             return;
         }
         // 发送获取验证码请求
-        mYNetApiService.getCaptcha(phoneNumberText)
+        mYNetApiService.getCaptcha(phoneNumberText, String.valueOf(type))
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(response -> {
@@ -205,7 +210,7 @@ public class RoFPresenter extends BasePresenter<RoFView> implements View.OnClick
     @Override public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_get_vCode:
-                getCaptchaCode();
+                getCaptchaCode(captchaType);
                 break;
             case R.id.btn_submit:
                 submitEvent();
