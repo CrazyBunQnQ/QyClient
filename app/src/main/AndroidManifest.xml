@@ -34,8 +34,11 @@
         android:name=".functions.login.LoginActivity"
         android:launchMode="singleInstance"/>
     <activity
-        android:name=".functions.h5game.PlayGameActivity"
+        android:name=".functions.h5game.pay.PaymentCheckActivity"
         android:launchMode="singleInstance"/>
+    <activity
+        android:name=".functions.h5game.PlayGameActivity"
+        android:launchMode="singleTop"/>
     <activity android:name=".functions.main.home.list.GameListActivity"/>
     <activity android:name=".functions.main.profile.detail.MenuDetailActivity"/>
 

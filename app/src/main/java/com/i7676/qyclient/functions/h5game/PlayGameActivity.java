@@ -18,6 +18,7 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import com.i7676.qyclient.QyClient;
+import com.i7676.qyclient.functions.h5game.pay.PaymentCheckActivity;
 import com.i7676.qyclient.functions.login.LoginActivity;
 import com.i7676.qyclient.util.DialogUtils;
 import com.orhanobut.logger.Logger;
@@ -72,9 +73,10 @@ public class PlayGameActivity extends AppCompatActivity {
         }
 
         private boolean payCheckInterceptor(String url) {
-            final String payTag1 = "http://h5.7676.com/index.php?m=index&c=PayH5&a=transaction";
-            final String payTag2 = "http://h5.7676.com/api/transaction";
-            return url.contains(payTag1) || url.contains(payTag2);
+            //final String payTag1 = "http://h5.7676.com/index.php?m=index&c=PayH5&a=transaction";
+            //final String payTag2 = "http://h5.7676.com/api/transaction";
+            final String payTag3 = "http://h5.7676.com/api/pay/save";
+            return url.contains(payTag3);
         }
 
         // url重载操作
@@ -153,8 +155,9 @@ public class PlayGameActivity extends AppCompatActivity {
                 case INIT_PAY_CHECK:
                     final String payCheckUrl = (String) msg.obj;
                     final Bundle payParams = parseURL(payCheckUrl);
-                    // 跳转支付页面
-                    startActivity(LoginActivity.buildIntent(PlayGameActivity.this, null));
+                    // 跳转支付方式界面
+                    startActivity(
+                        PaymentCheckActivity.buildIntent(PlayGameActivity.this, payParams));
                     break;
                 default:
                 case GAME_LOAD_EXCEPTION:
@@ -164,6 +167,8 @@ public class PlayGameActivity extends AppCompatActivity {
 
         private Bundle parseURL(String url) {
             final Bundle payParams = new Bundle();
+            payParams.putString("token", QyClient.curUser.getToken());
+            payParams.putString("payType", "39");
             String paramsStr = url.split("[?]")[1];
             String params[] = paramsStr.split("[&]");
             for (String param : params) {
