@@ -11,5 +11,7 @@ public interface PaymentCheckAtyView extends BaseView {
 
     void go2Payment(RequestMsg msg);
 
+    void loadProgressDialog(String msg);
+
     void payResults(String msg);
 }

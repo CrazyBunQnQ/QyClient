@@ -3,6 +3,7 @@ package com.i7676.qyclient.functions.main.adapters;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 import com.i7676.qyclient.QyClient;
 import com.i7676.qyclient.functions.h5game.PlayGameActivity;
 import com.i7676.qyclient.functions.main.MainActivity;
@@ -19,7 +20,11 @@ class GotoGame implements View.OnClickListener {
 
     @Override public void onClick(View v) {
         if (QyClient.curUser == null) {
-            ((MainActivity) mContext).showLogin();
+            if (mContext instanceof MainActivity) {
+                ((MainActivity) mContext).showLogin();
+            } else {
+                Toast.makeText(mContext, "请先登录", Toast.LENGTH_SHORT).show();
+            }
             return;
         }
 

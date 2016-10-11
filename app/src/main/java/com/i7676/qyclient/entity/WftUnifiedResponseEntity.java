@@ -25,6 +25,15 @@ public class WftUnifiedResponseEntity {
     private String services;
     private String token_id;
     private String sign;
+    private String transno;
+
+    public String getTransno() {
+        return transno;
+    }
+
+    public void setTransno(String transno) {
+        this.transno = transno;
+    }
 
     public String getVersion() {
         return version;

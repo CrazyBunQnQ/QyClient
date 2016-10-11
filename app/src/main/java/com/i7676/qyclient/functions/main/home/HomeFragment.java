@@ -90,7 +90,7 @@ import javax.inject.Inject;
         gameHistory = (RecyclerView) rootView.findViewById(R.id.rv_game_history);
         gameHistoryHead = rootView.findViewById(R.id.view_game_history_head);
         gameHistory.setLayoutManager(
-            new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, true));
+            new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         gameHistory.setAdapter(gameHistoryAdapter);
 
         navigationTabStrip = (NavigationTabStrip) rootView.findViewById(R.id.nts);

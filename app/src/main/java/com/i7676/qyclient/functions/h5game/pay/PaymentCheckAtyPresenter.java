@@ -36,46 +36,77 @@ class PaymentCheckAtyPresenter extends BasePresenter<PaymentCheckAtyView> {
     }
 
     @Override protected void onWakeUp() {
+
+        Logger.e(">>> PaymentCheckAtyPresenter::onWakeUp");
+
         super.onWakeUp();
         if (payFlag) {
             payFlag = false;
             makePreOrder();
+        } else {
+            getView().payResults("付完了！！！！");
         }
+    }
+
+    @Override protected void onCreate() {
+
+        Logger.e(">>> PaymentCheckAtyPresenter::onCreate");
+
+        super.onCreate();
+    }
+
+    @Override protected void onDestroy() {
+
+        Logger.e(">>> PaymentCheckAtyPresenter::onDestroy");
+
+        super.onDestroy();
+    }
+
+    @Override protected void onSleep() {
+
+        Logger.e(">>> PaymentCheckAtyPresenter::onSleep");
+
+        super.onSleep();
     }
 
     /**
      * 向服务器端发起威富通统一预下单请求,待服务器端完成预下单之后，直接唤醒 native 支付
      */
-    private HashMap<String, String> makePreOrder() {
+    private void makePreOrder() {
+        getView().loadProgressDialog("加载中...");
         final HashMap<String, String> params = new HashMap<>();
         final Set<String> keys = args.keySet();
         final Iterator<String> it = keys.iterator();
         for (; it.hasNext(); ) {
             String target = it.next();
-            params.put(target, (args.get(target) == null ? "" : args.get(target)).toString());
+            params.put(target, (args.get(target) == null ? "" : args.get(target).toString()));
         }
         mYNetApiService.postWFTUnified(params)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(new DefaultSubscriber<ReqResult<WftUnifiedResponseEntity>>() {
+
+                @Override public void onError(Throwable e) {
+                    super.onError(e);
+                    getView().payResults("威富通支付失败: 请求统一下单接口失败.");
+                }
+
+                @Override public void onCompleted() {
+                    super.onCompleted();
+                }
+
                 @Override public void onNext(ReqResult<WftUnifiedResponseEntity> response) {
                     super.onNext(response);
-                    if (response.getRet() == ServerConstans.SUCCESS
-                        && response.getData().getStatus() == ServerConstans.SUCCESS) {
+                    if (response.getRet() == ServerConstans.SUCCESS) {
                         final RequestMsg msg = new RequestMsg();
-                        if (response.getData().getServices().contains(MainApplication.PAY_WX_WAP)) {
-                            msg.setTokenId(response.getData().getToken_id());
-                            msg.setTradeType(MainApplication.PAY_WX_WAP);
-                        } else {
-                            Logger.e(">>> 支付类型错误.请检查.");
-                            return;
-                        }
+                        msg.setTokenId(response.getData().getToken_id());
+                        msg.setTradeType(MainApplication.PAY_WX_WAP);
+                        msg.setOutTradeNo(response.getData().getTransno());
                         getView().go2Payment(msg);
                     } else {
                         getView().payResults("威富通支付失败: 请求统一下单接口失败.");
                     }
                 }
             });
-        return params;
     }
 }

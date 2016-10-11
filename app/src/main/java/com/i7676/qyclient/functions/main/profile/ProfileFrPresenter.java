@@ -5,9 +5,12 @@ import com.i7676.qyclient.QyClient;
 import com.i7676.qyclient.R;
 import com.i7676.qyclient.api.ServerConstans;
 import com.i7676.qyclient.api.YNetApiService;
+import com.i7676.qyclient.entity.ProfileEntity;
 import com.i7676.qyclient.entity.ProfileMenuEntity;
+import com.i7676.qyclient.entity.ReqResult;
 import com.i7676.qyclient.entity.UserEntity;
 import com.i7676.qyclient.functions.BasePresenter;
+import com.i7676.qyclient.rx.DefaultSubscriber;
 import java.util.ArrayList;
 import javax.inject.Inject;
 import rx.android.schedulers.AndroidSchedulers;
@@ -60,12 +63,19 @@ public class ProfileFrPresenter extends BasePresenter<ProfileFrView>
             mYNetApiService.getProfileInfo(QyClient.curUser.getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(response -> {
-                    if (response.getRet() == ServerConstans.SUCCESS) {
-                        // 手机绑定状态
-                        isTelBound = (response.getData().getMobile() != 0);
+                .subscribe(new DefaultSubscriber<ReqResult<ProfileEntity>>() {
+                    @Override public void onError(Throwable e) {
+                        super.onError(e);
                     }
-                    buildMenus();
+
+                    @Override public void onNext(ReqResult<ProfileEntity> response) {
+                        super.onNext(response);
+                        if (response.getRet() == ServerConstans.SUCCESS) {
+                            // 手机绑定状态
+                            isTelBound = (response.getData().getMobile() != 0);
+                        }
+                        buildMenus();
+                    }
                 });
         }
     }

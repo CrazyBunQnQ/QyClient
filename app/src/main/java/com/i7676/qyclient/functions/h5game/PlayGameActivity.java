@@ -261,6 +261,7 @@ public class PlayGameActivity extends AppCompatActivity {
                 case TOKEN_OVERDUE:
                     this.startActivityForResult(LoginActivity.buildIntent(this, null),
                         TOKEN_OVERDUE);
+                    this.finish();
                     break;
                 default:
                 case FORCE_TO_EXIT:

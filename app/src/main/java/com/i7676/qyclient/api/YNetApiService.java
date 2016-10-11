@@ -59,10 +59,11 @@ public interface YNetApiService {
     // 手机绑定状态检测
     String TEL_BIND_STATUS = "mapiindex.php?m=members&c=info&a=index";
     // 威富通统一预下单请求
-    String WFT_PAYMENT = "";
+    String WFT_PAYMENT = "mapiindex.php?m=pay&c=index&a=getTransNo";
 
     @POST(WFT_PAYMENT) @FormUrlEncoded
-    Observable<ReqResult<WftUnifiedResponseEntity>> postWFTUnified(@FieldMap Map params);
+    Observable<ReqResult<WftUnifiedResponseEntity>> postWFTUnified(
+        @FieldMap Map<String, String> params);
 
     //&token
     @GET(TEL_BIND_STATUS) Observable<ReqResult<ProfileEntity>> getProfileInfo(
