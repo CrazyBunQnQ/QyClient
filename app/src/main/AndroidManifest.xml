@@ -49,6 +49,14 @@
         android:launchMode="singleTop"
         android:theme="@android:style/Theme.NoDisplay"/>
 
+    <!-- 威富通 -->
+    <activity
+        android:name="com.switfpass.pay.activity.QQWapPayWebView"
+        android:screenOrientation="portrait"
+        android:theme="@android:style/Theme.Translucent.NoTitleBar"
+        />
+
+
     <!--Alibaba-->
     <!--<activity-->
     <!--android:name="com.alipay.sdk.app.H5PayActivity"-->

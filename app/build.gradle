@@ -48,7 +48,6 @@ dependencies {
   compile androidSupport.libRecyclerView
   compile androidSupport.libDesign
   compile androidSupport.constraintLayout
-
   provided thirdPartyLib.javaxAnnotation
   provided thirdPartyLib.dagger2Compiler
   compile thirdPartyLib.dagger2
@@ -68,9 +67,9 @@ dependencies {
   compile thirdPartyLib.logger
   compile thirdPartyLib.thirtyinch
   compile testLibs.junit
-
-//  compile files('libs/open_sdk_r5756_lite.jar')
+  //  compile files('libs/open_sdk_r5756_lite.jar')
   compile files('libs/libammsdk.jar')
-//  compile files('libs/wftsdk2.2.0.jar')
-//  compile files('libs/open_sdk_r5756.jar')
+  //  compile files('libs/wftsdk2.2.0.jar')
+  //  compile files('libs/open_sdk_r5756.jar')
+  compile files('libs/wftsdk2.2.0.jar')
 }

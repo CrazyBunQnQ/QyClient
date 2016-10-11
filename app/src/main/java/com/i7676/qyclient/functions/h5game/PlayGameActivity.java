@@ -168,7 +168,6 @@ public class PlayGameActivity extends AppCompatActivity {
         private Bundle parseURL(String url) {
             final Bundle payParams = new Bundle();
             payParams.putString("token", QyClient.curUser.getToken());
-            payParams.putString("payType", "39");
             String paramsStr = url.split("[?]")[1];
             String params[] = paramsStr.split("[&]");
             for (String param : params) {

@@ -7,6 +7,7 @@ import com.i7676.qyclient.entity.ProfileEntity;
 import com.i7676.qyclient.entity.RankingGameEntity;
 import com.i7676.qyclient.entity.ReqResult;
 import com.i7676.qyclient.entity.UserEntity;
+import com.i7676.qyclient.entity.WftUnifiedResponseEntity;
 import java.util.List;
 import java.util.Map;
 import retrofit2.http.Field;
@@ -57,6 +58,11 @@ public interface YNetApiService {
     String TEL_BIND = "mapiindex.php?m=members&c=info&a=bindMobile";
     // 手机绑定状态检测
     String TEL_BIND_STATUS = "mapiindex.php?m=members&c=info&a=index";
+    // 威富通统一预下单请求
+    String WFT_PAYMENT = "";
+
+    @POST(WFT_PAYMENT) @FormUrlEncoded
+    Observable<ReqResult<WftUnifiedResponseEntity>> postWFTUnified(@FieldMap Map params);
 
     //&token
     @GET(TEL_BIND_STATUS) Observable<ReqResult<ProfileEntity>> getProfileInfo(
