@@ -60,6 +60,10 @@ public interface YNetApiService {
     String TEL_BIND_STATUS = "mapiindex.php?m=members&c=info&a=index";
     // 威富通统一预下单请求
     String WFT_PAYMENT = "mapiindex.php?m=pay&c=index&a=getTransNo";
+    // 支付宝Only
+    String ZFB_ONLY = "mapiindex.php?m=pay&c=index&a=getTransNo";
+
+    @GET(ZFB_ONLY) Observable<ReqResult<String>> getZFBOnly(@QueryMap Map<String, String> params);
 
     @POST(WFT_PAYMENT) @FormUrlEncoded
     Observable<ReqResult<WftUnifiedResponseEntity>> postWFTUnified(

@@ -4,21 +4,25 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.i7676.qyclient.R;
 import com.i7676.qyclient.entity.RankingGameEntity;
 import com.i7676.qyclient.functions.main.adapters.GameGridAdapter;
-import com.i7676.qyclient.widgets.NonScrollableRecyclerView;
+import com.orhanobut.logger.Logger;
 import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2016/9/28.
  *
  * 最新上线
+ *
+ * 没有支持 MVP 是因为此 Fragment 只需要关注两个功能，展示，loadMore，如果后续业务变得复杂了可以做重构考虑
  */
-public class ShowGameFragment extends Fragment {
+public class ShowGameFragment extends Fragment implements BaseQuickAdapter.RequestLoadMoreListener {
 
     public static final int SHOW_CATEGORY_HOTTEST = 1;
     public static final int SHOW_CATEGORY_NEWEST = 2;
@@ -47,12 +51,15 @@ public class ShowGameFragment extends Fragment {
 
     @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        NonScrollableRecyclerView mList =
-            (NonScrollableRecyclerView) view.findViewById(R.id.rv_game_list);
+        RecyclerView mList = (RecyclerView) view.findViewById(R.id.rv_game_list);
         mGameGridAdapter = new GameGridAdapter(R.layout.item_game_list_grid, gameEntities);
         mList.setLayoutManager(new GridLayoutManager(getContext(), 2));
         mList.setAdapter(mGameGridAdapter);
         mList.setHasFixedSize(true);
+
+        // 加载更多设置
+        mGameGridAdapter.setOnLoadMoreListener(this);
+
         loadingData();
     }
 
@@ -120,5 +127,9 @@ public class ShowGameFragment extends Fragment {
         if ((data = args.getParcelableArrayList(SHOW_DATA)) == null) {
             throw new NullPointerException("No fucking data in here!");
         }
+    }
+
+    @Override public void onLoadMoreRequested() {
+        Logger.i(">>> catch load more event.");
     }
 }

@@ -10,6 +10,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -17,11 +18,25 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
+import com.alipay.sdk.app.PayTask;
+import com.alipay.sdk.util.H5PayResultModel;
 import com.i7676.qyclient.QyClient;
-import com.i7676.qyclient.functions.h5game.pay.PaymentCheckActivity;
+import com.i7676.qyclient.api.ServerConstans;
+import com.i7676.qyclient.api.YNetApiService;
+import com.i7676.qyclient.entity.ReqResult;
+import com.i7676.qyclient.entity.WftUnifiedResponseEntity;
 import com.i7676.qyclient.functions.login.LoginActivity;
+import com.i7676.qyclient.rx.DefaultSubscriber;
 import com.i7676.qyclient.util.DialogUtils;
 import com.orhanobut.logger.Logger;
+import com.switfpass.pay.MainApplication;
+import com.switfpass.pay.activity.PayPlugin;
+import com.switfpass.pay.bean.RequestMsg;
+import java.util.HashMap;
+import javax.inject.Inject;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class PlayGameActivity extends AppCompatActivity {
 
@@ -33,32 +48,272 @@ public class PlayGameActivity extends AppCompatActivity {
         return mIntent;
     }
 
-    private String url;
+    private PlayGameAtyComponent atyComponent;
+    @Inject YNetApiService mYNetApiService;
+    private String targetURL;
     private GameView mGameView;
+
+    public static final int TOKEN_OVERDUE = -1;
+    public static final int GAME_LOAD_EXCEPTION = -3;
+    public static final int FORCE_TO_EXIT = -2;
+    public static final int INIT_PAYMENT = -4;
+    private AlertDialog mAlertDialog;
+    private int dialogWhat = FORCE_TO_EXIT;
+    private final Handler UIHandler = new Handler() {
+        @Override public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case TOKEN_OVERDUE:
+                    showAlterDialog("登录已过期，请重新登录再进入游戏.", TOKEN_OVERDUE);
+                    break;
+                case INIT_PAYMENT:
+                    final String payment = (String) msg.obj;
+                    preOrderReq(parseURL(payment));
+                    break;
+                default:
+                case GAME_LOAD_EXCEPTION:
+                    break;
+            }
+        }
+
+        private HashMap<String, String> parseURL(String url) {
+            final HashMap<String, String> payParams = new HashMap<>();
+            payParams.put("token", QyClient.curUser.getToken());
+            String paramsStr = url.split("[?]")[1];
+            String params[] = paramsStr.split("[&]");
+            for (String param : params) {
+                String temp[] = param.split("[=]");
+                if (temp.length == 2) {
+                    payParams.put(temp[0], temp[1]);
+                }
+            }
+            return payParams;
+        }
+    };
+
+    @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setupInject();
+
+        Intent data = getIntent();
+        targetURL = data.getStringExtra(GAME_URL);
+
+        // 全屏
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        mGameView = new GameView(this);
+        mGameView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT));
+        //mGameView.addJavascriptInterface(new PlayGameActivity.JavaScriptShareDataHandler(),
+        //    "HTML_HANDLER");
+        mGameView.setWebViewClient(mWebViewClient);
+        mGameView.setWebChromeClient(new WebChromeClient());
+
+        setContentView(mGameView);
+
+        if (null == targetURL || "".equals(targetURL)) {
+            targetURL = "http://www.baidu.com";
+        }
+
+        //targetURL = "www.taobao.com";
+
+        mGameView.loadUrl(targetURL);
+    }
+
+    private void setupInject() {
+        atyComponent = DaggerPlayGameAtyComponent.builder()
+            .qyClientComponent(((QyClient) getApplication()).getClientComponent())
+            .build();
+
+        atyComponent.inject(this);
+    }
+
+    private void preOrderReq(HashMap<String, String> params) {
+        if (params.get("pay_type").equals("9")) { // 支付宝
+            mYNetApiService.getZFBOnly(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(stringReqResult -> {
+                    if (stringReqResult.getRet() == 0) {
+                        goAliPay(stringReqResult.getData());
+                    }
+                }, error -> {
+                    Logger.e(">>> error" + error.getMessage());
+                });
+        } else if (params.get("pay_type").equals("39") || params.get("pay_type")
+            .equals("59")) {// 微信
+            mYNetApiService.postWFTUnified(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DefaultSubscriber<ReqResult<WftUnifiedResponseEntity>>() {
+
+                    @Override public void onError(Throwable e) {
+                        super.onError(e);
+                        toast2User("威富通支付失败: 请求统一下单接口失败.");
+                    }
+
+                    @Override public void onCompleted() {
+                        super.onCompleted();
+                    }
+
+                    @Override public void onNext(ReqResult<WftUnifiedResponseEntity> response) {
+                        super.onNext(response);
+                        if (response.getRet() == ServerConstans.SUCCESS) {
+                            final RequestMsg msg = new RequestMsg();
+                            msg.setTokenId(response.getData().getToken_id());
+                            msg.setTradeType(MainApplication.PAY_WX_WAP);
+                            msg.setOutTradeNo(response.getData().getTransno());
+                            PayPlugin.unifiedH5Pay(PlayGameActivity.this, msg);
+                        } else {
+                            toast2User("威富通支付失败: 请求统一下单接口失败.");
+                        }
+                    }
+                });
+        } else {
+            // UNKNOW
+        }
+    }
+
+    private void toast2User(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    private void goAliPay(String trade) {
+        final PayTask task = new PayTask(this);
+        final String ex = task.fetchOrderInfoFromH5PayUrl(trade);
+        if (!TextUtils.isEmpty(ex)) {
+            System.out.println("paytask:::::" + trade);
+            new Thread(new Runnable() {
+                public void run() {
+                    System.out.println("payTask:::" + ex);
+                    final H5PayResultModel result = task.h5Pay(ex, true);
+                    if (!TextUtils.isEmpty(result.getReturnUrl())) {
+                        PlayGameActivity.this.runOnUiThread(new Runnable() {
+                            @Override public void run() {
+                                mGameView.loadUrl(result.getReturnUrl());
+                            }
+                        });
+                    }
+                }
+            }).start();
+        }
+    }
+
+    //设置网页回退
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK) && mGameView.canGoBack()) {
+            mGameView.goBack();
+            return true;
+        }
+        exitConfirm();
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private void exitConfirm() {
+        showAlterDialog("退出游戏并返回主页面？", FORCE_TO_EXIT);
+    }
+
+    private void showAlterDialog(String msg, int dialogWhat) {
+        this.dialogWhat = dialogWhat;
+        if (mAlertDialog == null) {
+            mAlertDialog = DialogUtils.showAlert(this, "提示", msg, "确认", confirmListener, "取消",
+                confirmListener);
+            mAlertDialog.setCancelable(false);
+            return;
+        }
+        mAlertDialog.setMessage(msg);
+        mAlertDialog.show();
+    }
+
+    @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        String retCode = data.getExtras().getString("resultCode");
+
+        if (requestCode == TOKEN_OVERDUE) {
+            if (resultCode == RESULT_OK) {
+                int pointIndex = targetURL.indexOf("&token");
+
+                if (pointIndex == -1) {
+                    Logger.e(">>> TOKEN CAN NOT BE NULL！");
+                    finish();
+                    return;
+                }
+                targetURL = targetURL.substring(0, pointIndex);
+                targetURL += "&token=" + QyClient.curUser.getToken();
+                mGameView.loadUrl(targetURL);
+            }
+        } else if (!TextUtils.isEmpty(retCode)) {
+            String retStr = "success".equals(retCode) ? "支付完成" : "支付失败";
+            toast2User(retStr);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    /**
+     * 页面用到的 WebView
+     */
+    private class GameView extends WebView {
+
+        public GameView(Context context) {
+            super(context);
+            getSettings().setUseWideViewPort(true);
+            getSettings().setLoadWithOverviewMode(true);
+            getSettings().setJavaScriptEnabled(true);
+            getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+            getSettings().setSupportZoom(true);
+            getSettings().setAppCacheEnabled(true);
+            getSettings().setDatabaseEnabled(true);
+            getSettings().setDomStorageEnabled(true);
+            getSettings().setDefaultTextEncodingName("UTF-8");
+        }
+
+        @Override public void onPause() {
+            super.onPause();
+            Logger.i(">>> WebView onPause");
+            this.stopLoading();
+        }
+    }
+
+    /**
+     * WebViewClient
+     */
     private final WebViewClient mWebViewClient = new WebViewClient() {
         // url拦截操作
         @Override public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
             return super.shouldInterceptRequest(view, url);
         }
 
-        // 加载中操作
-        @Override public void onPageStarted(WebView view, String url, Bitmap favicon) {
+        @Override public boolean shouldOverrideUrlLoading(WebView view, String url) {
             // 登录拦截
             if (signInUpInterceptor(url)) {
                 UIHandler.sendEmptyMessage(PlayGameActivity.TOKEN_OVERDUE);
-                view.onPause();
-                return;
+                return true;
             }
             // 支付拦截
             if (payCheckInterceptor(url)) {
                 final Message msg = new Message();
-                msg.what = PlayGameActivity.INIT_PAY_CHECK;
+                msg.what = PlayGameActivity.INIT_PAYMENT;
                 msg.obj = url;
                 UIHandler.sendMessage(msg);
-                view.onPause();
-                return;
+                return true;
             }
+            view.loadUrl(url);
+            return true;
+        }
+
+        // 加载中操作
+        @Override public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
+        }
+
+        private boolean alipayInterceptor(String url) {
+            return url.contains("pay_type=9");
+        }
+
+        private boolean WXPayInterceptor(String url) {
+            return url.contains("pay_type=39") || url.contains("pay_type=59");
         }
 
         // 加载后操作
@@ -87,9 +342,9 @@ public class PlayGameActivity extends AppCompatActivity {
         //    return true;
         //}
 
-        //@Override public boolean shouldOverrideUrlLoading(WebView view, String url) {
+        //@Override public boolean shouldOverrideUrlLoading(WebView view, String targetURL) {
         //    // 使用当前的webView来加载目标url
-        //    view.loadUrl(url);
+        //    view.loadUrl(targetURL);
         //    return true;
         //}
 
@@ -102,6 +357,45 @@ public class PlayGameActivity extends AppCompatActivity {
         //}
     };
 
+    /**
+     * Dialog 监听
+     */
+
+    private DialogInterface.OnClickListener confirmListener = (dialog, which) -> {
+        // -1 确认, -2 取消
+        if (which == -1) {
+            switch (dialogWhat) {
+                case TOKEN_OVERDUE:
+                    this.startActivityForResult(LoginActivity.buildIntent(this, null),
+                        TOKEN_OVERDUE);
+                    this.finish();
+                    break;
+                default:
+                case FORCE_TO_EXIT:
+                case GAME_LOAD_EXCEPTION:
+                    finish();
+                    break;
+            }
+        } else if (which == -2) {
+            switch (dialogWhat) {
+                case FORCE_TO_EXIT:
+                    dialog.dismiss();
+                    break;
+                default:
+                case TOKEN_OVERDUE:
+                case GAME_LOAD_EXCEPTION:
+                    finish();
+                    break;
+            }
+        } else {
+            Logger.e(">>> GO FUCK YOURSELF!!");
+            finish();
+        }
+    };
+
+    /**
+     * JavaScriptShareDataHandler
+     */
     //private class JavaScriptShareDataHandler {
     //    @JavascriptInterface public void handleShareData(String jsonData) {
     //        if (jsonData == null) {
@@ -137,173 +431,4 @@ public class PlayGameActivity extends AppCompatActivity {
     //        UIHandler.sendEmptyMessage(PlayGameActivity.TOKEN_OVERDUE);
     //    }
     //}
-
-    public static final int TOKEN_OVERDUE = -1;
-    public static final int GAME_LOAD_EXCEPTION = -3;
-    public static final int FORCE_TO_EXIT = -2;
-    public static final int INIT_PAY_CHECK = -4;
-    private AlertDialog mAlertDialog;
-    private int dialogWhat = FORCE_TO_EXIT;
-
-    private final Handler UIHandler = new Handler() {
-        @Override public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case TOKEN_OVERDUE:
-                    showAlterDialog("登录已过期，请重新登录再进入游戏.", TOKEN_OVERDUE);
-                    break;
-                case INIT_PAY_CHECK:
-                    final String payCheckUrl = (String) msg.obj;
-                    final Bundle payParams = parseURL(payCheckUrl);
-                    // 跳转支付方式界面
-                    startActivity(
-                        PaymentCheckActivity.buildIntent(PlayGameActivity.this, payParams));
-                    break;
-                default:
-                case GAME_LOAD_EXCEPTION:
-                    break;
-            }
-        }
-
-        private Bundle parseURL(String url) {
-            final Bundle payParams = new Bundle();
-            payParams.putString("token", QyClient.curUser.getToken());
-            String paramsStr = url.split("[?]")[1];
-            String params[] = paramsStr.split("[&]");
-            for (String param : params) {
-                String temp[] = param.split("[=]");
-                if (temp.length == 2) {
-                    payParams.putString(temp[0], temp[1]);
-                }
-            }
-            return payParams;
-        }
-    };
-
-    @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        Intent data = getIntent();
-        url = data.getStringExtra(GAME_URL);
-
-        // 全屏
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        mGameView = new GameView(this);
-        mGameView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.MATCH_PARENT));
-        //mGameView.addJavascriptInterface(new PlayGameActivity.JavaScriptShareDataHandler(),
-        //    "HTML_HANDLER");
-        mGameView.setWebViewClient(mWebViewClient);
-        mGameView.setWebChromeClient(new WebChromeClient());
-
-        setContentView(mGameView);
-
-        if (null == url || "".equals(url)) {
-            url = "http://www.baidu.com";
-        }
-        mGameView.loadUrl(url);
-    }
-
-    private class GameView extends WebView {
-
-        public GameView(Context context) {
-            super(context);
-            getSettings().setUseWideViewPort(true);
-            getSettings().setLoadWithOverviewMode(true);
-            getSettings().setJavaScriptEnabled(true);
-            getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-            getSettings().setSupportZoom(true);
-            getSettings().setAppCacheEnabled(true);
-            getSettings().setDatabaseEnabled(true);
-            getSettings().setDomStorageEnabled(true);
-            getSettings().setDefaultTextEncodingName("UTF-8");
-        }
-
-        @Override public void onPause() {
-            super.onPause();
-            Logger.i(">>> WebView onPause");
-            this.stopLoading();
-        }
-    }
-
-    //设置网页回退
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if ((keyCode == KeyEvent.KEYCODE_BACK) && mGameView.canGoBack()) {
-            mGameView.goBack();
-            return true;
-        }
-        exitConfirm();
-        return super.onKeyDown(keyCode, event);
-    }
-
-    private void exitConfirm() {
-        showAlterDialog("退出游戏并返回主页面？", FORCE_TO_EXIT);
-    }
-
-    private void showAlterDialog(String msg, int dialogWhat) {
-        this.dialogWhat = dialogWhat;
-        if (mAlertDialog == null) {
-            mAlertDialog = DialogUtils.showAlert(this, "提示", msg, "确认", confirmListener, "取消",
-                confirmListener);
-            mAlertDialog.setCancelable(false);
-            return;
-        }
-        mAlertDialog.setMessage(msg);
-        mAlertDialog.show();
-    }
-
-    private DialogInterface.OnClickListener confirmListener = (dialog, which) -> {
-        // -1 确认, -2 取消
-        if (which == -1) {
-            switch (dialogWhat) {
-                case TOKEN_OVERDUE:
-                    this.startActivityForResult(LoginActivity.buildIntent(this, null),
-                        TOKEN_OVERDUE);
-                    this.finish();
-                    break;
-                default:
-                case FORCE_TO_EXIT:
-                case GAME_LOAD_EXCEPTION:
-                    finish();
-                    break;
-            }
-        } else if (which == -2) {
-            switch (dialogWhat) {
-                case FORCE_TO_EXIT:
-                    dialog.dismiss();
-                    break;
-                default:
-                case TOKEN_OVERDUE:
-                case GAME_LOAD_EXCEPTION:
-                    finish();
-                    break;
-            }
-        } else {
-            Logger.e(">>> GO FUCK YOURSELF!!");
-            finish();
-        }
-    };
-
-    @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == TOKEN_OVERDUE) {
-            if (resultCode == RESULT_OK) {
-                int pointIndex = url.indexOf("&token");
-
-                if (pointIndex == -1) {
-                    Logger.e(">>> TOKEN CAN NOT BE NULL！");
-                    finish();
-                    return;
-                }
-
-                url = url.substring(0, pointIndex);
-                url += "&token=" + QyClient.curUser.getToken();
-                mGameView.loadUrl(url);
-            }
-        } else {
-            finish();
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
 }

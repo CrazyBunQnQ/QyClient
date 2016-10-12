@@ -34,9 +34,6 @@
         android:name=".functions.login.LoginActivity"
         android:launchMode="singleInstance"/>
     <activity
-        android:name=".functions.h5game.pay.PaymentCheckActivity"
-        android:launchMode="singleTop"/>
-    <activity
         android:name=".functions.h5game.PlayGameActivity"
         android:launchMode="singleTop"/>
     <activity android:name=".functions.main.home.list.GameListActivity"/>
@@ -58,18 +55,18 @@
 
 
     <!--Alibaba-->
-    <!--<activity-->
-    <!--android:name="com.alipay.sdk.app.H5PayActivity"-->
-    <!--android:configChanges="orientation|keyboardHidden|navigation"-->
-    <!--android:exported="false"-->
-    <!--android:screenOrientation="behind">-->
-    <!--</activity>-->
-    <!--<activity-->
-    <!--android:name="com.alipay.sdk.auth.AuthActivity"-->
-    <!--android:configChanges="orientation|keyboardHidden|navigation"-->
-    <!--android:exported="false"-->
-    <!--android:screenOrientation="behind">-->
-    <!--</activity>-->
+    <activity
+        android:name="com.alipay.sdk.app.H5PayActivity"
+        android:configChanges="orientation|keyboardHidden|navigation"
+        android:exported="false"
+        android:screenOrientation="behind">
+    </activity>
+    <activity
+        android:name="com.alipay.sdk.auth.AuthActivity"
+        android:configChanges="orientation|keyboardHidden|navigation"
+        android:exported="false"
+        android:screenOrientation="behind">
+    </activity>
     <!--QQ-->
     <!--<activity-->
     <!--android:name="com.tencent.tauth.AuthActivity"-->

@@ -1,4 +1,4 @@
-package com.i7676.qyclient.functions.h5game.pay;
+package com.i7676.qyclient.functions.h5game;
 
 import com.i7676.qyclient.QyClientComponent;
 import com.i7676.qyclient.annotations.PerActivity;
@@ -8,7 +8,7 @@ import dagger.Component;
  * Created by Administrator on 2016/10/11.
  */
 @PerActivity @Component(dependencies = QyClientComponent.class)
-public interface PaymentCheckAtyComponent {
+public interface PlayGameAtyComponent {
 
-    void inject(PaymentCheckAtyPresenter presenter);
+    void inject(PlayGameActivity activity);
 }
