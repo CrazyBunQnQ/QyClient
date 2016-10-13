@@ -96,7 +96,6 @@ public class GiftFragment extends BaseFragment<GiftFtPresenter,GiftFrView> imple
     }
 
     private void initInject() {
-        ((MainActivity) getActivity()).getAtyComponent().inject(this);
         ((MainActivity) getActivity()).getAtyComponent().inject(getPresenter());
     }
 
