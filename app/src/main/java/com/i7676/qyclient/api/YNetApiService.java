@@ -6,11 +6,11 @@ import com.i7676.qyclient.entity.HomeFrEntity;
 import com.i7676.qyclient.entity.ProfileEntity;
 import com.i7676.qyclient.entity.RankingGameEntity;
 import com.i7676.qyclient.entity.ReqResult;
+import com.i7676.qyclient.entity.Test;
 import com.i7676.qyclient.entity.UserEntity;
 import com.i7676.qyclient.entity.WftUnifiedResponseEntity;
 import java.util.List;
 import java.util.Map;
-
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;

@@ -8,6 +8,7 @@ import com.i7676.qyclient.functions.main.adapters.CategoryAdapter;
 import com.i7676.qyclient.functions.main.adapters.GameCardAdapter;
 import com.i7676.qyclient.functions.main.adapters.GameGridAdapter;
 import com.i7676.qyclient.functions.main.adapters.GameHistoryAdapter;
+import com.i7676.qyclient.functions.main.adapters.GiftListAdapter;
 import com.i7676.qyclient.functions.main.navigation.MainAtyNavigator;
 import dagger.Module;
 import dagger.Provides;
@@ -54,5 +55,9 @@ import java.util.ArrayList;
 
     @Provides GameGridAdapter providedGameGridAdapter() {
         return new GameGridAdapter(R.layout.item_game_list_grid, new ArrayList<>());
+    }
+
+    @Provides GiftListAdapter providetGiftListAdapter() {
+        return new GiftListAdapter(R.layout.item_gifts_list, new ArrayList<>());
     }
 }

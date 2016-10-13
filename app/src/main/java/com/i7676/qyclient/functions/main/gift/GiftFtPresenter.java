@@ -24,15 +24,13 @@ import rx.schedulers.Schedulers;
  * Created by Administrator on 2016/10/8.
  */
 
-public class GiftFtPresenter  extends BasePresenter<GiftFrView> implements BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener{
+public class GiftFtPresenter extends BasePresenter<GiftFrView>
+    implements BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
     private int pageNum = 1;
     private int pageSize = 10;
     private Bundle args;
 
-
-
-    @Inject
-    YNetApiService mYNetApiService;
+    @Inject YNetApiService mYNetApiService;
 
     protected void onWakeUp() {
         super.onWakeUp();
@@ -42,63 +40,59 @@ public class GiftFtPresenter  extends BasePresenter<GiftFrView> implements BaseQ
 
     private void initGiftGet() {
 
-        if (QyClient.curUser == null){
+        if (QyClient.curUser == null) {
 
-
-              return;
-
-        }else {
-        HashMap<String,String> params2= new HashMap<>();
-        params2.put("bid","50");
-        params2.put("token", QyClient.curUser.getToken());
-        mYNetApiService.getGiftDetail(params2).subscribeOn(Schedulers.io())
+            return;
+        } else {
+            HashMap<String, String> params2 = new HashMap<>();
+            params2.put("bid", "50");
+            params2.put("token", QyClient.curUser.getToken());
+            mYNetApiService.getGiftDetail(params2)
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        requestString ->{
-                            if (requestString.getRet()==ServerConstans.SUCCESS){
-                                Logger.e(">>> on restring:"+requestString.getData());
-                            }
-                        },(throwable -> {
-                            Logger.e(">>> onError:" + throwable.getMessage());
-                        }),()->{
-
+                .subscribe(requestString -> {
+                        if (requestString.getRet() == ServerConstans.SUCCESS) {
+                            Logger.e(">>> on restring:" + requestString.getData());
                         }
+                    }, (throwable -> {
+                        Logger.e(">>> onError:" + throwable.getMessage());
+                    }), () -> {
 
+                    }
 
                 );
-    }}
+        }
+    }
 
     private void initGiftData() {
-
 
         HashMap<String, String> params = new HashMap<>();
         params.put("size", pageSize + "");
         params.put("page", pageNum + "");
 
-        mYNetApiService.getGiftList(params).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(requst -> {
-                    if (requst.getRet() == 0) {
-                        List<GiftEntity> data = JSONArray.parseArray(requst.getData().toString(), GiftEntity.class);
-                        getView().addList(data);
-                    } else if (requst.getRet() == ServerConstans.RESPONSE_DATA_IS_NULL) {
-                        getView().loadCompleted();
-                    }
-                });
+        mYNetApiService.getGiftList(params)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(requst -> {
+                if (requst.getRet() == 0) {
+                    List<GiftEntity> data =
+                        JSONArray.parseArray(requst.getData().toString(), GiftEntity.class);
+                    getView().addList(data);
+                } else if (requst.getRet() == ServerConstans.RESPONSE_DATA_IS_NULL) {
+                    getView().loadCompleted();
+                }
+            });
     }
 
-
-    @Override
-    public void onLoadMoreRequested() {
+    @Override public void onLoadMoreRequested() {
         pageNum++;
-      initGiftData();
+        initGiftData();
     }
 
-    @Override
-    public void onRefresh() {
+    @Override public void onRefresh() {
         pageNum = 1;
         getView().clearList();
-      // initGiftData();
+        // initGiftData();
     }
 }
 
