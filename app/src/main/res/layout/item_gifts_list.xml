@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="80dp"
+    android:layout_width="match_parent"
+    app:cardCornerRadius="8dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/colorwhite"
+        android:weightSum="1"
+        >
+
+        <RelativeLayout
+            android:id="@+id/Rl_gifit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <com.i7676.qyclient.widgets.AutoLoadImageView
+                android:id="@+id/img_gift_logo"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_width="80dp"
+                android:layout_height="60dp"
+                android:src="@mipmap/placeholder"
+                />
+
+            <TextView
+                android:layout_marginTop="5dp"
+                android:id="@+id/tv_gift_name"
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:layout_toRightOf="@id/img_gift_logo"
+
+                android:text="萌神赵子龙中秋节礼包"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginLeft="5dp"
+                android:ellipsize="end"
+                android:maxLines="1" />
+            <TextView
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/tv_gift_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/gift_quanfu_shape"
+                android:text="全服"
+                android:textColor="@color/colorwhite"
+                />
+            <TextView
+                android:id="@+id/tv_gift_introduce"
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+
+                android:layout_toRightOf="@id/img_gift_logo"
+                android:layout_below="@id/tv_gift_name"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:text="每个玩家使用一次"
+                android:textSize="12sp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                />
+            <TextView
+                android:id="@+id/gift_leftNum"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/img_gift_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_gift_introduce"
+                android:text="剩余："
+                />
+            <com.i7676.qyclient.widgets.RoundedRectProgressBarView
+                android:layout_width="150dp"
+                android:layout_toRightOf="@id/gift_leftNum"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_gift_introduce"
+                android:max="100"
+                android:id="@+id/bar"
+                app:backColor="#E6E6E6"
+                app:barColor="#33CC99"
+                app:textColor="#FFFFFF"
+                style="@android:style/Widget.ProgressBar.Horizontal"/>
+
+        </RelativeLayout>
+
+
+        <Button
+            android:id="@+id/gift_btnGet"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:text="领取"
+            android:textColor="@color/colorwhite"
+            android:textSize="12sp"
+
+            android:background="@drawable/btn_shape"
+            />
+
+        <TextView
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/gitft_stroke"
+            android:layerType="software"
+            android:layout_width="60dp"
+            android:layout_height="80dp"
+            android:id="@+id/view"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/gift_btnGet"
+            android:layout_toRightOf="@id/Rl_gifit"
+        />
+
+
+    </RelativeLayout>
+
+
+
+
+</android.support.v7.widget.CardView>
+
