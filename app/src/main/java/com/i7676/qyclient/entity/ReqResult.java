@@ -7,22 +7,31 @@ import java.io.Serializable;
  */
 
 public class ReqResult<T> implements Serializable {
-  private T data;
-  private int ret;
+    private T data;
+    private int ret;
+    private String msg;
 
-  public int getRet() {
-    return ret;
-  }
+    public String getMsg() {
+        return msg;
+    }
 
-  public void setRet(int ret) {
-    this.ret = ret;
-  }
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
 
-  public T getData() {
-    return data;
-  }
+    public int getRet() {
+        return ret;
+    }
 
-  public void setData(T data) {
-    this.data = data;
-  }
+    public void setRet(int ret) {
+        this.ret = ret;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }
 }
