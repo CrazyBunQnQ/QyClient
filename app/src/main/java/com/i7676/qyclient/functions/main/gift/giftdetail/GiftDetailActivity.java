@@ -14,7 +14,9 @@ import com.i7676.qyclient.functions.BaseActivity;
 import com.i7676.qyclient.functions.main.adapters.GiftpagerAdapter;
 import com.i7676.qyclient.functions.main.gift.giftdetail.childfragment.GiftDetailFragment;
 import com.i7676.qyclient.functions.main.gift.giftdetail.childfragment.GiftOtherFragment;
+import com.i7676.qyclient.widgets.AutoLoadImageView;
 import com.i7676.qyclient.widgets.MyViewPager;
+import com.i7676.qyclient.widgets.RoundedRectProgressBarView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,15 +35,20 @@ private GiftDetailComponent mGiftdetialcompoent;
     private TabLayout mTabLayout;
     private List<String> mTitle = new ArrayList<String>();
     private List<Fragment> mFragment = new ArrayList<Fragment>();
-    private TextView  tv_introduce, tv_name;
+    private TextView  tv_gamename, tv_name, tv_reedemcode;
+    private RoundedRectProgressBarView mProgress;
+    private AutoLoadImageView gift_icon;
 
     @Override
     public void initViews() {
         //进行注入
         setUpInject();
         //礼包详情
-         tv_name = (TextView) findViewById(R.id.tvdetail_gift_name);
-        tv_introduce= (TextView) findViewById(R.id.tv_gift_gamename);
+         tv_name = (TextView) findViewById(R.id.tvdetail_gift_name); // 礼包名称
+        tv_gamename= (TextView) findViewById(R.id.tv_gift_gamename);  // 游戏名称
+        tv_reedemcode = (TextView) findViewById(R.id.tv_RedeemCode); //兑换码
+        mProgress = (RoundedRectProgressBarView) findViewById(R.id.probar); // 进度条
+        gift_icon= (AutoLoadImageView) findViewById(R.id.gift_detail_img); // icon
 
 
 
@@ -107,8 +114,11 @@ private GiftDetailComponent mGiftdetialcompoent;
 
     @Override
     public void addGiftitem(Test mTest) {
-       tv_name.setText(mTest.getDetail().getCatname());
-        tv_introduce.setText(mTest.getDetail().getIntroduce());
+       tv_name.setText(mTest.getDetail().getCatdir());
+        tv_gamename.setText(mTest.getDetail().getCatname());
+       // tv_reedemcode.setText(mTest.getDetail().g);  兑换码
+        mProgress.setProgress(mTest.getDetail().getRemain());
+        gift_icon.setImageUrlAndAuthorInfo(mTest.getDetail().getIcon(),null);
 
     }
 }

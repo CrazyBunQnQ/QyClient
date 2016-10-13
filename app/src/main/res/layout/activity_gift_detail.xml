@@ -143,7 +143,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/tv_gift_gamename"
                         android:max="100"
-                        android:id="@+id/bar"
+                        android:id="@+id/probar"
                         app:backColor="#E6E6E6"
                         app:barColor="#33CC99"
                         app:textColor="#FFFFFF"
@@ -200,6 +200,7 @@
             android:layout_marginLeft="10dp"
             >
             <TextView
+                android:id="@+id/tv_RedeemCode"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"

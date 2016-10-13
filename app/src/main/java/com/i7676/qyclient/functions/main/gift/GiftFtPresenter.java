@@ -28,6 +28,7 @@ public class GiftFtPresenter  extends BasePresenter<GiftFrView> implements BaseQ
     private int pageNum = 1;
     private int pageSize = 10;
     private Bundle args;
+    //private String giftbid= new GiftEntity().getBid();
 
 
 
@@ -49,14 +50,21 @@ public class GiftFtPresenter  extends BasePresenter<GiftFrView> implements BaseQ
 
         }else {
         HashMap<String,String> params2= new HashMap<>();
-        params2.put("bid","50");
+        params2.put("bid", "50");
         params2.put("token", QyClient.curUser.getToken());
-        mYNetApiService.getGiftDetail(params2).subscribeOn(Schedulers.io())
+        mYNetApiService.receiveGift(params2).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         requestString ->{
                             if (requestString.getRet()==ServerConstans.SUCCESS){
-                                Logger.e(">>> on restring:"+requestString.getData());
+                                Logger.e(">>> on restring:"+requestString.getData().toString());
+                            //  getView().setbutton(requestString.getData());
+                            }else if (requestString.getRet()==ServerConstans.GIFT_RECEIVE){
+                                Logger.e(">>> onGIFT_RECEIVE :"+requestString.getRet());
+                                 //getView().setbutton();
+
+                            }else if (requestString.getRet()==ServerConstans.GIFT_RUNOUT){
+                                Logger.e(">>> on GIFT_RUNOUT:"+requestString.getRet());
                             }
                         },(throwable -> {
                             Logger.e(">>> onError:" + throwable.getMessage());

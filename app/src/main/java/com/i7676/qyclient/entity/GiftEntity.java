@@ -20,7 +20,7 @@ public class GiftEntity{
      * consume : 0
      */
 
-    private int bid;
+    private String bid;
     private String bname;
     private String introduce;
     private int gid;
@@ -33,7 +33,7 @@ public class GiftEntity{
     public GiftEntity() {
     }
 
-    public GiftEntity(int bid, String bname, String introduce, int gid, int add_time, String icon, int status, String remain, String consume) {
+    public GiftEntity(String bid, String bname, String introduce, int gid, int add_time, String icon, int status, String remain, String consume) {
         this.bid = bid;
         this.bname = bname;
         this.introduce = introduce;
@@ -45,11 +45,11 @@ public class GiftEntity{
         this.consume = consume;
     }
 
-    public int getBid() {
+    public String getBid() {
         return bid;
     }
 
-    public void setBid(int bid) {
+    public void setBid(String bid) {
         this.bid = bid;
     }
 
