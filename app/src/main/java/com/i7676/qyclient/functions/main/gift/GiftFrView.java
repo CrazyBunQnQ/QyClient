@@ -20,6 +20,7 @@ public interface GiftFrView extends BaseView {
     void closeDialog();
 
     void loadCompleted();
+    void setbutton();
 
 
 }

@@ -2,9 +2,9 @@ package com.i7676.qyclient.functions.main.gift.giftdetail;
 
 import android.util.Log;
 
+import com.i7676.qyclient.QyClient;
 import com.i7676.qyclient.api.ServerConstans;
 import com.i7676.qyclient.api.YNetApiService;
-import com.i7676.qyclient.entity.Test;
 import com.i7676.qyclient.functions.BasePresenter;
 import com.orhanobut.logger.Logger;
 
@@ -21,7 +21,7 @@ import rx.schedulers.Schedulers;
 
 public class GiftDetailPresenter extends BasePresenter<GiftDetailView> {
 
-
+        //private String giftbid= new Test().getDetail().getBid();
 
     @Inject
     YNetApiService  mYnetApiService;
@@ -39,17 +39,19 @@ public class GiftDetailPresenter extends BasePresenter<GiftDetailView> {
     public void getGiftDetaildata() {
         HashMap<String,String> params =  new HashMap<>();
         params.put("bid","50");
+        params.put("token", QyClient.curUser.getToken());
 
 //        mYnetApiService.getGiftDetail(params).subscribe(testReqResult -> {
 //
 //            testReqResult.getData().getDetail()
 //
 //        });
-        mYnetApiService.getGiftDetail(params).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(testReqResult -> {
+        mYnetApiService.getGiftDetail(params).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(testReqResult -> {
          if (testReqResult.getRet()== ServerConstans.SUCCESS){
-             Test.Gift gift = testReqResult.getData().getGift();
-             Log.e("11111",gift.toString());
-            Test.Detail detail = testReqResult.getData().getDetail();
+//             Test.Gift gift = testReqResult.getData().getGift();
+//             Log.e("11111",gift.toString());
+//            Test.Detail detail = testReqResult.getData().getDetail();
 //             String bid = detail.getBid();
 //             Log.e("bid",bid.toString());
 //             String catname = detail.getCatname();
@@ -57,7 +59,7 @@ public class GiftDetailPresenter extends BasePresenter<GiftDetailView> {
 //             String icon = detail.getIcon();
 //             String introduce = detail.getIntroduce();
 //             int remain = detail.getRemain();
-          //   getView().addGiftitem(testReqResult.getData());
+            getView().addGiftitem(testReqResult.getData());
 
 
 

@@ -1,5 +1,7 @@
 package com.i7676.qyclient.entity;
 
+import java.util.List;
+
 /**
  * Created by Administrator on 2016/10/11.
  */
@@ -7,7 +9,7 @@ package com.i7676.qyclient.entity;
 public class Test {
 
     Detail detail;
-    Gift gift;
+    List<Gift> gift;
 
     public Detail getDetail() {
         return detail;
@@ -17,11 +19,11 @@ public class Test {
         this.detail = detail;
     }
 
-    public Gift getGift() {
+    public List<Gift> getGift() {
         return gift;
     }
 
-    public void setGift(Gift gift) {
+    public void setGift(List<Gift> gift) {
         this.gift = gift;
     }
 

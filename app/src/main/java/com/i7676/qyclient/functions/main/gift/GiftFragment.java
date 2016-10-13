@@ -29,8 +29,10 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/10/8.
  */
-@Layout(R.layout.fragment_gifts) public class GiftFragment
-    extends BaseFragment<GiftFtPresenter, GiftFrView> implements GiftFrView {
+@Layout(R.layout.fragment_gifts)
+public class GiftFragment extends BaseFragment<GiftFtPresenter,GiftFrView> implements  GiftFrView {
+
+
 
     public static GiftFragment create(@Nullable Bundle args) {
         final GiftFragment fragment = new GiftFragment();
@@ -38,79 +40,109 @@ import java.util.List;
         return fragment;
     }
 
+
     private RecyclerView mRecyclerView;
     private GiftListAdapter mAdapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    List<GiftEntity>list;
 
-    @Override protected void initRootViews(View rootView) {
 
+    @Override
+    protected void initRootViews(View rootView) {
         initInject();
 
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_gift_list);
-        mAdapter = new GiftListAdapter(R.layout.item_gifts_list, new ArrayList<>());
+
+        mRecyclerView= (RecyclerView)rootView.findViewById(R.id.rv_gift_list);
+        mAdapter= new GiftListAdapter(R.layout.item_gifts_list,new ArrayList<>());
         mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.gift_swipeResh);
-        // mRecyclerView.setAdapter(mAdapter);
+       // mRecyclerView.setAdapter(mAdapter);
 
         mRecyclerView.setLayoutManager(
-            new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        mRecyclerView.addItemDecoration(
-            new MyDecoration(getActivity(), MyDecoration.VERTICAL_LIST));
+                new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        mRecyclerView.addItemDecoration(new MyDecoration(getActivity(), MyDecoration.VERTICAL_LIST));
         mAdapter.setOnLoadMoreListener(getPresenter());
 
         mSwipeRefreshLayout.setOnRefreshListener(getPresenter());
 
         mRecyclerView.setAdapter(mAdapter);
         //mRecyclerView.addItemDecoration(SpacesItemDecoration(DensityUtil.dip2px(ge, 8.0f)));
-        // mRecyclerView.addItemDecoration(new GameListActivity.SpacesItemDecoration(DensityUtil.dip2px(, 8.0f)));
+       // mRecyclerView.addItemDecoration(new GameListActivity.SpacesItemDecoration(DensityUtil.dip2px(, 8.0f)));
         mRecyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
-            public void SimpleOnItemChildClick(BaseQuickAdapter baseQuickAdapter, View view,
-                int i) {
+            public void SimpleOnItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
 
-                if (QyClient.curUser == null) {
+                if (QyClient.curUser == null){
 
                     Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_LONG).show();
                     return;
-                } else {
-
-                    Toast.makeText(getActivity(), "你好啊", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getActivity(), GiftDetailActivity.class);
-                    startActivity(intent);
                 }
+              else{
+                     //  判断领取礼包
+
+
+
+                    // 跳转到 详情界面
+                        Toast.makeText(getActivity(), "你好啊", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getActivity(), GiftDetailActivity.class);
+                       intent.putExtra("bid",list.get(i).getBid());
+                        startActivity(intent);
+                    }
+
             }
         });
+
+
+
     }
 
     private void initInject() {
+        ((MainActivity) getActivity()).getAtyComponent().inject(this);
         ((MainActivity) getActivity()).getAtyComponent().inject(getPresenter());
     }
 
-    @Override public void addList(List<GiftEntity> giftEntities) {
+    @Override
+    public void addList(List<GiftEntity>giftEntities) {
         mRecyclerView.setVisibility(View.VISIBLE);
         //mEmptyView.setVisibility(View.GONE);
+
         mAdapter.addData(giftEntities);
+        list= giftEntities;
         if (mSwipeRefreshLayout.isRefreshing()) mSwipeRefreshLayout.setRefreshing(Boolean.FALSE);
-    }
-
-    @Override public void clearList() {
 
     }
 
-    @Override public void showDialog(String msg) {
+    @Override
+    public void clearList() {
 
     }
 
-    @Override public void closeDialog() {
+    @Override
+    public void showDialog(String msg) {
 
     }
 
-    @Override public void loadCompleted() {
+    @Override
+    public void closeDialog() {
+
+    }
+
+    @Override
+    public void loadCompleted() {
         mAdapter.loadComplete();
+
     }
 
-    @NonNull @Override public GiftFtPresenter providePresenter() {
+    @Override
+    public void setbutton() {
+
+    }
+
+    @NonNull
+    @Override
+    public GiftFtPresenter providePresenter() {
         return new GiftFtPresenter();
     }
+
 
     public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
         private int space;
@@ -120,7 +152,7 @@ import java.util.List;
         }
 
         @Override public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
-            RecyclerView.State state) {
+                                             RecyclerView.State state) {
             outRect.left = space;
             outRect.right = space;
             outRect.bottom = space;
@@ -129,4 +161,5 @@ import java.util.List;
             if (parent.getChildAdapterPosition(view) == 0) outRect.top = space;
         }
     }
+
 }
