@@ -10,6 +10,7 @@ import com.i7676.qyclient.entity.UserEntity;
 import com.i7676.qyclient.entity.WftUnifiedResponseEntity;
 import java.util.List;
 import java.util.Map;
+
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
@@ -69,15 +70,28 @@ public interface YNetApiService {
     //@GET(WFT_PAY_CALLBACK) Observable<ReqResult<String>> wftPayCallback(
     //    @Query("transno") String transno);
 
+    //正在进行的活动
+    String ACTIVITY_CURRENT="mapiindex.php?m=activities&c=index&a=getNowAct";
+
+    // 活动历史接口
+    String Activity_PAST="mapiindex.php?m=activities&c=index&a=getHisAct";
+
+    //&token
+    @GET(TEL_BIND_STATUS) Observable<ReqResult<ProfileEntity>> getProfileInfo(
+        @Query("token") String token);
+
+    //礼包接口
+    String GIFT_Home="mapiindex.php?m=gift&c=index&a=index";
+    //礼包领取接口
+    String GIFT_GET="mapiindex.php?m=gift&c=index&a=recGift";
+    // 礼包详情接口
+    String GIFT_DETAIL="mapiindex.php?m=gift&c=index&a=getDetail";
+
     @GET(ZFB_ONLY) Observable<ReqResult<String>> getZFBOnly(@QueryMap Map<String, String> params);
 
     @POST(WFT_PAYMENT) @FormUrlEncoded
     Observable<ReqResult<WftUnifiedResponseEntity>> postWFTUnified(
         @FieldMap Map<String, String> params);
-
-    //&token
-    @GET(TEL_BIND_STATUS) Observable<ReqResult<ProfileEntity>> getProfileInfo(
-        @Query("token") String token);
 
     //&mobile=xxxxx&token=oo&code=23414
     @POST(TEL_BIND) @FormUrlEncoded Observable<ReqResult<String>> telBind(
@@ -131,4 +145,27 @@ public interface YNetApiService {
     @GET(CAPTCHA) Observable<ReqResult<String>> getCaptcha(@Query("mobile") String mobile,
         @Query("type") String type);
     //@GET(CAPTCHA) Observable<ReqResult<String>> getCaptcha(@Query("mobile") String mobile);
+
+    //正在进行 的活动
+    @GET(ACTIVITY_CURRENT)Observable<ReqResult<List<Object>>> getCurrentAcitivyList();
+
+    //活动历史接口
+
+    @GET(Activity_PAST)Observable<ReqResult<List<Object>>>getActivityList();
+
+
+    //礼包首页接口
+    @GET(GIFT_Home)Observable<ReqResult<List<Object>>> getGiftList(
+    @QueryMap Map<String, String> params);
+    //礼包领取接口
+    //h5.7676.com/mapiindex.php?m=gift&c=index&a=recGift&bid=50&token
+   @GET(GIFT_GET)Observable<ReqResult<String>>  receiveGift(
+           @QueryMap Map<String,String> params);
+
+    //礼包详情界面
+    @GET(GIFT_DETAIL)Observable<ReqResult<Test>> getGiftDetail(
+            @QueryMap Map<String,String> params);
+
+
+
 }

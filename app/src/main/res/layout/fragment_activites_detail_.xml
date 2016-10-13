@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:background="#BDBDBD"
+
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/widget_layout_red"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/background_white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="活动详情"
+            android:textSize="20sp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/colorPrimary"
+            />
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="就是破个人给就任凭时光日就是破个人就是公司人家说公司金融商品改时间就就破手机干涩 今日股票上果然是激发I 到 到V家啊大大家 V安静的埃及V啊距啊阿吉哦多久熬好大劫案 ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddfffffffffffffffffffffffffffffffffffffffffffffffff"
+            />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/but_startgame"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="开始游戏"
+        android:textColor="@color/colorwhite"
+        android:background="@drawable/btn_shape"
+        />
+</LinearLayout>
+
+
