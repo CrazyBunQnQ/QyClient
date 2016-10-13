@@ -140,6 +140,14 @@ import javax.inject.Inject;
         invalidateOptionsMenu();
     }
 
+    @Override public void showSearchView() {
+        this.mSearchView.setVisibility(View.VISIBLE);
+    }
+
+    @Override public void hideSearchView() {
+        this.mSearchView.setVisibility(View.GONE);
+    }
+
     @Override public void showOptionsMenu() {
         opMenuVisibility = true;
         invalidateOptionsMenu();

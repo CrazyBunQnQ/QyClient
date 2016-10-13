@@ -20,5 +20,7 @@ public interface ActivityFrView extends BaseView {
 
     void hideOptionsMenu();
 
-    void  showEnty();
+    void hideSearchView();
+
+    void showEnty();
 }

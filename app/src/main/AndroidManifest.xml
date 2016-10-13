@@ -37,7 +37,14 @@
         android:name=".functions.h5game.PlayGameActivity"
         android:launchMode="singleTop"/>
     <activity android:name=".functions.main.home.list.GameListActivity"/>
-    <activity android:name=".functions.main.profile.detail.MenuDetailActivity"/>
+    <activity android:name=".functions.main.activity.pastactivity.PastListActivity"/>
+
+    <activity android:name=".functions.main.gift.giftdetail.GiftDetailActivity"/>
+
+    <activity android:name=".functions.main.activity.detail.ActyDetaiActivity"/>
+
+
+
 
     <!--微信-->
     <activity
@@ -87,6 +94,7 @@
     <!--android:theme="@android:style/Theme.Translucent.NoTitleBar"-->
     <!--/>-->
     <!--<activity android:name=".api.wtf.PayMainActivity"/>-->
+
   </application>
 
 </manifest>

@@ -53,4 +53,6 @@ public interface HomeFrView extends BaseView {
     void serverFuckedUp();
 
     void go2PlayH5Game(String url);
+
+    void showSearchView();
 }

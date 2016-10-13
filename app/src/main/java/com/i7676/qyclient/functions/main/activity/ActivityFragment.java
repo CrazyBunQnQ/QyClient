@@ -44,7 +44,7 @@ import javax.inject.Inject;
     private RecyclerView activityRecyclerView;
     @Inject ActivityFrAdapter activityFrAdapter;
     private Button but_query;
-    private List<ActivitiesEntity>list;
+    private List<ActivitiesEntity> list;
 
     @Override protected void initRootViews(View rootView) {
         activityRecyclerView = (RecyclerView) rootView.findViewById(R.id.activities_recyclerView);
@@ -57,28 +57,28 @@ import javax.inject.Inject;
         //addFootView();
         activityRecyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
-            public void SimpleOnItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+            public void SimpleOnItemChildClick(BaseQuickAdapter baseQuickAdapter, View view,
+                int i) {
                 Toast.makeText(getActivity(), "你好啊", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getActivity(), ActyDetaiActivity.class);
-              intent.putExtra("id",list.get(i).getId());
-                intent.putExtra("description",list.get(i).getDescription());
+                intent.putExtra("id", list.get(i).getId());
+                intent.putExtra("description", list.get(i).getDescription());
                 startActivity(intent);
-
             }
         });
     }
 
     private void addFootView() {
-        View FootView = LayoutInflater.from(getActivity()).inflate(R.layout.activities_recyview_footer,null);
-       // View FootView= Layinflate(R.layout.activities_recyview_footer, null);
-      //  View FootView = getLayoutInflater(getActivity().).inflate(R.layout.activities_recyview_footer, (ViewGroup) activityRecyclerView.getParent(), false);
-      //  ((Button) FootView.findViewById(R.id.btn_activity_query)
-         but_query= (Button) FootView.findViewById(R.id.btn_activity_query);
-       // final View customLoading = getLayoutInflater().inflate(R.layout.custom_loading, (ViewGroup) mRecyclerView.getParent(), false);
+        View FootView =
+            LayoutInflater.from(getActivity()).inflate(R.layout.activities_recyview_footer, null);
+        // View FootView= Layinflate(R.layout.activities_recyview_footer, null);
+        //  View FootView = getLayoutInflater(getActivity().).inflate(R.layout.activities_recyview_footer, (ViewGroup) activityRecyclerView.getParent(), false);
+        //  ((Button) FootView.findViewById(R.id.btn_activity_query)
+        but_query = (Button) FootView.findViewById(R.id.btn_activity_query);
+        // final View customLoading = getLayoutInflater().inflate(R.layout.custom_loading, (ViewGroup) mRecyclerView.getParent(), false);
         but_query.setOnClickListener(v -> {
-            Intent intent= new Intent(getActivity(), PastListActivity.class);
+            Intent intent = new Intent(getActivity(), PastListActivity.class);
             startActivity(intent);
-
         });
         activityFrAdapter.addHeaderView(FootView);
     }
@@ -92,39 +92,40 @@ import javax.inject.Inject;
         return new ActivityFrPresenter();
     }
 
-//    @Override public void setupActivityData(List<ActivitiesEntity> activities) {
-//        activityFrAdapter.setNewData(activities);
-//    }
+    //    @Override public void setupActivityData(List<ActivitiesEntity> activities) {
+    //        activityFrAdapter.setNewData(activities);
+    //    }
 
-    @Override
-    public void setupActivityData(List<ActivitiesEntity> activities) {
-       activityFrAdapter.addData(activities);
-        list=activities;
-
+    @Override public void setupActivityData(List<ActivitiesEntity> activities) {
+        activityFrAdapter.addData(activities);
+        list = activities;
     }
 
     @Override public void setActionBarTitle(String titleText) {
-        ((MainActivity) getActivity()).getPresenter().getView().setTitle(titleText);
+        ((MainActivity) getActivity()).setTitle(titleText);
     }
 
     @Override public void showActionBar() {
-        ((MainActivity) getActivity()).getPresenter().getView().showActionBar();
+        ((MainActivity) getActivity()).showActionBar();
     }
 
     @Override public void setActionBarBackground(int color) {
-        ((MainActivity) getActivity()).getPresenter().getView().setToolbarBkg(color);
+        ((MainActivity) getActivity()).setToolbarBkg(color);
     }
 
     @Override public void setBottomBarIndex(int index) {
-        ((MainActivity) getActivity()).getPresenter().getView().setBottomBarIndex(index);
+        ((MainActivity) getActivity()).setBottomBarIndex(index);
     }
 
     @Override public void hideOptionsMenu() {
-        ((MainActivity) getActivity()).getPresenter().getView().hideOptionsMenu();
+        ((MainActivity) getActivity()).hideOptionsMenu();
     }
 
-    @Override
-    public void showEnty() {
+    @Override public void hideSearchView() {
+        ((MainActivity) getActivity()).hideSearchView();
+    }
+
+    @Override public void showEnty() {
 
     }
 }

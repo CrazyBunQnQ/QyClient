@@ -23,9 +23,7 @@ import static com.i7676.qyclient.api.ServerConstans.RESPONSE_DATA_IS_NULL;
  */
 public class ActivityFrPresenter extends BasePresenter<ActivityFrView> {
 
-
-    @Inject
-    YNetApiService mYNetApiService;
+    @Inject YNetApiService mYNetApiService;
 
     @Override protected void onWakeUp() {
         super.onWakeUp();
@@ -35,23 +33,24 @@ public class ActivityFrPresenter extends BasePresenter<ActivityFrView> {
     }
 
     private void initActivityFrData() {
-//        Observable.from(new String[] { "1", "2", "3" })
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .toList()
-//            .subscribe(getView()::setupActivityData);
+        //        Observable.from(new String[] { "1", "2", "3" })
+        //            .observeOn(AndroidSchedulers.mainThread())
+        //            .toList()
+        //            .subscribe(getView()::setupActivityData);
 
-        mYNetApiService.getCurrentAcitivyList().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(request ->{
-                    if (request.getRet()==0){
-                        List<ActivitiesEntity> data= JSONArray.parseArray(request.getData().toString(),ActivitiesEntity.class);
-                        getView().setupActivityData(data);
-                    }else  if (request.getRet()== RESPONSE_DATA_IS_NULL){
-                        //getView().showEnty(request.getData().toString()+"" );
-                        Log.e("1111111", request.toString());
-                    }
-                });
-
+        mYNetApiService.getCurrentAcitivyList()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(request -> {
+                if (request.getRet() == 0) {
+                    List<ActivitiesEntity> data =
+                        JSONArray.parseArray(request.getData().toString(), ActivitiesEntity.class);
+                    getView().setupActivityData(data);
+                } else if (request.getRet() == RESPONSE_DATA_IS_NULL) {
+                    //getView().showEnty(request.getData().toString()+"" );
+                    Log.e("1111111", request.toString());
+                }
+            });
     }
 
     private void toolbarSetup() {
@@ -60,5 +59,6 @@ public class ActivityFrPresenter extends BasePresenter<ActivityFrView> {
         getView().setActionBarBackground(ColorConstants.PRIMARY_COLOR);
         getView().setBottomBarIndex(MainAtyView.TAB_INDEX_ACTIVITY);
         getView().hideOptionsMenu();
+        getView().hideSearchView();
     }
 }
