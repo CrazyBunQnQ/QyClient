@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
+import com.i7676.qyclient.QyClient;
 import com.i7676.qyclient.R;
 import com.i7676.qyclient.annotations.Layout;
 import com.i7676.qyclient.entity.GiftEntity;
@@ -67,9 +68,18 @@ public class GiftFragment extends BaseFragment<GiftFtPresenter,GiftFrView> imple
         mRecyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
             public void SimpleOnItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-                Toast.makeText(getActivity(),"你好啊",Toast.LENGTH_SHORT).show();
-                Intent intent= new Intent(getActivity(), GiftDetailActivity.class);
-                startActivity(intent);
+
+                if (QyClient.curUser == null){
+
+                    Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_LONG).show();
+                    return;
+                }
+              else{
+
+                        Toast.makeText(getActivity(), "你好啊", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getActivity(), GiftDetailActivity.class);
+                        startActivity(intent);
+                    }
 
             }
         });

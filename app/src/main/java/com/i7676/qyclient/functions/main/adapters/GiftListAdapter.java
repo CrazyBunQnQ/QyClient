@@ -5,6 +5,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.i7676.qyclient.R;
 import com.i7676.qyclient.entity.GiftEntity;
 import com.i7676.qyclient.widgets.AutoLoadImageView;
+import com.i7676.qyclient.widgets.RoundedRectProgressBarView;
 
 import java.util.List;
 
@@ -43,6 +44,7 @@ public class GiftListAdapter  extends BaseQuickAdapter<GiftEntity> {
 //
 //
 //        });
+        ((RoundedRectProgressBarView)baseViewHolder.getConvertView().findViewById(R.id.bar)).setProgress(Integer.parseInt(giftEntity.getRemain()));
 
     baseViewHolder.addOnClickListener(R.id.gift_btnGet);
 

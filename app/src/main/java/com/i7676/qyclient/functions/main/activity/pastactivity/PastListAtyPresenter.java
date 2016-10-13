@@ -1,9 +1,6 @@
 package com.i7676.qyclient.functions.main.activity.pastactivity;
 
-import android.support.v4.widget.SwipeRefreshLayout;
-
 import com.alibaba.fastjson.JSONArray;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.i7676.qyclient.api.ServerConstans;
 import com.i7676.qyclient.api.YNetApiService;
 import com.i7676.qyclient.entity.ActivitiesEntity;
@@ -20,7 +17,7 @@ import rx.schedulers.Schedulers;
  * Created by Administrator on 2016/10/8.
  */
 
-class PastListAtyPresenter  extends BasePresenter<PastListAtyView> implements BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
+class PastListAtyPresenter  extends BasePresenter<PastListAtyView>{ //implements BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
 
 
     @Inject
@@ -70,17 +67,19 @@ class PastListAtyPresenter  extends BasePresenter<PastListAtyView> implements Ba
         });
 
     }
-
-    @Override
-    public void onRefresh() {
-        getDataFromsupport();
-
-    }
-
-    @Override
-    public void onLoadMoreRequested() {
-
-    }
+//
+//    @Override
+//    public void onRefresh() {
+//       // getDataFromsupport();
+//        getView().clearList();
+//       // getDataFromsupport();
+//
+//    }
+//
+//    @Override
+//    public void onLoadMoreRequested() {
+//
+//    }
 
 //    private void toolbarSetup() {
 //        getView().showActionBar();

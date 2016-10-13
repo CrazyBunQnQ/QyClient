@@ -7,7 +7,7 @@ package com.i7676.qyclient.entity;
 public class GiftEntity{
 
 
-    /**
+    /*
      * bid : 52
      * bname : 仙路传奇国庆大礼包
      * introduce : 礼包内容 挂机加速卡x5挂机经验卡x5国庆大礼包x5藏宝图x5,声望令x2
@@ -20,45 +20,37 @@ public class GiftEntity{
      * consume : 0
      */
 
-    private String bid;
+    private int bid;
     private String bname;
     private String introduce;
-    private String gid;
-    private String add_time;
+    private int gid;
+    private int add_time;
     private String icon;
-    private String status;
+    private int status;
     private String remain;
     private String consume;
 
     public GiftEntity() {
     }
 
-    public GiftEntity(String bid, String bname, String introduce, String gid, String icon, String remain, String add_time, String status, String consume) {
+    public GiftEntity(int bid, String bname, String introduce, int gid, int add_time, String icon, int status, String remain, String consume) {
         this.bid = bid;
         this.bname = bname;
         this.introduce = introduce;
         this.gid = gid;
-        this.icon = icon;
-        this.remain = remain;
         this.add_time = add_time;
+        this.icon = icon;
         this.status = status;
+        this.remain = remain;
         this.consume = consume;
     }
 
-    public String getBid() {
+    public int getBid() {
         return bid;
     }
 
-    public void setBid(String bid) {
+    public void setBid(int bid) {
         this.bid = bid;
-    }
-
-    public String getBname() {
-        return bname;
-    }
-
-    public void setBname(String bname) {
-        this.bname = bname;
     }
 
     public String getIntroduce() {
@@ -69,19 +61,27 @@ public class GiftEntity{
         this.introduce = introduce;
     }
 
-    public String getGid() {
+    public String getBname() {
+        return bname;
+    }
+
+    public void setBname(String bname) {
+        this.bname = bname;
+    }
+
+    public int getGid() {
         return gid;
     }
 
-    public void setGid(String gid) {
+    public void setGid(int gid) {
         this.gid = gid;
     }
 
-    public String getAdd_time() {
+    public int getAdd_time() {
         return add_time;
     }
 
-    public void setAdd_time(String add_time) {
+    public void setAdd_time(int add_time) {
         this.add_time = add_time;
     }
 
@@ -93,20 +93,12 @@ public class GiftEntity{
         this.icon = icon;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
-    }
-
-    public String getRemain() {
-        return remain;
-    }
-
-    public void setRemain(String remain) {
-        this.remain = remain;
     }
 
     public String getConsume() {
@@ -115,5 +107,13 @@ public class GiftEntity{
 
     public void setConsume(String consume) {
         this.consume = consume;
+    }
+
+    public String getRemain() {
+        return remain;
+    }
+
+    public void setRemain(String remain) {
+        this.remain = remain;
     }
 }

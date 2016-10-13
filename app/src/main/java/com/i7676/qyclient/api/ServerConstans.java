@@ -35,4 +35,11 @@ public interface ServerConstans {
     int NICKNAME_IS_NULL = -13;
     // 请求数据为空
     int RESPONSE_DATA_IS_NULL = -14;
+    //已领取礼包
+    int GIFT_RECEIVE=  -15 ;
+
+    // 礼包已领完
+    int GIFT_RUNOUT = -16 ;
+
+
 }

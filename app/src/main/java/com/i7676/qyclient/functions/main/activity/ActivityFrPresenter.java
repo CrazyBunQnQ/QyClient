@@ -1,11 +1,22 @@
 package com.i7676.qyclient.functions.main.activity;
 
+import android.util.Log;
+
+import com.alibaba.fastjson.JSONArray;
 import com.i7676.qyclient.api.YNetApiService;
+import com.i7676.qyclient.entity.ActivitiesEntity;
 import com.i7676.qyclient.functions.BasePresenter;
 import com.i7676.qyclient.functions.main.MainAtyView;
 import com.i7676.qyclient.util.ColorConstants;
 
+import java.util.List;
+
 import javax.inject.Inject;
+
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
+import static com.i7676.qyclient.api.ServerConstans.RESPONSE_DATA_IS_NULL;
 
 /**
  * Created by Administrator on 2016/9/19.
@@ -29,17 +40,17 @@ public class ActivityFrPresenter extends BasePresenter<ActivityFrView> {
 //            .toList()
 //            .subscribe(getView()::setupActivityData);
 
-//        mYNetApiService.getCurrentAcitivyList().subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(request ->{
-//                    if (request.getRet()==0){
-//                        List<ActivitiesEntity> data= JSONArray.parseArray(request.getData().toString(),ActivitiesEntity.class);
-//                        getView().setupActivityData(data);
-//                    }else  if (request.getRet()== RESPONSE_DATA_IS_NULL){
-//                        //getView().showEnty(request.getData().toString()+"" );
-//                        Log.e("1111111", request.toString());
-//                    }
-//                });
+        mYNetApiService.getCurrentAcitivyList().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(request ->{
+                    if (request.getRet()==0){
+                        List<ActivitiesEntity> data= JSONArray.parseArray(request.getData().toString(),ActivitiesEntity.class);
+                        getView().setupActivityData(data);
+                    }else  if (request.getRet()== RESPONSE_DATA_IS_NULL){
+                        //getView().showEnty(request.getData().toString()+"" );
+                        Log.e("1111111", request.toString());
+                    }
+                });
 
     }
 

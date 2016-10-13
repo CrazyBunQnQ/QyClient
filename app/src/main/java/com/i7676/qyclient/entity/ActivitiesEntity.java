@@ -19,7 +19,7 @@ public class ActivitiesEntity {
      * endtime : 2016-08-31
      */
 
-    private String id;
+    private int id;
     private String title;
     private String catid;
     private String description;
@@ -34,7 +34,8 @@ public class ActivitiesEntity {
         super();
     }
 
-    public ActivitiesEntity(String id, String title, String catid, String gameSize, String starttime, String endtime, String gameid, String href, String thumb, String description) {
+    public ActivitiesEntity(int
+                                    id, String title, String catid, String gameSize, String starttime, String endtime, String gameid, String href, String thumb, String description) {
         super();
         this.id = id;
         this.title = title;
@@ -48,11 +49,11 @@ public class ActivitiesEntity {
         this.description = description;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

@@ -1,5 +1,6 @@
 package com.i7676.qyclient.functions.main.activity.detail;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
@@ -28,18 +29,29 @@ public class ActyDetaiActivity extends BaseActivity<ActyDetailPresenter,ActyDeta
     private List<String> mTitle = new ArrayList<String>();
     private List<Fragment> mFragment = new ArrayList<Fragment>();
     private ActyDetailComponent mActyDetailcomponent;
+    private Intent intent;
+    private String activityid;
+    private ActivityDetailFrgment mactivityDetailFrgment;
 
 
     @Override
     public void initViews() {
 
         setUpInject();
+
+
+
+        intent = getIntent();
+       activityid = intent.getStringExtra("id");
+        String description = intent.getStringExtra("description");
         mTitle.add("活动详情");
         mTitle.add("本期活动排行榜");
         mFragment.add(new ActivityDetailFrgment());
         mFragment.add(new RankingListFrgment());
+
         myViewPager= (MyViewPager) findViewById(R.id.activites_viewpager);
         myViewPager.setAdapter(new ActivitiespagerAdapter(getSupportFragmentManager(),mTitle,mFragment)) ;
+
 
         mTabLayout= (TabLayout) findViewById(R.id.activities_tab);
         mTabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.colorPrimary));

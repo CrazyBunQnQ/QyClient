@@ -73,7 +73,6 @@
                 android:text="剩余："
                 />
             <com.i7676.qyclient.widgets.RoundedRectProgressBarView
-
                 android:layout_width="150dp"
                 android:layout_toRightOf="@id/gift_leftNum"
                 android:layout_height="wrap_content"

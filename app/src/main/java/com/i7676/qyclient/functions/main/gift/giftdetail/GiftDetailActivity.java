@@ -4,10 +4,12 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.widget.TextView;
 
 import com.i7676.qyclient.QyClient;
 import com.i7676.qyclient.R;
 import com.i7676.qyclient.annotations.Layout;
+import com.i7676.qyclient.entity.Test;
 import com.i7676.qyclient.functions.BaseActivity;
 import com.i7676.qyclient.functions.main.adapters.GiftpagerAdapter;
 import com.i7676.qyclient.functions.main.gift.giftdetail.childfragment.GiftDetailFragment;
@@ -31,11 +33,17 @@ private GiftDetailComponent mGiftdetialcompoent;
     private TabLayout mTabLayout;
     private List<String> mTitle = new ArrayList<String>();
     private List<Fragment> mFragment = new ArrayList<Fragment>();
+    private TextView  tv_introduce, tv_name;
 
     @Override
     public void initViews() {
         //进行注入
         setUpInject();
+        //礼包详情
+         tv_name = (TextView) findViewById(R.id.tvdetail_gift_name);
+        tv_introduce= (TextView) findViewById(R.id.tv_gift_gamename);
+
+
 
         // 礼包内的两个碎片
         mTitle.add("礼包详情");
@@ -93,5 +101,14 @@ private GiftDetailComponent mGiftdetialcompoent;
     @Override
     public GiftDetailPresenter providePresenter() {
         return new GiftDetailPresenter();
+    }
+
+
+
+    @Override
+    public void addGiftitem(Test mTest) {
+       tv_name.setText(mTest.getDetail().getCatname());
+        tv_introduce.setText(mTest.getDetail().getIntroduce());
+
     }
 }

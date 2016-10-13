@@ -5,6 +5,7 @@ import com.i7676.qyclient.entity.CategoryEntity;
 import com.i7676.qyclient.entity.HomeFrEntity;
 import com.i7676.qyclient.entity.RankingGameEntity;
 import com.i7676.qyclient.entity.ReqResult;
+import com.i7676.qyclient.entity.Test;
 import com.i7676.qyclient.entity.UserEntity;
 
 import java.util.List;
@@ -120,12 +121,11 @@ public interface YNetApiService {
     @QueryMap Map<String, String> params);
     //礼包领取接口
     //h5.7676.com/mapiindex.php?m=gift&c=index&a=recGift&bid=50&token
-   @GET(GIFT_GET)Observable<ReqResult<List<Object>>> receiveGift(
+   @GET(GIFT_GET)Observable<ReqResult<String>>  receiveGift(
            @QueryMap Map<String,String> params);
 
-
     //礼包详情界面
-    @GET(GIFT_DETAIL)Observable<ReqResult<List<Object>>> getGiftDetail(
+    @GET(GIFT_DETAIL)Observable<ReqResult<Test>> getGiftDetail(
             @QueryMap Map<String,String> params);
 
 

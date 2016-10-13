@@ -23,5 +23,9 @@ public class ActivityFrAdapter extends BaseQuickAdapter<ActivitiesEntity> {
     ((AutoLoadImageView)baseViewHolder.getConvertView()
             .findViewById(R.id.activity_logo)).setImageUrlAndAuthorInfo(activitiesEntity.getThumb(),
             null);
+    baseViewHolder.addOnClickListener(R.id.btn_activity_detail);
+    // 点击跳转活动详情
+
+
   }
 }

@@ -2,6 +2,7 @@ package com.i7676.qyclient.functions.main.activity.pastactivity;
 
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -45,9 +46,9 @@ public class PastListActivity  extends BaseActivity<PastListAtyPresenter,PastLis
        // mAdapter = new GameListAtyAdapter(R.layout.item_game_list, new ArrayList<>());
         //mAdapter.setEmptyView(emptyView);
         mAdapter= new PastActivityListAdapter(R.layout.item_activities_list,new ArrayList<>());
-        mAdapter.setOnLoadMoreListener(getPresenter());
-
-        mSwipeRefreshLayout.setOnRefreshListener(getPresenter());
+//        mAdapter.setOnLoadMoreListener(getPresenter());
+//
+//        mSwipeRefreshLayout.setOnRefreshListener(getPresenter());
 
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(
@@ -84,6 +85,7 @@ public class PastListActivity  extends BaseActivity<PastListAtyPresenter,PastLis
 
     @Override
     public void closeDialog() {
+        this.closeProgressDialog();
 
     }
 
@@ -95,7 +97,7 @@ public class PastListActivity  extends BaseActivity<PastListAtyPresenter,PastLis
     @Override
     public void loadCompleted() {
         mAdapter.loadComplete();
-       // Snackbar.make(mToolba, "无更多数据", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(mToolbar, "无更多数据", Snackbar.LENGTH_LONG).show();
     }
 
 //    @Override

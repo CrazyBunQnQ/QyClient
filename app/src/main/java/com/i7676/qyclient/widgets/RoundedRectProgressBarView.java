@@ -79,14 +79,14 @@ public class RoundedRectProgressBarView extends View {
         //进度
         mPaint.setColor(textColor);
         mPaint.setTextSize(this.getMeasuredHeight() / 1.2f);
-        String text = "" + progress + "%";
+        String text = "" + progress+ "%";
         float x = this.getMeasuredWidth() * progress / 100 - mPaint.measureText(text) - 10;
         float y = this.getMeasuredHeight() / 2f - mPaint.getFontMetrics().ascent / 2f - mPaint.getFontMetrics().descent / 2f;
         canvas.drawText(text, x, y, mPaint);
     }
 
     /*设置进度条进度, 外部调用*/
-    public void setProgress(int progress) {
+    public void setProgress(int progress){
         if (progress > 100) {
             this.progress = 100;
         } else if (progress < 0) {

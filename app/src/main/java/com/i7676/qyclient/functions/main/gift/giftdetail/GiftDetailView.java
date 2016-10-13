@@ -1,5 +1,6 @@
 package com.i7676.qyclient.functions.main.gift.giftdetail;
 
+import com.i7676.qyclient.entity.Test;
 import com.i7676.qyclient.functions.BaseView;
 
 /**
@@ -7,4 +8,6 @@ import com.i7676.qyclient.functions.BaseView;
  */
 
 public interface GiftDetailView  extends BaseView{
+
+    void addGiftitem(Test mTest);
 }
