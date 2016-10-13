@@ -60,8 +60,14 @@ public interface YNetApiService {
     String TEL_BIND_STATUS = "mapiindex.php?m=members&c=info&a=index";
     // 威富通统一预下单请求
     String WFT_PAYMENT = "mapiindex.php?m=pay&c=index&a=getTransNo";
+    // 威富通支付结果请求
+    String WFT_PAY_CALLBACK = "http://h5.7676.com/index.php?m=index&c=PayH5&a=paystatus";
     // 支付宝Only
     String ZFB_ONLY = "mapiindex.php?m=pay&c=index&a=getTransNo";
+
+    // &transno=ss
+    //@GET(WFT_PAY_CALLBACK) Observable<ReqResult<String>> wftPayCallback(
+    //    @Query("transno") String transno);
 
     @GET(ZFB_ONLY) Observable<ReqResult<String>> getZFBOnly(@QueryMap Map<String, String> params);
 

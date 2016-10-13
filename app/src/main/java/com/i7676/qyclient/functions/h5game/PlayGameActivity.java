@@ -1,5 +1,6 @@
 package com.i7676.qyclient.functions.h5game;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -52,11 +53,14 @@ public class PlayGameActivity extends AppCompatActivity {
     @Inject YNetApiService mYNetApiService;
     private String targetURL;
     private GameView mGameView;
+    private String wftUniqueTransno;
 
     public static final int TOKEN_OVERDUE = -1;
     public static final int GAME_LOAD_EXCEPTION = -3;
     public static final int FORCE_TO_EXIT = -2;
     public static final int INIT_PAYMENT = -4;
+    public static final int WFT_PAY_RESULT_LOAD = -5;
+    private ProgressDialog mProgressDialog;
     private AlertDialog mAlertDialog;
     private int dialogWhat = FORCE_TO_EXIT;
     private final Handler UIHandler = new Handler() {
@@ -69,6 +73,11 @@ public class PlayGameActivity extends AppCompatActivity {
                 case INIT_PAYMENT:
                     final String payment = (String) msg.obj;
                     preOrderReq(parseURL(payment));
+                    break;
+                case WFT_PAY_RESULT_LOAD:
+                    mProgressDialog.dismiss();
+                    final String wftRetURL = (String) msg.obj;
+                    mGameView.loadUrl(wftRetURL);
                     break;
                 default:
                 case GAME_LOAD_EXCEPTION:
@@ -95,6 +104,9 @@ public class PlayGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setupInject();
+
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setMessage("加载中...");
 
         Intent data = getIntent();
         targetURL = data.getStringExtra(GAME_URL);
@@ -164,7 +176,7 @@ public class PlayGameActivity extends AppCompatActivity {
                             final RequestMsg msg = new RequestMsg();
                             msg.setTokenId(response.getData().getToken_id());
                             msg.setTradeType(MainApplication.PAY_WX_WAP);
-                            msg.setOutTradeNo(response.getData().getTransno());
+                            msg.setOutTradeNo((wftUniqueTransno = response.getData().getTransno()));
                             PayPlugin.unifiedH5Pay(PlayGameActivity.this, msg);
                         } else {
                             toast2User("威富通支付失败: 请求统一下单接口失败.");
@@ -199,6 +211,11 @@ public class PlayGameActivity extends AppCompatActivity {
                 }
             }).start();
         }
+    }
+
+    private void clearWebViewBackStep() {
+        if (mGameView == null) return;
+        mGameView.clearHistory();
     }
 
     //设置网页回退
@@ -245,8 +262,27 @@ public class PlayGameActivity extends AppCompatActivity {
                 mGameView.loadUrl(targetURL);
             }
         } else if (!TextUtils.isEmpty(retCode)) {
-            String retStr = "success".equals(retCode) ? "支付完成" : "支付失败";
-            toast2User(retStr);
+            // 这个判断条件别乱修改，请参考威富通的文档
+            boolean ret = "SUCCESS".equals(retCode);
+            // 支付成功
+            if (ret) {
+                mProgressDialog.show();
+                new Thread() {
+                    @Override public void run() {
+                        super.run();
+                        // 后台说等个5秒再请求订单信息，担心威富通没有回调成功
+                        final Message msg = new Message();
+                        msg.what = WFT_PAY_RESULT_LOAD;
+                        msg.obj = YNetApiService.WFT_PAY_CALLBACK + "&transno=" + wftUniqueTransno;
+                        UIHandler.sendMessageDelayed(msg, 5000);
+                    }
+                }.start();
+            }
+            // 支付失败
+            else {
+                // 告诉用户支付失败了，什么都不做
+                toast2User("支付失败，请重试.");
+            }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -319,6 +355,10 @@ public class PlayGameActivity extends AppCompatActivity {
         // 加载后操作
         @Override public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
+            // 支付结果拦截
+            if (payResultInterceptor(url)) {
+                view.clearHistory();
+            }
         }
 
         private boolean signInUpInterceptor(String url) {
@@ -332,6 +372,11 @@ public class PlayGameActivity extends AppCompatActivity {
             //final String payTag2 = "http://h5.7676.com/api/transaction";
             final String payTag3 = "http://h5.7676.com/api/pay/save";
             return url.contains(payTag3);
+        }
+
+        private boolean payResultInterceptor(String url) {
+            final String payCallback = YNetApiService.WFT_PAY_CALLBACK;
+            return url.contains(payCallback);
         }
 
         // url重载操作
