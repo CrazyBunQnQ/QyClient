@@ -5,14 +5,13 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 import com.i7676.qyclient.QyClient;
 import com.i7676.qyclient.R;
 import com.i7676.qyclient.annotations.Layout;
 import com.i7676.qyclient.entity.UserEntity;
-import com.i7676.qyclient.functions.BaseActivity;
+import com.i7676.qyclient.functions.OneHasToolbarActivity;
 import com.i7676.qyclient.functions.login.navigation.LoginNavigator;
 import com.i7676.qyclient.functions.login.rof.RoFFragment;
 import com.i7676.qyclient.util.SharedPreferencesUtil;
@@ -21,8 +20,8 @@ import javax.inject.Inject;
 /**
  * Created by Administrator on 2016/9/19.
  */
-@Layout(R.layout.activity_login) public class LoginActivity
-    extends BaseActivity<LoginAtyPresenter, LoginAtyView> implements LoginAtyView {
+@Layout(R.layout.activity_toolbar) public class LoginActivity
+    extends OneHasToolbarActivity<LoginAtyPresenter, LoginAtyView> implements LoginAtyView {
 
     @Inject LoginNavigator navigator;
 
@@ -36,20 +35,13 @@ import javax.inject.Inject;
         super.onNewIntent(intent);
     }
 
-    // Views
-    private Toolbar mToolbar;
-
     // Dagger
     private LoginAtyComponent atyComponent;
 
     @Override public void initViews() {
+        super.initViews();
         initInject();
-
-        mToolbar = (Toolbar) findViewById(R.id.toolbarLayout);
-        setSupportActionBar(mToolbar);
-        mToolbar.setTitleTextColor(Color.WHITE);
-        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
-        mToolbar.setNavigationOnClickListener(clickAsPressBack);
+        setTitleTextColor(Color.WHITE);
     }
 
     private void initInject() {
@@ -67,11 +59,7 @@ import javax.inject.Inject;
     }
 
     public int getFrPlaceHolderResId() {
-        return R.id.container;
-    }
-
-    @Override public void setTitle(String titleText) {
-        mToolbar.setTitle(titleText);
+        return getContainerResId();
     }
 
     @Override public void showSignInFr() {
@@ -107,7 +95,7 @@ import javax.inject.Inject;
     }
 
     @Override public void signUpFailed(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        this.showToast2User(msg, Toast.LENGTH_SHORT);
     }
 
     @Override public void storeUser(UserEntity userEntity) {

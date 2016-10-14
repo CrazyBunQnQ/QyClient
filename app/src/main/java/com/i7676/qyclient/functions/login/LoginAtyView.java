@@ -1,13 +1,12 @@
 package com.i7676.qyclient.functions.login;
 
 import com.i7676.qyclient.entity.UserEntity;
-import com.i7676.qyclient.functions.BaseView;
+import com.i7676.qyclient.functions.OneHasToolbarAtyView;
 
 /**
  * Created by Administrator on 2016/9/20.
  */
-public interface LoginAtyView extends BaseView {
-    void setTitle(String titleText);
+public interface LoginAtyView extends OneHasToolbarAtyView {
 
     void showSignInFr();
 

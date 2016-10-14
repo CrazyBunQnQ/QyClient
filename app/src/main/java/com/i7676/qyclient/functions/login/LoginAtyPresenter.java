@@ -4,7 +4,7 @@ import com.i7676.qyclient.QyClient;
 import com.i7676.qyclient.api.YNetApiService;
 import com.i7676.qyclient.entity.UserEntity;
 import com.i7676.qyclient.exception.ServerException;
-import com.i7676.qyclient.functions.BasePresenter;
+import com.i7676.qyclient.functions.OneHasToolbarAtyPresenter;
 import com.i7676.qyclient.rx.RxUtil;
 import javax.inject.Inject;
 
@@ -12,7 +12,7 @@ import javax.inject.Inject;
  * Created by Administrator on 2016/9/20.
  */
 
-public class LoginAtyPresenter extends BasePresenter<LoginAtyView> {
+public class LoginAtyPresenter extends OneHasToolbarAtyPresenter<LoginAtyView> {
 
     @Inject YNetApiService mYNetApiService;
 

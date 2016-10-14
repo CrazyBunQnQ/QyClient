@@ -1,7 +1,7 @@
 package com.i7676.qyclient.functions.main.profile.detail;
 
 import android.os.Bundle;
-import com.i7676.qyclient.functions.BasePresenter;
+import com.i7676.qyclient.functions.OneHasToolbarAtyPresenter;
 import com.i7676.qyclient.functions.main.profile.ProfileConstants;
 import com.orhanobut.logger.Logger;
 
@@ -9,7 +9,7 @@ import com.orhanobut.logger.Logger;
  * Created by Administrator on 2016/10/8.
  */
 
-public class MenuDetailAtyPresenter extends BasePresenter<MenuDetailAtyView> {
+public class MenuDetailAtyPresenter extends OneHasToolbarAtyPresenter<MenuDetailAtyView> {
     private MenuDetailAtyNavigator navigator;
     private Bundle args;
 

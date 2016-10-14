@@ -51,7 +51,7 @@ public class LoginNavigator {
         if (selectedFragment instanceof QuickRegFragment
             || selectedFragment instanceof RoFFragment) {
             loginActivity.getSupportFragmentManager().popBackStackImmediate();
-            loginActivity.getPresenter().getView().setTitle("登录");
+            loginActivity.getPresenter().getView().setTitleText("登录");
             // FIXME: 2016/9/23  只有两层还好管理，要是有三层就。。。
             selectedFragment = (BaseFragment) loginActivity.getSupportFragmentManager()
                 .findFragmentByTag(SignInFragment.class.getSimpleName());
