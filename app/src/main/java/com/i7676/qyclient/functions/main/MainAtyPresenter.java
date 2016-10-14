@@ -58,6 +58,7 @@ public class MainAtyPresenter extends BasePresenter<MainAtyView>
                 navigator.showActivityFr();
                 break;
             case R.id.bottom_hi:
+                navigator.showHi();
                 break;
             case R.id._bottom_gifts:
                 navigator.showGiftFr();

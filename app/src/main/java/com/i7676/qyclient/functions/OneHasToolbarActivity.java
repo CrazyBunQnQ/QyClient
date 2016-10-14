@@ -11,6 +11,8 @@ import com.i7676.qyclient.R;
  * Created by Administrator on 2016/10/14.
  *
  * Toolbar Activity 的抽象基类
+ *
+ * 用得习惯就用，用不习惯可以直接 extends 基类
  */
 public abstract class OneHasToolbarActivity<P extends BasePresenter<V>, V extends BaseView>
     extends BaseActivity<P, V> implements OneHasToolbarAtyView {
