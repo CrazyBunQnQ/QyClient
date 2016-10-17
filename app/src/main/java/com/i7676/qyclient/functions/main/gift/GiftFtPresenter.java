@@ -44,7 +44,7 @@ public class GiftFtPresenter  extends BasePresenter<GiftFrView> implements BaseQ
         initGiftGet();
     }
 
-    private void initGiftGet() {
+    private void  initGiftGet() {
         data= new ArrayList<>();
 
         if (QyClient.curUser == null){
@@ -55,7 +55,7 @@ public class GiftFtPresenter  extends BasePresenter<GiftFrView> implements BaseQ
         }else {
         HashMap<String,String> params2= new HashMap<>();
       // params2.put("bid", data.get(list.size()).getBid().toString());
-             params2.put("bid",data.get(data.size()).getBid().toString());
+             params2.put("bid",data.get(i).getBid().toString());
         params2.put("token", QyClient.curUser.getToken());
         mYNetApiService.receiveGift(params2).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
