@@ -14,7 +14,7 @@ interface FriendsFraView extends BaseView {
 
     void showToast(String msg);
 
-    void showSearchResult();
+    void showSearchResult(List<FriendEntity> friendEntities);
 
     void setupFriends(List<FriendEntity> friendEntities);
 }

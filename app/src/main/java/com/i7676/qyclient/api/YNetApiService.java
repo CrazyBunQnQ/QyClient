@@ -90,8 +90,8 @@ public interface YNetApiService {
     @GET(FRIENDS_INDEX) Observable<ReqResult<List<FriendEntity>>> getFriendsIndex(
         @Query("token") String token);
 
-    @GET(FRIENDS_SEARCH) Observable<ReqResult<Object>> searchFriends(@Query("token") String token,
-        @Query("keyword") String keyword);
+    @GET(FRIENDS_SEARCH) Observable<ReqResult<List<FriendEntity>>> searchFriends(
+        @Query("token") String token, @Query("keyword") String keyword);
 
     @GET(HI_INDEX) Observable<ReqResult<List<HiCardEntity>>> getHiIndex(
         @QueryMap Map<String, String> params);

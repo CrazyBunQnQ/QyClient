@@ -17,6 +17,34 @@ package com.i7676.qyclient.entity;
  */
 
 public class FriendEntity {
+
+    public static class StateConstants {
+        public static final int NOT_APPLIED = -1;
+        public static final int APPLIED = 0;
+        public static final int IGNORED = 1;
+        public static final int FRIENDS_NOW = 2;
+        public static final int BANNED = 3;
+        public static final int DELETED = 4;
+    }
+
+    /**
+     * 用于搜索结果
+     */
+    //public static class SearchResultEntity {
+    //    /**
+    //     * userid: "127",
+    //     * phpssouid: "164",
+    //     * username: "wx_IngAP7GeTqla",
+    //     * nickname: "猴赛雷",
+    //     * avatar: "http://h5.7676.com/phpsso_server/uploadfile/avatar/1/1/164/90x90.jpg
+    //     */
+    //    private int userid;
+    //    private int phpssouid;
+    //    private String username;
+    //    private String nickname;
+    //    private String avatar;
+    //}
+
     private int id;
     private int uid;
     private int fuid;

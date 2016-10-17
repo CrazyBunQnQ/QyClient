@@ -63,13 +63,14 @@ import java.util.List;
         });
     }
 
-    @Override public void showSearchResult() {
-
+    @Override public void showSearchResult(List<FriendEntity> friendEntities) {
+        mFriendsCounter.setText("搜索出 " + friendEntities.size() + " 位用户: ");
+        mAdapter.setMyNewData(FriendsAdapter.SEARCH_RESULT, friendEntities);
     }
 
     @Override public void setupFriends(List<FriendEntity> friendEntities) {
         mFriendsCounter.setText("您当前有 " + friendEntities.size() + " 位好友: ");
-        mAdapter.setNewData(friendEntities);
+        mAdapter.setMyNewData(FriendsAdapter.NORMAL, friendEntities);
     }
 
     @Override protected void setupInject() {

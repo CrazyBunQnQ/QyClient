@@ -12,6 +12,12 @@ import java.util.List;
  */
 
 public class FriendsAdapter extends BaseQuickAdapter<FriendEntity> {
+
+    public static final int SEARCH_RESULT = 1;
+    public static final int NORMAL = 2;
+
+    private int dataType = NORMAL;
+
     public FriendsAdapter(int layoutResId, List<FriendEntity> data) {
         super(layoutResId, data);
     }
@@ -22,5 +28,31 @@ public class FriendsAdapter extends BaseQuickAdapter<FriendEntity> {
             null);
 
         baseViewHolder.setText(R.id.tv_nickname, friendEntity.getNickname());
+
+        if (dataType == SEARCH_RESULT) {
+            if (isAllow2MakeFriends(friendEntity.getState())) {
+                baseViewHolder.setText(R.id.btn_sendMsg, "加好友");
+            }
+        } else {
+            if (isAllow2SendMsg(friendEntity.getState())) {
+                baseViewHolder.setText(R.id.btn_sendMsg, "发消息");
+            } else {
+                baseViewHolder.getConvertView().findViewById(R.id.btn_sendMsg).setEnabled(false);
+            }
+        }
+    }
+
+    private boolean isAllow2SendMsg(int state) {
+        return state != FriendEntity.StateConstants.BANNED;
+    }
+
+    private boolean isAllow2MakeFriends(int state) {
+        return state == FriendEntity.StateConstants.NOT_APPLIED
+            || state == FriendEntity.StateConstants.IGNORED;
+    }
+
+    public void setMyNewData(int dataType, List<FriendEntity> friendEntities) {
+        this.dataType = dataType;
+        this.setNewData(friendEntities);
     }
 }
