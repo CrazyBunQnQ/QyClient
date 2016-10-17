@@ -32,7 +32,7 @@ public class GiftDetailPresenter extends BasePresenter<GiftDetailView> {
 
     GiftDetailPresenter(Intent args){
         this.args = args;
-    }
+    }git
 
 
     @Override
