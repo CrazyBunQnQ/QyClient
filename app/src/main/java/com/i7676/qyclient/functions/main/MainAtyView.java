@@ -25,13 +25,9 @@ public interface MainAtyView extends BaseView {
 
     void showActionBar();
 
-    void hideOptionsMenu();
-
     void showSearchView();
 
     void hideSearchView();
-
-    void showOptionsMenu();
 
     void showHomeFr();
 

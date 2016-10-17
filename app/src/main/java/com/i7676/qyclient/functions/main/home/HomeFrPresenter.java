@@ -180,7 +180,6 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
         getView().setActionBarTitle("主页");
         getView().setActionBarBackground(ColorConstants.TRANSPARENT);
         getView().setBottomBarIndex(MainAtyView.TAB_INDEX_HOME);
-        getView().showOptionsMenu();
     }
 
     private void initTopBannerData() {

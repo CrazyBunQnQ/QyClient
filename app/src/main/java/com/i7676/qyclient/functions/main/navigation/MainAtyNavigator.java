@@ -60,7 +60,6 @@ public class MainAtyNavigator {
      * 礼包
      */
     public void showGiftFr() {
-
         if (tabIndex == MainAtyView.TAB_INDEX_GIFT) return;
 
         tabIndex = MainAtyView.TAB_INDEX_GIFT;
@@ -101,6 +100,7 @@ public class MainAtyNavigator {
     }
 
     private void transform(int index, BaseFragment fragment) {
+        mAty.renderToolbarOptionMenus(index);
         //cacheFragment(index, fragment);
         mAty.getSupportFragmentManager()
             .beginTransaction()

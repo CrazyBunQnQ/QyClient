@@ -171,10 +171,6 @@ import javax.inject.Inject;
         ((MainActivity) getActivity()).setBottomBarIndex(index);
     }
 
-    @Override public void showOptionsMenu() {
-        ((MainActivity) getActivity()).showOptionsMenu();
-    }
-
     @Override public void showDialog2User(String msg) {
         ((MainActivity) getActivity()).showDialog2User(msg);
     }

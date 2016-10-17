@@ -37,6 +37,7 @@ import java.util.List;
             new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         mAdapter = new HiCardAdapter(R.layout.item_hi, new ArrayList<>());
         mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setOnLoadMoreListener(getPresenter());
     }
 
     @Override protected void setupInject() {
@@ -48,12 +49,16 @@ import java.util.List;
         return new HiFrPresenter();
     }
 
-    @Override public void showHiOptions() {
-
+    @Override public void loadMoreCompleted() {
+        mAdapter.loadComplete();
     }
 
     @Override public void setupCards(List<HiCardEntity> cardEntities) {
         mAdapter.addData(cardEntities);
+    }
+
+    @Override public void cleanUpCards() {
+        mAdapter.clear();
     }
 
     @Override public void go2Login() {

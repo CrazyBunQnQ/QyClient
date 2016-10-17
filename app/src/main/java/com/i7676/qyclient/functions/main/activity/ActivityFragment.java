@@ -117,10 +117,6 @@ import javax.inject.Inject;
         ((MainActivity) getActivity()).setBottomBarIndex(index);
     }
 
-    @Override public void hideOptionsMenu() {
-        ((MainActivity) getActivity()).hideOptionsMenu();
-    }
-
     @Override public void hideSearchView() {
         ((MainActivity) getActivity()).hideSearchView();
     }

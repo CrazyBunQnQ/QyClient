@@ -10,11 +10,13 @@ import java.util.List;
 
 public interface HiFrView extends BaseView {
 
-    void showHiOptions();
-
     void setupCards(List<HiCardEntity> cardEntities);
 
+    void cleanUpCards();
+
     void go2Login();
+
+    void loadMoreCompleted();
 
     void showToolbar();
 

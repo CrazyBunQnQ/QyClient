@@ -58,7 +58,6 @@ public class ActivityFrPresenter extends BasePresenter<ActivityFrView> {
         getView().setActionBarTitle("活动");
         getView().setActionBarBackground(ColorConstants.PRIMARY_COLOR);
         getView().setBottomBarIndex(MainAtyView.TAB_INDEX_ACTIVITY);
-        getView().hideOptionsMenu();
         getView().hideSearchView();
     }
 }

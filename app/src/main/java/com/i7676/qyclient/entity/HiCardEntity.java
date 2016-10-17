@@ -37,6 +37,14 @@ public class HiCardEntity {
     private int islike;
     private String img_prefix;
 
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
     public int getId() {
         return id;
     }
@@ -75,14 +83,6 @@ public class HiCardEntity {
 
     public void setCreat_dt(String creat_dt) {
         this.creat_dt = creat_dt;
-    }
-
-    public String getImg() {
-        return img;
-    }
-
-    public void setImg(String img) {
-        this.img = img;
     }
 
     public int getComnum() {
