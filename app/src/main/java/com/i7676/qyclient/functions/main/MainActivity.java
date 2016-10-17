@@ -83,7 +83,7 @@ import javax.inject.Inject;
     }
 
     @Override public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar, menu);
+        getMenuInflater().inflate(R.menu.menu_activity_main, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

@@ -5,11 +5,17 @@ package com.i7676.qyclient.entity;
  */
 
 public class ProfileMenuEntity {
+    // 按钮编号
     private int id;
+    // 按钮图标
     private int icon;
+    // 按钮名字
     private String name;
+    // 描述一，在图片下面的那段描述
     private String desc;
+    // 描述二，在按钮名字下面的那段描述,描述一和描述二在适配器中的显示方案是互斥的
     private String desc1;
+    // 是否可用，不可用的话会显示“未开放”角标
     private boolean available;
 
     public ProfileMenuEntity() {

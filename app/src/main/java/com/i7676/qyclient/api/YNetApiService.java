@@ -2,6 +2,7 @@ package com.i7676.qyclient.api;
 
 import com.i7676.qyclient.entity.BannerEntity;
 import com.i7676.qyclient.entity.CategoryEntity;
+import com.i7676.qyclient.entity.FriendEntity;
 import com.i7676.qyclient.entity.HiCardEntity;
 import com.i7676.qyclient.entity.HomeFrEntity;
 import com.i7676.qyclient.entity.ProfileEntity;
@@ -66,27 +67,31 @@ public interface YNetApiService {
     String WFT_PAY_CALLBACK = "http://h5.7676.com/index.php?m=index&c=PayH5&a=paystatus";
     // 支付宝Only
     String ZFB_ONLY = "mapiindex.php?m=pay&c=index&a=getTransNo";
-
+    // 好友首页接口
+    String FRIENDS_INDEX = "mapiindex.php?m=hi&c=friend&a=index";
+    // 昵称搜索好友接口
+    String FRIENDS_SEARCH = "mapiindex.php?m=hi&c=friend&a=search";
     // &transno=ss
     //@GET(WFT_PAY_CALLBACK) Observable<ReqResult<String>> wftPayCallback(
     //    @Query("transno") String transno);
-
     //正在进行的活动
     String ACTIVITY_CURRENT = "mapiindex.php?m=activities&c=index&a=getNowAct";
-
     // 活动历史接口
     String Activity_PAST = "mapiindex.php?m=activities&c=index&a=getHisAct";
-
     //礼包接口
     String GIFT_Home = "mapiindex.php?m=gift&c=index&a=index";
-
     //礼包领取接口
     String GIFT_GET = "mapiindex.php?m=gift&c=index&a=recGift";
     // 礼包详情接口
     String GIFT_DETAIL = "mapiindex.php?m=gift&c=index&a=getDetail";
-
     // hi 首页动态
     String HI_INDEX = "mapiindex.php?m=hi&c=index&a=index";
+
+    @GET(FRIENDS_INDEX) Observable<ReqResult<List<FriendEntity>>> getFriendsIndex(
+        @Query("token") String token);
+
+    @GET(FRIENDS_SEARCH) Observable<ReqResult<Object>> searchFriends(@Query("token") String token,
+        @Query("keyword") String keyword);
 
     @GET(HI_INDEX) Observable<ReqResult<List<HiCardEntity>>> getHiIndex(
         @QueryMap Map<String, String> params);

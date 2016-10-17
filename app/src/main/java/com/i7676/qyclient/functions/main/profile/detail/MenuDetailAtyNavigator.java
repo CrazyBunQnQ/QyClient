@@ -2,6 +2,7 @@ package com.i7676.qyclient.functions.main.profile.detail;
 
 import android.content.Context;
 import com.i7676.qyclient.functions.BaseFragment;
+import com.i7676.qyclient.functions.main.profile.ProfileConstants;
 import com.i7676.qyclient.functions.main.profile.detail.account.AccountFragment;
 import com.i7676.qyclient.functions.main.profile.detail.friends.FriendsFragment;
 import com.i7676.qyclient.functions.main.profile.detail.recharge.RechargeFragment;
@@ -20,22 +21,23 @@ class MenuDetailAtyNavigator {
     }
 
     void showAccountFra() {
-        transform(AccountFragment.create(null));
+        transform(ProfileConstants.MENU_ACCOUNT, AccountFragment.create(null));
     }
 
     void showFriendsFra() {
-        transform(FriendsFragment.create(null));
+        transform(ProfileConstants.MENU_FRIENDS, FriendsFragment.create(null));
     }
 
     void showRechargeFra() {
-        transform(RechargeFragment.create(null));
+        transform(ProfileConstants.MENU_RECHARGE, RechargeFragment.create(null));
     }
 
     void showTelBind() {
-        transform(TelBindFragment.create(null));
+        transform(ProfileConstants.MENU_TEL_BIND, TelBindFragment.create(null));
     }
 
-    private void transform(BaseFragment fragment) {
+    private void transform(int menuId, BaseFragment fragment) {
+        mAty.renderToolbarOptionMenus(menuId);
         mAty.getSupportFragmentManager().beginTransaction()
             // 添加Fragment
             .replace(mAty.getFrPlaceHolder(), fragment, fragment.getClass().getSimpleName())

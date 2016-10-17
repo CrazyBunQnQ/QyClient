@@ -96,7 +96,7 @@ public class ProfileFrPresenter extends BasePresenter<ProfileFrView>
                 isTelBound ? "已绑定" : "未绑定", true));
         menuEntities.add(
             new ProfileMenuEntity(ProfileConstants.MENU_FRIENDS, R.drawable.set_firend, "我的好友", "",
-                "找好友聊聊天", false));
+                "找好友聊聊天", true));
         menuEntities.add(
             new ProfileMenuEntity(ProfileConstants.MENU_RECHARGE, R.drawable.set_icon, "充值中心", "",
                 "查看历史记录", false));
