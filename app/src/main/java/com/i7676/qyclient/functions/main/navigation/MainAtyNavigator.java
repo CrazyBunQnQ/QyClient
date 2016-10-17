@@ -7,6 +7,7 @@ import com.i7676.qyclient.functions.login.LoginActivity;
 import com.i7676.qyclient.functions.main.MainActivity;
 import com.i7676.qyclient.functions.main.MainAtyView;
 import com.i7676.qyclient.functions.main.activity.ActivityFragment;
+import com.i7676.qyclient.functions.main.gift.GiftFragment;
 import com.i7676.qyclient.functions.main.home.HomeFragment;
 import com.i7676.qyclient.functions.main.home.list.GameListActivity;
 import com.i7676.qyclient.functions.main.profile.ProfileFragment;
@@ -44,6 +45,18 @@ public class MainAtyNavigator {
         transform(tabIndex, selectedFragment =
             (frCached.get(tabIndex) != null ? frCached.get(tabIndex)
                 : ActivityFragment.create(null)));
+    }
+    /**
+     * 礼包
+     */
+    public void showGiftFr(){
+
+        if (tabIndex == MainAtyView.TAB_INDEX_GIFT) return;
+
+        tabIndex = MainAtyView.TAB_INDEX_GIFT;
+        transform(tabIndex, selectedFragment =
+                (frCached.get(tabIndex) != null ? frCached.get(tabIndex)
+                        : GiftFragment.create(null)));
     }
 
     public void showLoginAty() {

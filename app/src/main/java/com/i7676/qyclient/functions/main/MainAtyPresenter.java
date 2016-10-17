@@ -60,6 +60,7 @@ public class MainAtyPresenter extends BasePresenter<MainAtyView>
             case R.id.bottom_hi:
                 break;
             case R.id._bottom_gifts:
+                navigator.showGiftFr();
                 break;
             case R.id.bottom_profile:
                 navigator.showProfileFr();

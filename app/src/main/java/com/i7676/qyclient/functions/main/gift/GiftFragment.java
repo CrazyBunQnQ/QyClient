@@ -49,9 +49,9 @@ public class GiftFragment extends BaseFragment<GiftFtPresenter,GiftFrView> imple
 
     @Override
     protected void initRootViews(View rootView) {
-        initInject();
+      //  initInject();
 
-
+       list=   new  ArrayList();
         mRecyclerView= (RecyclerView)rootView.findViewById(R.id.rv_gift_list);
         mAdapter= new GiftListAdapter(R.layout.item_gifts_list,new ArrayList<>());
         mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.gift_swipeResh);
@@ -80,7 +80,6 @@ public class GiftFragment extends BaseFragment<GiftFtPresenter,GiftFrView> imple
                      //  判断领取礼包
 
 
-
                     // 跳转到 详情界面
                         Toast.makeText(getActivity(), "你好啊", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getActivity(), GiftDetailActivity.class);
@@ -95,9 +94,17 @@ public class GiftFragment extends BaseFragment<GiftFtPresenter,GiftFrView> imple
 
     }
 
-    private void initInject() {
+    @Override
+    protected void setupInject() {
+        //((MainActivity) getActivity()).getAtyComponent().inject(this);
         ((MainActivity) getActivity()).getAtyComponent().inject(getPresenter());
+
     }
+
+//    private void initInject() {
+//        ((MainActivity) getActivity()).getAtyComponent().inject(getPresenter());
+//
+//    }
 
     @Override
     public void addList(List<GiftEntity>giftEntities) {
@@ -106,6 +113,8 @@ public class GiftFragment extends BaseFragment<GiftFtPresenter,GiftFrView> imple
 
         mAdapter.addData(giftEntities);
         list= giftEntities;
+        mAdapter.notifyDataSetChanged();
+
         if (mSwipeRefreshLayout.isRefreshing()) mSwipeRefreshLayout.setRefreshing(Boolean.FALSE);
 
     }

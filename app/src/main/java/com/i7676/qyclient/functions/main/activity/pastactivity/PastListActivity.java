@@ -1,5 +1,6 @@
 package com.i7676.qyclient.functions.main.activity.pastactivity;
 
+import android.content.Intent;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -8,12 +9,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Toast;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.i7676.qyclient.QyClient;
 import com.i7676.qyclient.R;
 import com.i7676.qyclient.annotations.Layout;
 import com.i7676.qyclient.entity.ActivitiesEntity;
 import com.i7676.qyclient.functions.BaseActivity;
+import com.i7676.qyclient.functions.main.activity.pastactivity.Pastdetail.PastDetailActivity;
 import com.i7676.qyclient.functions.main.adapters.PastActivityListAdapter;
 import com.i7676.qyclient.util.DensityUtil;
 
@@ -54,7 +59,17 @@ public class PastListActivity  extends BaseActivity<PastListAtyPresenter,PastLis
         mRecyclerView.setLayoutManager(
                 new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mRecyclerView.addItemDecoration(new PastListActivity.SpacesItemDecoration(DensityUtil.dip2px(this, 8.0f)));
+        mRecyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
+            @Override
+            public void SimpleOnItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+                Toast.makeText(PastListActivity.this, "你好啊", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(PastListActivity.this, PastDetailActivity.class);
+//                intent.putExtra("id",list.get(i).getId());
+//                intent.putExtra("description",list.get(i).getDescription());
+                startActivity(intent);
 
+            }
+        });
     }
 
     private void setupInject() {

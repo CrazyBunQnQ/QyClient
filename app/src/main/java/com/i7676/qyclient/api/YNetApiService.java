@@ -1,5 +1,6 @@
 package com.i7676.qyclient.api;
 
+import com.i7676.qyclient.entity.ActivitiesEntity;
 import com.i7676.qyclient.entity.BannerEntity;
 import com.i7676.qyclient.entity.CategoryEntity;
 import com.i7676.qyclient.entity.HomeFrEntity;
@@ -9,8 +10,10 @@ import com.i7676.qyclient.entity.ReqResult;
 import com.i7676.qyclient.entity.Test;
 import com.i7676.qyclient.entity.UserEntity;
 import com.i7676.qyclient.entity.WftUnifiedResponseEntity;
+
 import java.util.List;
 import java.util.Map;
+
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
@@ -72,9 +75,16 @@ public interface YNetApiService {
 
     //正在进行的活动
     String ACTIVITY_CURRENT="mapiindex.php?m=activities&c=index&a=getNowAct";
+    //
 
     // 活动历史接口
     String Activity_PAST="mapiindex.php?m=activities&c=index&a=getHisAct";
+
+    // 活动详情接口
+    String ACTIVITY_DETAIL="http://h5.7676.com/mapiindex.php?m=activities&c=index&a=getActDet";
+
+    //活动详情排行版
+    String ACTIVITY_RANKING="mapiindex.php?m=activities&c=index&a=getActRank";
 
     //&token
     @GET(TEL_BIND_STATUS) Observable<ReqResult<ProfileEntity>> getProfileInfo(
@@ -82,8 +92,10 @@ public interface YNetApiService {
 
     //礼包接口
     String GIFT_Home="mapiindex.php?m=gift&c=index&a=index";
+
     //礼包领取接口
     String GIFT_GET="mapiindex.php?m=gift&c=index&a=recGift";
+
     // 礼包详情接口
     String GIFT_DETAIL="mapiindex.php?m=gift&c=index&a=getDetail";
 
@@ -148,10 +160,16 @@ public interface YNetApiService {
 
     //正在进行 的活动
     @GET(ACTIVITY_CURRENT)Observable<ReqResult<List<Object>>> getCurrentAcitivyList();
-
     //活动历史接口
 
     @GET(Activity_PAST)Observable<ReqResult<List<Object>>>getActivityList();
+    // 活动 详情接口
+    @GET(ACTIVITY_DETAIL)Observable<ReqResult<ActivitiesEntity>>getActyivityDetail(
+            @QueryMap Map<String, String> params);
+
+    // 活动排行榜的接口
+    @GET(ACTIVITY_RANKING)Observable<ReqResult<List<Object>>>getActyivityRanking(
+            @QueryMap Map<String, String> params);
 
 
     //礼包首页接口
@@ -161,7 +179,6 @@ public interface YNetApiService {
     //h5.7676.com/mapiindex.php?m=gift&c=index&a=recGift&bid=50&token
    @GET(GIFT_GET)Observable<ReqResult<String>>  receiveGift(
            @QueryMap Map<String,String> params);
-
     //礼包详情界面
     @GET(GIFT_DETAIL)Observable<ReqResult<Test>> getGiftDetail(
             @QueryMap Map<String,String> params);

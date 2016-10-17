@@ -128,4 +128,20 @@ public class ActivitiesEntity {
     public void setEndtime(String endtime) {
         this.endtime = endtime;
     }
+
+    @Override
+    public String toString() {
+        return "ActivitiesEntity{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", catid='" + catid + '\'' +
+                ", description='" + description + '\'' +
+                ", thumb='" + thumb + '\'' +
+                ", gameSize='" + gameSize + '\'' +
+                ", href='" + href + '\'' +
+                ", gameid='" + gameid + '\'' +
+                ", starttime='" + starttime + '\'' +
+                ", endtime='" + endtime + '\'' +
+                '}';
+    }
 }

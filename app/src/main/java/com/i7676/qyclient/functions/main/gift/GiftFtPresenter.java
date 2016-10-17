@@ -12,6 +12,7 @@ import com.i7676.qyclient.entity.GiftEntity;
 import com.i7676.qyclient.functions.BasePresenter;
 import com.orhanobut.logger.Logger;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,12 +29,14 @@ public class GiftFtPresenter  extends BasePresenter<GiftFrView> implements BaseQ
     private int pageNum = 1;
     private int pageSize = 10;
     private Bundle args;
-    //private String giftbid= new GiftEntity().getBid();
+    List<GiftEntity> data;
 
 
 
     @Inject
     YNetApiService mYNetApiService;
+
+
 
     protected void onWakeUp() {
         super.onWakeUp();
@@ -42,6 +45,7 @@ public class GiftFtPresenter  extends BasePresenter<GiftFrView> implements BaseQ
     }
 
     private void initGiftGet() {
+        data= new ArrayList<>();
 
         if (QyClient.curUser == null){
 
@@ -50,7 +54,8 @@ public class GiftFtPresenter  extends BasePresenter<GiftFrView> implements BaseQ
 
         }else {
         HashMap<String,String> params2= new HashMap<>();
-        params2.put("bid", "50");
+      // params2.put("bid", data.get(list.size()).getBid().toString());
+             params2.put("bid",data.get(data.size()).getBid().toString());
         params2.put("token", QyClient.curUser.getToken());
         mYNetApiService.receiveGift(params2).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

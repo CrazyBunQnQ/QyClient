@@ -1,4 +1,4 @@
-package com.i7676.qyclient.functions.main.activity.detail.childFragment;
+package com.i7676.qyclient.functions.main.activity.detail.childFragment.detaialfragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,8 +12,6 @@ import android.widget.TextView;
 import com.i7676.qyclient.R;
 import com.i7676.qyclient.entity.ActivitiesEntity;
 
-import java.util.List;
-
 /**
  * Created by Administrator on 2016/10/9.
  */
@@ -22,7 +20,8 @@ public class ActivityDetailFrgment   extends Fragment{
     private Button butgame;
     private TextView tvContent;
     private ActivitiesEntity activitiesEntity;
-    private List<ActivitiesEntity>list;
+
+
 
 
     @Nullable
@@ -33,8 +32,7 @@ public class ActivityDetailFrgment   extends Fragment{
 
         butgame = (Button) view.findViewById(R.id.but_startgame);
         tvContent = (TextView) view.findViewById(R.id.tv_content);
-        //  tvContent.setText();
-      tvContent.setText(activitiesEntity.getDescription());
+//     tvContent.setText(activitiesEntity.getDescription());
 
         return  view;
     };
