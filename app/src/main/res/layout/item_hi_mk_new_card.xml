@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="96dp"
+    android:layout_height="96dp"
+    >
+  <ImageView
+      android:id="@+id/img_upload_thumb"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:background="@drawable/selector_hi_new_card_item"
+      android:scaleType="fitXY"
+      android:src="@drawable/ic_add_grey_300_24dp"
+      />
+  <ImageView
+      android:id="@+id/img_delete"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentEnd="true"
+      android:layout_alignParentRight="true"
+      android:layout_alignParentTop="true"
+      android:visibility="gone"
+      app:srcCompat="@android:drawable/ic_delete"
+      />
+</RelativeLayout>

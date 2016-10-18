@@ -17,6 +17,7 @@ import com.i7676.qyclient.rx.DefaultSubscriber;
 import com.orhanobut.logger.Logger;
 import java.util.ArrayList;
 import javax.inject.Inject;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
@@ -87,7 +88,7 @@ public class SignInFrPresenter extends BasePresenter<SignInFrView>
                 mYNetApiService.wxSignIn(wxUserInfoResponse.openid, wxUserInfoResponse.nickname,
                     wxUserInfoResponse.headimgurl)
                     .subscribeOn(Schedulers.io())
-                    .observeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new DefaultSubscriber<ReqResult<UserEntity>>() {
                         @Override public void onCompleted() {
                             getView().storeUser(QyClient.curUser);
@@ -101,7 +102,6 @@ public class SignInFrPresenter extends BasePresenter<SignInFrView>
                                 Logger.e(">>> " + e.getMessage());
                                 getView().signUpFailed("微信登录失败,请稍后再试...");
                             }
-                            UIHandler.sendEmptyMessage(DIALOG_TAG_CLOSE);
                         }
 
                         @Override public void onNext(ReqResult<UserEntity> reqResult) {

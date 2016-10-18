@@ -41,7 +41,7 @@ import javax.inject.Inject;
         return fragment;
     }
 
-    private static final int FUCKED_UP_TIME = 3;//seconds
+    private static final int FUCKED_UP_TIME = 5;//seconds
 
     // views
     private ObservableScrollView rootScroll;
@@ -228,8 +228,7 @@ import javax.inject.Inject;
             super.handleMessage(msg);
             switch (msg.what) {
                 case SERVER_FUCKED_UP:
-                    ((MainActivity) getActivity()).showDialog2User(
-                        "请检查网络状态,或者服务器已爆炸，APP将在" + msg.arg1 + "秒之后自毁...");
+                    ((MainActivity) getActivity()).showDialog2User("请更换至良好的网络环境...");
                     break;
             }
 

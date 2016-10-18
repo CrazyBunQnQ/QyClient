@@ -13,11 +13,13 @@ import com.i7676.qyclient.R;
  * Toolbar Activity 的抽象基类
  *
  * 用得习惯就用，用不习惯可以直接 extends 基类
+ *
+ * P.S. 子类需要写一个带有 toolbar 的布局文件, id 为 toolbar。
  */
 public abstract class OneHasToolbarActivity<P extends BasePresenter<V>, V extends BaseView>
     extends BaseActivity<P, V> implements OneHasToolbarAtyView {
 
-    private android.support.v7.widget.Toolbar mToolbar;
+    protected android.support.v7.widget.Toolbar mToolbar;
     private View.OnClickListener mClickAsPressBack = v -> {
         onBackPressed();
     };

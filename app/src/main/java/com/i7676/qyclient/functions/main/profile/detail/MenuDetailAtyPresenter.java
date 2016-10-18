@@ -34,7 +34,7 @@ public class MenuDetailAtyPresenter extends OneHasToolbarAtyPresenter<MenuDetail
                 navigator.showAccountFra();
                 break;
             case ProfileConstants.MENU_FRIENDS:
-                //navigator.showFriendsFra();
+                navigator.showFriendsFra();
                 break;
             case ProfileConstants.MENU_RECHARGE:
                 //navigator.showRechargeFra();
