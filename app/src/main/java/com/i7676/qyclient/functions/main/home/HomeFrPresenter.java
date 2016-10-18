@@ -1,5 +1,7 @@
 package com.i7676.qyclient.functions.main.home;
 
+import android.view.MotionEvent;
+import android.view.View;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.i7676.qyclient.QyClient;
@@ -12,6 +14,7 @@ import com.i7676.qyclient.entity.HomeFrEntity;
 import com.i7676.qyclient.functions.BasePresenter;
 import com.i7676.qyclient.functions.main.MainAtyView;
 import com.i7676.qyclient.rx.DefaultSubscriber;
+import com.i7676.qyclient.rx.RxUtil;
 import com.i7676.qyclient.rx.ServerCallbackHandler;
 import com.i7676.qyclient.util.ColorConstants;
 import com.i7676.qyclient.widgets.ObservableScrollView;
@@ -33,7 +36,7 @@ import rx.schedulers.Schedulers;
  * Created by Administrator on 2016/9/19.
  */
 public class HomeFrPresenter extends BasePresenter<HomeFrView>
-    implements ObservableScrollView.OnScrollChangedListener {
+    implements ObservableScrollView.OnScrollChangedListener, ObservableScrollView.OnTouchListener {
 
     @Inject EgretApiService mEgretApiService;
     @Inject YNetApiService mYNetApiService;
@@ -114,12 +117,12 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
                     getView().setupUserPlayedHistory(homeFrEntity.getHistory());
                     // category
                     getView().setupCategory(homeFrEntity.getCategory());
-                    // newest
-                    getView().renderGameRanking(ShowGameFragment.SHOW_CATEGORY_NEWEST,
-                        homeFrEntity.getNewgame());
                     // hottest
                     getView().renderGameRanking(ShowGameFragment.SHOW_CATEGORY_HOTTEST,
                         homeFrEntity.getHotgame());
+                    // newest
+                    getView().renderGameRanking(ShowGameFragment.SHOW_CATEGORY_NEWEST,
+                        homeFrEntity.getNewgame());
                 }
 
                 @Override public void onError(Throwable e) {
@@ -166,12 +169,6 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
                     Logger.i(">>> onComplement: getGameList");
                     getView().closeDialog();
                 });
-    }
-
-    private void doUnsubscribe(Subscription subscription) {
-        if (subscription != null && subscription.isUnsubscribed()) {
-            subscription.unsubscribe();
-        }
     }
 
     private void toolbarSetup() {
@@ -416,5 +413,55 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
 
     FlyBanner.OnItemClickListener getRCMDBannerListener() {
         return RCMDBannerListener;
+    }
+
+    private int page = 1;
+
+    @Override public boolean onTouch(View view, MotionEvent motionEvent) {
+        switch (motionEvent.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                break;
+            case MotionEvent.ACTION_UP:
+                int scrollY = view.getScrollY();
+                int height = view.getHeight();
+                int scrollViewMeasuredHeight = getView().getScrollViewHeight();
+                if (scrollY == 0) {
+                    Logger.e(">>> 滑动到了顶端 view.getScrollY()=" + scrollY);
+                }
+                if ((scrollY + height) >= 0) {
+                    getView().hideInputPanel();
+                }
+                if ((scrollY + height) >= scrollViewMeasuredHeight) {
+                    Logger.e(">>> 滑动到了底部 scrollY=" + scrollY);
+                    Logger.e(">>> 滑动到了底部 height=" + height);
+                    Logger.e(">>> 滑动到了底部 scrollViewMeasuredHeight=" + scrollViewMeasuredHeight);
+
+                    final HashMap<String, String> params = new HashMap<>();
+                    params.put("a",
+                        getView().getRankingType() == ShowGameFragment.SHOW_CATEGORY_HOTTEST
+                            ? "getHotGame" : "getNewGame");
+                    params.put("page", "" + ++page);
+                    params.put("size", "10");
+                    mYNetApiService.getRankingGames(params)
+                        .compose(RxUtil.networkTransform())
+                        .subscribe(
+                            // next
+                            gameEntities -> {
+                                getView().loadMore2GameFragment(gameEntities);
+                            },
+                            // error
+                            error -> {
+                                Logger.e(">>> error: " + error.getMessage());
+                            },
+                            // completed
+                            () -> {
+                                Logger.e(">>> completed@HomeFrPresenter#onTouch.");
+                            });
+                }
+                break;
+            default:
+                break;
+        }
+        return false;
     }
 }

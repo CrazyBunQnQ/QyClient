@@ -48,9 +48,17 @@ public interface HomeFrView extends BaseView {
 
     void renderGameRanking(int showCategoryType, ArrayList<RankingGameEntity> data);
 
+    void loadMore2GameFragment(List<RankingGameEntity> entities);
+
+    int getRankingType();
+
     void serverFuckedUp();
 
     void go2PlayH5Game(String url);
 
     void showSearchView();
+
+    int getScrollViewHeight();
+
+    void hideInputPanel();
 }

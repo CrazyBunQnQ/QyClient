@@ -91,6 +91,7 @@ import javax.inject.Inject;
     }
 
     @Override public void signUpSuccess() {
+        this.closeDialog();
         this.finish();
     }
 

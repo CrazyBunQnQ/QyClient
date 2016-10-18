@@ -50,13 +50,16 @@ public class FriendsFraPresenter extends BasePresenter<FriendsFraView>
         }
     }
 
+    /**
+     * 因为搜索出来的用户，字段不全，小心使用，详情请参考接口文档。
+     */
     void doSearch(String keyword) {
         mYNetApiService.searchFriends(QyClient.curUser.getToken(), keyword)
             .compose(RxUtil.networkTransform())
             .subscribe(
                 // next
                 retObj -> {
-                    Logger.i(">>> obj: " + retObj.toString());
+                    getView().showSearchResult(retObj);
                 },
                 // error
                 error -> {

@@ -9,10 +9,14 @@ import com.i7676.qyclient.QyClient;
 import com.i7676.qyclient.api.ServerConstans;
 import com.i7676.qyclient.api.YNetApiService;
 import com.i7676.qyclient.entity.RankingGameEntity;
+import com.i7676.qyclient.exception.ServerException;
 import com.i7676.qyclient.functions.BasePresenter;
+import com.i7676.qyclient.rx.RxUtil;
+import com.orhanobut.logger.Logger;
 import java.util.HashMap;
 import java.util.List;
 import javax.inject.Inject;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -31,6 +35,9 @@ class GameListAtyPresenter extends BasePresenter<GameListAtyView>
     private int pageNum = 1;
     private int pageSize = 10;
 
+    private Subscription getCategoryGameListSubscription;
+    private Subscription searchByGameNameSubscription;
+
     GameListAtyPresenter(Bundle args) {
         this.args = args;
     }
@@ -39,6 +46,12 @@ class GameListAtyPresenter extends BasePresenter<GameListAtyView>
         super.onWakeUp();
         renderTitle();
         getDataFromCloud();
+    }
+
+    @Override protected void onSleep() {
+        super.onSleep();
+        doUnsubscribe(getCategoryGameListSubscription);
+        doUnsubscribe(searchByGameNameSubscription);
     }
 
     private void getDataFromCloud() {
@@ -68,37 +81,47 @@ class GameListAtyPresenter extends BasePresenter<GameListAtyView>
         params.put("token", QyClient.curUser.getToken());
         params.put("size", pageSize + "");
         params.put("page", pageNum + "");
-        mYNetApiService.getCategoryGameList(params)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(resp -> {
-                if (resp.getRet() == 0) {
+        getCategoryGameListSubscription = mYNetApiService.getCategoryGameList(params)
+            .compose(RxUtil.networkTransform())
+            .subscribe(
+                //next
+                respData -> {
                     List<RankingGameEntity> data =
-                        JSONArray.parseArray(resp.getData().toString(), RankingGameEntity.class);
+                        JSONArray.parseArray(respData.toString(), RankingGameEntity.class);
                     getView().add2List(data);
-                } else if (resp.getRet() == ServerConstans.RESPONSE_DATA_IS_NULL) {
-                    getView().loadCompleted();
-                } else {
-                    getView().showEmpty(resp.getData().toString() + NICE_AND_FRIENDLY);
-                }
-            });
+                },
+                // error
+                error -> {
+                    if (error instanceof ServerException && (((ServerException) error).code
+                        == ServerConstans.RESPONSE_DATA_IS_NULL)) {
+                        getView().loadCompleted();
+                    } else {
+                        getView().showEmpty(error.getMessage() + NICE_AND_FRIENDLY);
+                    }
+                },
+                // completed
+                () -> {
+                    Logger.i(">>> @GameListAtyPresenter#requestCategoryGames completed.");
+                });
     }
 
     private void requestKeywordSearch() {
-        mYNetApiService.searchByGameName(args.getString(GameListActivity.SEARCH_KEYWORD_TAG))
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(resp -> {
-                if (resp.getRet() == 0) {
-                    List<RankingGameEntity> data =
-                        JSONArray.parseArray(resp.getData().toString(), RankingGameEntity.class);
-                    getView().add2List(data);
-                } else if (resp.getRet() == ServerConstans.RESPONSE_DATA_IS_NULL) {
-                    getView().loadCompleted();
-                } else {
-                    getView().showEmpty(resp.getData().toString() + NICE_AND_FRIENDLY);
-                }
-            });
+        searchByGameNameSubscription =
+            mYNetApiService.searchByGameName(args.getString(GameListActivity.SEARCH_KEYWORD_TAG))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(resp -> {
+                    if (resp.getRet() == 0) {
+                        List<RankingGameEntity> data =
+                            JSONArray.parseArray(resp.getData().toString(),
+                                RankingGameEntity.class);
+                        getView().add2List(data);
+                    } else if (resp.getRet() == ServerConstans.RESPONSE_DATA_IS_NULL) {
+                        getView().loadCompleted();
+                    } else {
+                        getView().showEmpty(resp.getData().toString() + NICE_AND_FRIENDLY);
+                    }
+                });
     }
 
     @Override public void onLoadMoreRequested() {

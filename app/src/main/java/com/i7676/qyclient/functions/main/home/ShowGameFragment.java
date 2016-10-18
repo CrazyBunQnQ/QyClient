@@ -8,11 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.i7676.qyclient.R;
 import com.i7676.qyclient.entity.RankingGameEntity;
 import com.i7676.qyclient.functions.main.adapters.GameGridAdapter;
-import com.orhanobut.logger.Logger;
 import java.util.ArrayList;
 
 /**
@@ -22,7 +20,7 @@ import java.util.ArrayList;
  *
  * 没有支持 MVP 是因为此 Fragment 只需要关注两个功能，展示，loadMore，如果后续业务变得复杂了可以做重构考虑
  */
-public class ShowGameFragment extends Fragment implements BaseQuickAdapter.RequestLoadMoreListener {
+public class ShowGameFragment extends Fragment {
 
     public static final int SHOW_CATEGORY_HOTTEST = 1;
     public static final int SHOW_CATEGORY_NEWEST = 2;
@@ -57,9 +55,6 @@ public class ShowGameFragment extends Fragment implements BaseQuickAdapter.Reque
         mList.setAdapter(mGameGridAdapter);
         mList.setHasFixedSize(true);
 
-        // 加载更多设置
-        mGameGridAdapter.setOnLoadMoreListener(this);
-
         loadingData();
     }
 
@@ -77,6 +72,18 @@ public class ShowGameFragment extends Fragment implements BaseQuickAdapter.Reque
         //}
         //requestDataFromCloud(gameCategory);
         mGameGridAdapter.setNewData(data);
+    }
+
+    public void addData(ArrayList<RankingGameEntity> rankingGameEntities) {
+        if (mGameGridAdapter != null) {
+            mGameGridAdapter.addData(rankingGameEntities);
+        }
+    }
+
+    public void clearData() {
+        if (mGameGridAdapter != null) {
+            mGameGridAdapter.clear();
+        }
     }
 
     //private void requestDataFromCloud(int gameCategory) {
@@ -127,9 +134,5 @@ public class ShowGameFragment extends Fragment implements BaseQuickAdapter.Reque
         if ((data = args.getParcelableArrayList(SHOW_DATA)) == null) {
             throw new NullPointerException("No fucking data in here!");
         }
-    }
-
-    @Override public void onLoadMoreRequested() {
-        Logger.i(">>> catch load more event.");
     }
 }

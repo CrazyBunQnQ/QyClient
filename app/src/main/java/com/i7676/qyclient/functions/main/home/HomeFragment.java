@@ -1,13 +1,16 @@
 package com.i7676.qyclient.functions.main.home;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Process;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 import com.gigamole.navigationtabstrip.NavigationTabStrip;
 import com.i7676.qyclient.QyClient;
@@ -26,6 +29,7 @@ import com.i7676.qyclient.widgets.NonScrollableViewPager;
 import com.i7676.qyclient.widgets.ObservableScrollView;
 import com.recker.flybanner.FlyBanner;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import javax.inject.Inject;
 
@@ -41,7 +45,7 @@ import javax.inject.Inject;
         return fragment;
     }
 
-    private static final int FUCKED_UP_TIME = 3;//seconds
+    private static final int FUCKED_UP_TIME = 5;//seconds
 
     // views
     private ObservableScrollView rootScroll;
@@ -61,9 +65,16 @@ import javax.inject.Inject;
     //@Inject GameCardAdapter sndGCardAdapter;
     //@Inject GameGridAdapter gameGridAdapter;
 
+    private HashMap<Integer, ShowGameFragment> aRef = new HashMap<>();
+
     @Override protected void initRootViews(View rootView) {
+        if (getPresenter().getView() == null) {
+            getPresenter().bindNewView(this);
+        }
+
         rootScroll = (ObservableScrollView) rootView.findViewById(R.id.rootScroll);
         rootScroll.setmScrollChangedListener(getPresenter());
+        rootScroll.setOnTouchListener(getPresenter());
 
         topBanner = (FlyBanner) rootView.findViewById(R.id.topBanner);
         //RCMDBanner = (FlyBanner) rootView.findViewById(R.id.rcmdBanner);
@@ -179,14 +190,6 @@ import javax.inject.Inject;
         ((MainActivity) getActivity()).closeDialog();
     }
 
-    @Override
-    public void renderGameRanking(int showCategoryType, ArrayList<RankingGameEntity> data) {
-        Bundle args = new Bundle();
-        args.putInt(ShowGameFragment.SHOW_CATEGORY_TYPE, showCategoryType);
-        args.putParcelableArrayList(ShowGameFragment.SHOW_DATA, data);
-        homeFrVPAdapter.addFr(ShowGameFragment.create(args));
-    }
-
     @Override public void serverFuckedUp() {
         new Thread() {
             @Override public void run() {
@@ -207,6 +210,29 @@ import javax.inject.Inject;
         }.start();
     }
 
+    @Override
+    public void renderGameRanking(int showCategoryType, ArrayList<RankingGameEntity> data) {
+        Bundle args = new Bundle();
+        args.putInt(ShowGameFragment.SHOW_CATEGORY_TYPE, showCategoryType);
+        args.putParcelableArrayList(ShowGameFragment.SHOW_DATA, data);
+        aRef.put(showCategoryType, ShowGameFragment.create(args));
+        homeFrVPAdapter.addFr(aRef.get(showCategoryType));
+    }
+
+    @Override public void loadMore2GameFragment(List<RankingGameEntity> entities) {
+        aRef.get(getRankingType()).addData(new ArrayList<>(entities));
+    }
+
+    @Override public int getRankingType() {
+        int rankingType = 0;
+        if (navigationTabStrip.getTabIndex() == 0) {
+            rankingType = ShowGameFragment.SHOW_CATEGORY_HOTTEST;
+        } else if (navigationTabStrip.getTabIndex() == 1) {
+            rankingType = ShowGameFragment.SHOW_CATEGORY_NEWEST;
+        }
+        return rankingType;
+    }
+
     @Override public void toast2User(String msg) {
         ((MainActivity) getActivity()).toast2User(msg, Toast.LENGTH_SHORT);
     }
@@ -221,6 +247,16 @@ import javax.inject.Inject;
         ((MainActivity) getActivity()).showSearchView();
     }
 
+    @Override public int getScrollViewHeight() {
+        return rootScroll.getChildAt(0).getMeasuredHeight();
+    }
+
+    @Override public void hideInputPanel() {
+        InputMethodManager imm =
+            (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(rootScroll.getWindowToken(), 0);
+    }
+
     private static final int SERVER_FUCKED_UP = 0;
 
     private Handler mUIHandler = new Handler() {
@@ -228,12 +264,11 @@ import javax.inject.Inject;
             super.handleMessage(msg);
             switch (msg.what) {
                 case SERVER_FUCKED_UP:
-                    ((MainActivity) getActivity()).showDialog2User(
-                        "请检查网络状态,或者服务器已爆炸，APP将在" + msg.arg1 + "秒之后自毁...");
+                    ((MainActivity) getActivity()).showDialog2User("网络异常，请更换至稳定网络再试...");
                     break;
             }
-
             if (msg.arg1 <= 0) {
+                android.os.Process.killProcess(Process.myPid());
                 System.exit(0);
             }
         }

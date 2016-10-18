@@ -31,4 +31,9 @@ public class GameGridAdapter extends BaseQuickAdapter<RankingGameEntity> {
         baseViewHolder.setOnClickListener(R.id.img_game_logo, mGotoGame);
         baseViewHolder.setOnClickListener(R.id.btn_game_start, mGotoGame);
     }
+
+    public void clear() {
+        getData().clear();
+        notifyDataSetChanged();
+    }
 }
