@@ -38,7 +38,7 @@ class MenuDetailAtyNavigator {
     private void transform(BaseFragment fragment) {
         mAty.getSupportFragmentManager().beginTransaction()
             // 添加Fragment
-            .replace(mAty.getContainerResId(), fragment, fragment.getClass().getSimpleName())
+            .replace(mAty.getFrPlaceHolder(), fragment, fragment.getClass().getSimpleName())
             // 提交
             .commit();
     }

@@ -23,7 +23,7 @@ public class ActyDetailPresenter extends BasePresenter<ActyDetailView> {
     protected void onWakeUp() {
         super.onWakeUp();
 
-        onAcitivityDetailData(); // 加载活动详情界面的数据
+      //  onAcitivityDetailData(); // 加载活动详情界面的数据
 
     }
 

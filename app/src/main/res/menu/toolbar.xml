@@ -6,4 +6,16 @@
       android:icon="@drawable/ic_dashboard_white_24dp"
       android:title="Category"
       app:showAsAction="ifRoom"/>
+
+  <item
+      android:id="@+id/edit"
+      android:icon="@drawable/ic_mode_edit_white_24dp"
+      android:title="Edit"
+      app:showAsAction="ifRoom"/>
+
+  <item
+      android:id="@+id/commentNotify"
+      android:icon="@drawable/ic_insert_comment_white_24dp"
+      android:title="Comment"
+      app:showAsAction="ifRoom"/>
 </menu>

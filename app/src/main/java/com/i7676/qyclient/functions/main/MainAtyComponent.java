@@ -12,6 +12,7 @@ import com.i7676.qyclient.functions.main.adapters.GameGridAdapter;
 import com.i7676.qyclient.functions.main.adapters.GameHistoryAdapter;
 import com.i7676.qyclient.functions.main.adapters.GiftListAdapter;
 import com.i7676.qyclient.functions.main.gift.GiftFtPresenter;
+import com.i7676.qyclient.functions.main.hi.HiFrPresenter;
 import com.i7676.qyclient.functions.main.home.HomeFrPresenter;
 import com.i7676.qyclient.functions.main.home.HomeFragment;
 import com.i7676.qyclient.functions.main.navigation.MainAtyNavigator;
@@ -42,6 +43,8 @@ public interface MainAtyComponent {
     void inject(ProfileFragment fragment);
 
     void inject(ProfileFrPresenter presenter);
+
+    void inject(HiFrPresenter presenter);
 
     Context getMainAtyContext();
 

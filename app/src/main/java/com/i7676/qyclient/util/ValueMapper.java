@@ -32,4 +32,9 @@ public class ValueMapper {
         }
         return gameTypeText;
     }
+
+    public static final String formatTimestamp(String timestamp) {
+        return (String) android.text.format.DateFormat.format("MM-dd HH:mm",
+            Long.parseLong(timestamp + "000"));
+    }
 }

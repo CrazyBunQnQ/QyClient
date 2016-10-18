@@ -89,7 +89,7 @@ import com.i7676.qyclient.functions.login.LoginActivity;
     }
 
     @Override public void setActionBarTitle(String actionBarTitle) {
-        ((LoginActivity) getActivity()).getPresenter().getView().setTitle(actionBarTitle);
+        ((LoginActivity) getActivity()).getPresenter().getView().setTitleText(actionBarTitle);
     }
 
     @Override public void setupWidgetsHint(String[] hints) {

@@ -18,5 +18,6 @@ public class GiftOtherFragment   extends Fragment {
         Bundle savedInstanceState) {
         return super.onCreateView(inflater, container, savedInstanceState);
 
+
     }
 }

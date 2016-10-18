@@ -3,6 +3,7 @@ package com.i7676.qyclient.api;
 import com.i7676.qyclient.entity.ActivitiesEntity;
 import com.i7676.qyclient.entity.BannerEntity;
 import com.i7676.qyclient.entity.CategoryEntity;
+import com.i7676.qyclient.entity.HiCardEntity;
 import com.i7676.qyclient.entity.HomeFrEntity;
 import com.i7676.qyclient.entity.ProfileEntity;
 import com.i7676.qyclient.entity.RankingGameEntity;
@@ -74,11 +75,12 @@ public interface YNetApiService {
     //    @Query("transno") String transno);
 
     //正在进行的活动
-    String ACTIVITY_CURRENT="mapiindex.php?m=activities&c=index&a=getNowAct";
-    //
-
-    // 活动历史接口
-    String Activity_PAST="mapiindex.php?m=activities&c=index&a=getHisAct";
+//
+//    String ACTIVITY_CURRENT="mapiindex.php?m=activities&c=index&a=getNowAct";
+//    //
+//
+//    // 活动历史接口
+//    String Activity_PAST="mapiindex.php?m=activities&c=index&a=getHisAct";
 
     // 活动详情接口
     String ACTIVITY_DETAIL="http://h5.7676.com/mapiindex.php?m=activities&c=index&a=getActDet";
@@ -89,17 +91,36 @@ public interface YNetApiService {
     //&token
     @GET(TEL_BIND_STATUS) Observable<ReqResult<ProfileEntity>> getProfileInfo(
         @Query("token") String token);
+//
+//    //礼包接口
+//    String GIFT_Home="mapiindex.php?m=gift&c=index&a=index";
+//
+//    //礼包领取接口
+//    String GIFT_GET="mapiindex.php?m=gift&c=index&a=recGift";
+
+    String ACTIVITY_CURRENT = "mapiindex.php?m=activities&c=index&a=getNowAct";
+
+    // 活动历史接口
+    String Activity_PAST = "mapiindex.php?m=activities&c=index&a=getHisAct";
 
     //礼包接口
-    String GIFT_Home="mapiindex.php?m=gift&c=index&a=index";
+    String GIFT_Home = "mapiindex.php?m=gift&c=index&a=index";
 
     //礼包领取接口
-    String GIFT_GET="mapiindex.php?m=gift&c=index&a=recGift";
+    String GIFT_GET = "mapiindex.php?m=gift&c=index&a=recGift";
 
     // 礼包详情接口
-    String GIFT_DETAIL="mapiindex.php?m=gift&c=index&a=getDetail";
+    String GIFT_DETAIL = "mapiindex.php?m=gift&c=index&a=getDetail";
+
+    // hi 首页动态
+    String HI_INDEX = "mapiindex.php?m=hi&c=index&a=index";
+
+    @GET(HI_INDEX) Observable<ReqResult<List<HiCardEntity>>> getHiIndex(
+        @QueryMap Map<String, String> params);
 
     @GET(ZFB_ONLY) Observable<ReqResult<String>> getZFBOnly(@QueryMap Map<String, String> params);
+
+
 
     @POST(WFT_PAYMENT) @FormUrlEncoded
     Observable<ReqResult<WftUnifiedResponseEntity>> postWFTUnified(
@@ -159,6 +180,7 @@ public interface YNetApiService {
     //@GET(CAPTCHA) Observable<ReqResult<String>> getCaptcha(@Query("mobile") String mobile);
 
     //正在进行 的活动
+
     @GET(ACTIVITY_CURRENT)Observable<ReqResult<List<Object>>> getCurrentAcitivyList();
     //活动历史接口
 
@@ -172,17 +194,21 @@ public interface YNetApiService {
             @QueryMap Map<String, String> params);
 
 
+
+    //活动历史接口
+
+
+
     //礼包首页接口
-    @GET(GIFT_Home)Observable<ReqResult<List<Object>>> getGiftList(
-    @QueryMap Map<String, String> params);
+    @GET(GIFT_Home) Observable<ReqResult<List<Object>>> getGiftList(
+        @QueryMap Map<String, String> params);
+
     //礼包领取接口
     //h5.7676.com/mapiindex.php?m=gift&c=index&a=recGift&bid=50&token
-   @GET(GIFT_GET)Observable<ReqResult<String>>  receiveGift(
-           @QueryMap Map<String,String> params);
+
+    @GET(GIFT_GET) Observable<ReqResult<String>> receiveGift(@QueryMap Map<String, String> params);
+
     //礼包详情界面
-    @GET(GIFT_DETAIL)Observable<ReqResult<Test>> getGiftDetail(
-            @QueryMap Map<String,String> params);
-
-
-
+    @GET(GIFT_DETAIL) Observable<ReqResult<Test>> getGiftDetail(
+        @QueryMap Map<String, String> params);
 }

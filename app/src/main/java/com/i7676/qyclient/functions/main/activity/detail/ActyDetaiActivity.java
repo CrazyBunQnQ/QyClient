@@ -22,8 +22,8 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/10/9.
  */
-@Layout(R.layout.activity_activites_detail)
-public class ActyDetaiActivity extends BaseActivity<ActyDetailPresenter,ActyDetailView>implements  ActyDetailView {
+@Layout(R.layout.activity_activites_detail) public class ActyDetaiActivity
+    extends BaseActivity<ActyDetailPresenter, ActyDetailView> implements ActyDetailView {
 
     private MyViewPager myViewPager;
     private TabLayout mTabLayout;
@@ -33,6 +33,7 @@ public class ActyDetaiActivity extends BaseActivity<ActyDetailPresenter,ActyDeta
     private Intent intent;
     private String activityid;
     private ActivityDetailFrgment mactivityDetailFrgment;
+
 
 
 
@@ -48,57 +49,53 @@ public class ActyDetaiActivity extends BaseActivity<ActyDetailPresenter,ActyDeta
 
         setUpInject();
 
-
-
         intent = getIntent();
+
      //  activityid = intent.getStringExtra("id");
       //  String description = intent.getStringExtra("description");
+
+        activityid = intent.getStringExtra("id");
+        String description = intent.getStringExtra("description");
+
         mTitle.add("活动详情");
         mTitle.add("本期活动排行榜");
         mFragment.add(new ActivityDetailFrgment());
         mFragment.add(new RankingListFrgment());
 
-        myViewPager= (MyViewPager) findViewById(R.id.activites_viewpager);
-        myViewPager.setAdapter(new ActivitiespagerAdapter(getSupportFragmentManager(),mTitle,mFragment)) ;
+        myViewPager = (MyViewPager) findViewById(R.id.activites_viewpager);
+        myViewPager.setAdapter(
+            new ActivitiespagerAdapter(getSupportFragmentManager(), mTitle, mFragment));
 
-
-        mTabLayout= (TabLayout) findViewById(R.id.activities_tab);
+        mTabLayout = (TabLayout) findViewById(R.id.activities_tab);
         mTabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.colorPrimary));
         mTabLayout.addTab(mTabLayout.newTab().setText("活动详情"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("本期活动排行榜" ));
-        mTabLayout.setTabTextColors(Color.BLACK,Color.parseColor("#FF6F00"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("本期活动排行榜"));
+        mTabLayout.setTabTextColors(Color.BLACK, Color.parseColor("#FF6F00"));
         mTabLayout.setupWithViewPager(myViewPager);//
 
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
+            @Override public void onTabSelected(TabLayout.Tab tab) {
                 myViewPager.setCurrentItem(tab.getPosition());
             }
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
+            @Override public void onTabUnselected(TabLayout.Tab tab) {
 
             }
 
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
+            @Override public void onTabReselected(TabLayout.Tab tab) {
 
             }
         });
-
-
     }
 
     private void setUpInject() {
-        mActyDetailcomponent= DaggerActyDetailComponent.builder().qyClientComponent(((QyClient)getApplication()).getClientComponent()).build();
+        mActyDetailcomponent = DaggerActyDetailComponent.builder()
+            .qyClientComponent(((QyClient) getApplication()).getClientComponent())
+            .build();
         mActyDetailcomponent.inject(getPresenter());
-
-
     }
 
-    @NonNull
-    @Override
-    public ActyDetailPresenter providePresenter() {
+    @NonNull @Override public ActyDetailPresenter providePresenter() {
         return new ActyDetailPresenter();
     }
 

@@ -35,12 +35,10 @@ import javax.inject.Inject;
     //private EditText etSearch;
     private SearchView mSearchView;
     @Inject CategoryAdapter mCategoryAdapter;
+    private int tabIndex = -1;
 
     // Dagger
     private MainAtyComponent atyComponent;
-
-    // Members
-    private boolean opMenuVisibility = true;
 
     @Override public void initViews() {
         // 进行依赖注入
@@ -103,10 +101,35 @@ import javax.inject.Inject;
     }
 
     @Override public boolean onPrepareOptionsMenu(Menu menu) {
-        menu.findItem(R.id.category).setVisible(opMenuVisibility);
-        if (!opMenuVisibility && mCategoryPopupWindow != null && mCategoryPopupWindow.isShowing()) {
-            mCategoryPopupWindow.dismiss();
+        switch (tabIndex) {
+            case MainAtyView.TAB_INDEX_HOME:
+                menu.findItem(R.id.category).setVisible(true);
+                menu.findItem(R.id.edit).setVisible(false);
+                menu.findItem(R.id.commentNotify).setVisible(false);
+                break;
+            case MainAtyView.TAB_INDEX_ACTIVITY:
+                menu.findItem(R.id.category).setVisible(false);
+                menu.findItem(R.id.edit).setVisible(false);
+                menu.findItem(R.id.commentNotify).setVisible(false);
+                break;
+            case MainAtyView.TAB_INDEX_GIFT:
+                menu.findItem(R.id.category).setVisible(false);
+                menu.findItem(R.id.edit).setVisible(false);
+                menu.findItem(R.id.commentNotify).setVisible(false);
+                break;
+            case MainAtyView.TAB_INDEX_HI:
+                menu.findItem(R.id.category).setVisible(false);
+                menu.findItem(R.id.edit).setVisible(true);
+                menu.findItem(R.id.commentNotify).setVisible(true);
+                break;
+            default:
+            case MainAtyView.TAB_INDEX_PROFILE:
+                menu.findItem(R.id.category).setVisible(false);
+                menu.findItem(R.id.edit).setVisible(false);
+                menu.findItem(R.id.commentNotify).setVisible(false);
+                break;
         }
+        closePopupWindowIfOpening();
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -134,19 +157,23 @@ import javax.inject.Inject;
         this.mSearchView.setVisibility(View.VISIBLE);
     }
 
-    @Override public void hideOptionsMenu() {
-        closeOptionsMenu();
-        opMenuVisibility = false;
-        invalidateOptionsMenu();
+    @Override public void showSearchView() {
+        this.mSearchView.setVisibility(View.VISIBLE);
     }
 
-    @Override public void showOptionsMenu() {
-        opMenuVisibility = true;
+    @Override public void hideSearchView() {
+        this.mSearchView.setVisibility(View.GONE);
+    }
+
+    public void renderToolbarOptionMenus(int tabIndex) {
+        this.tabIndex = tabIndex;
         invalidateOptionsMenu();
     }
 
     @Override public void closePopupWindowIfOpening() {
-        if (mCategoryPopupWindow.isShowing()) mCategoryPopupWindow.dismiss();
+        if (mCategoryPopupWindow != null && mCategoryPopupWindow.isShowing()) {
+            mCategoryPopupWindow.dismiss();
+        }
     }
 
     @Override public void showHomeFr() {

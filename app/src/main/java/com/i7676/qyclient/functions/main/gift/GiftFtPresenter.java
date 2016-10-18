@@ -18,6 +18,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -35,6 +36,7 @@ public class GiftFtPresenter  extends BasePresenter<GiftFrView> implements BaseQ
 
     @Inject
     YNetApiService mYNetApiService;
+    private Subscription giftSubscription;
 
 
 
@@ -42,6 +44,19 @@ public class GiftFtPresenter  extends BasePresenter<GiftFrView> implements BaseQ
         super.onWakeUp();
         initGiftData();
         initGiftGet();
+    }
+
+    @Override
+    protected void onSleep() {
+        super.onSleep();
+        doUnsubscribe(giftSubscription);
+
+
+    }
+    private void doUnsubscribe(Subscription subscription) {
+        if (subscription != null && subscription.isUnsubscribed()) {
+            subscription.unsubscribe();
+        }
     }
 
     private void  initGiftGet() {
@@ -55,9 +70,10 @@ public class GiftFtPresenter  extends BasePresenter<GiftFrView> implements BaseQ
         }else {
         HashMap<String,String> params2= new HashMap<>();
       // params2.put("bid", data.get(list.size()).getBid().toString());
-             params2.put("bid",data.get(i).getBid().toString());
+           //  params2.put("bid",data.get(i).getBid().toString());
         params2.put("token", QyClient.curUser.getToken());
-        mYNetApiService.receiveGift(params2).subscribeOn(Schedulers.io())
+
+            giftSubscription =mYNetApiService.receiveGift(params2).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         requestString ->{

@@ -39,8 +39,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="就是破个人给就任凭时光日就是破个人就是公司人家说公司金融商品改时间就就破手机干涩 今日股票上果然是激发I 到 到V家啊大大家 V安静的埃及V啊距啊阿吉哦多久熬好大劫案 ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddfffffffffffffffffffffffffffffffffffffffffffffffff"
+            android:layout_height="match_parent"
             />
     </LinearLayout>
 

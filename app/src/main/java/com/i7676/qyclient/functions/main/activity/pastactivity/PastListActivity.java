@@ -83,7 +83,8 @@ public class PastListActivity  extends BaseActivity<PastListAtyPresenter,PastLis
     public void addList(List<ActivitiesEntity> activitiesEntities) {
         mRecyclerView.setVisibility(View.VISIBLE);
       //  mEmptyView.setVisibility(View.GONE);
-        mAdapter.addData(activitiesEntities);
+       // mAdapter.addData(activitiesEntities);
+        mAdapter.setNewData(activitiesEntities);
         if (mSwipeRefreshLayout.isRefreshing()) mSwipeRefreshLayout.setRefreshing(Boolean.FALSE);
 
     }

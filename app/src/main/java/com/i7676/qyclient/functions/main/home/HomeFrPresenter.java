@@ -176,10 +176,10 @@ public class HomeFrPresenter extends BasePresenter<HomeFrView>
 
     private void toolbarSetup() {
         getView().showActionBar();
+        getView().showSearchView();
         getView().setActionBarTitle("主页");
         getView().setActionBarBackground(ColorConstants.TRANSPARENT);
         getView().setBottomBarIndex(MainAtyView.TAB_INDEX_HOME);
-        getView().showOptionsMenu();
     }
 
     private void initTopBannerData() {

@@ -8,6 +8,8 @@ import com.i7676.qyclient.functions.main.MainActivity;
 import com.i7676.qyclient.functions.main.MainAtyView;
 import com.i7676.qyclient.functions.main.activity.ActivityFragment;
 import com.i7676.qyclient.functions.main.gift.GiftFragment;
+
+import com.i7676.qyclient.functions.main.hi.HiFragment;
 import com.i7676.qyclient.functions.main.home.HomeFragment;
 import com.i7676.qyclient.functions.main.home.list.GameListActivity;
 import com.i7676.qyclient.functions.main.profile.ProfileFragment;
@@ -38,6 +40,14 @@ public class MainAtyNavigator {
             (frCached.get(tabIndex) != null ? frCached.get(tabIndex) : HomeFragment.create(null)));
     }
 
+    public void showHi() {
+        if (tabIndex == MainAtyView.TAB_INDEX_HI) return;
+
+        tabIndex = MainAtyView.TAB_INDEX_HI;
+        transform(tabIndex, selectedFragment =
+            (frCached.get(tabIndex) != null ? frCached.get(tabIndex) : HiFragment.create(null)));
+    }
+
     public void showActivityFr() {
         if (tabIndex == MainAtyView.TAB_INDEX_ACTIVITY) return;
 
@@ -46,17 +56,17 @@ public class MainAtyNavigator {
             (frCached.get(tabIndex) != null ? frCached.get(tabIndex)
                 : ActivityFragment.create(null)));
     }
+
+
     /**
      * 礼包
      */
-    public void showGiftFr(){
-
+    public void showGiftFr() {
         if (tabIndex == MainAtyView.TAB_INDEX_GIFT) return;
 
         tabIndex = MainAtyView.TAB_INDEX_GIFT;
         transform(tabIndex, selectedFragment =
-                (frCached.get(tabIndex) != null ? frCached.get(tabIndex)
-                        : GiftFragment.create(null)));
+            (frCached.get(tabIndex) != null ? frCached.get(tabIndex) : GiftFragment.create(null)));
     }
 
     public void showLoginAty() {
@@ -67,6 +77,7 @@ public class MainAtyNavigator {
         mAty.closePopupWindowIfOpening();
         mAty.startActivity(GameListActivity.buildIntent(mAty, args));
     }
+
     public void showProfileFr() {
         if (tabIndex == MainAtyView.TAB_INDEX_PROFILE) return;
 
@@ -91,6 +102,7 @@ public class MainAtyNavigator {
     }
 
     private void transform(int index, BaseFragment fragment) {
+        mAty.renderToolbarOptionMenus(index);
         //cacheFragment(index, fragment);
         mAty.getSupportFragmentManager()
             .beginTransaction()

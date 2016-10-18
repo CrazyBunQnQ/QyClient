@@ -4,6 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
+  
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -45,7 +47,32 @@
             />
 
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="vertical"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/activity_rank_background"
 
+        >
+        <TextView
+            android:id="@+id/tv_Award"
+            android:layout_width="40dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="5dp"
+            android:text="领奖方式"
+            />
+        <TextView
+            android:id="@+id/tv_requirements"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_marginLeft="5dp"
+            android:text="获奖玩家请务必绑定手机号，联系客服2487193164领取奖励。"
+            android:textSize="10sp"
+            />
+
+    </LinearLayout>
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/rank_sr"
         android:layout_width="match_parent"

@@ -81,7 +81,7 @@ public class GiftFragment extends BaseFragment<GiftFtPresenter,GiftFrView> imple
 
 
                     // 跳转到 详情界面
-                        Toast.makeText(getActivity(), "你好啊", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "领取成功", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getActivity(), GiftDetailActivity.class);
                        intent.putExtra("bid",list.get(i).getBid());
                         startActivity(intent);
@@ -111,7 +111,8 @@ public class GiftFragment extends BaseFragment<GiftFtPresenter,GiftFrView> imple
         mRecyclerView.setVisibility(View.VISIBLE);
         //mEmptyView.setVisibility(View.GONE);
 
-        mAdapter.addData(giftEntities);
+       mAdapter.addData(giftEntities);
+      //  mAdapter.setNewData(giftEntities);
         list= giftEntities;
         mAdapter.notifyDataSetChanged();
 

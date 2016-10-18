@@ -1,6 +1,12 @@
 package com.i7676.qyclient.exception;
 
-class ServerException extends RuntimeException {
-  int code;
-  String message;
+public class ServerException extends RuntimeException {
+    public int code;
+    public String message;
+
+    public ServerException(int code, String message) {
+        super(message);
+        this.code = code;
+        this.message = message;
+    }
 }

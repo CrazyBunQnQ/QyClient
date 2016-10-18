@@ -160,19 +160,15 @@ import javax.inject.Inject;
     }
 
     @Override public void showActionBar() {
-        ((MainActivity) getActivity()).getPresenter().getView().showActionBar();
+        ((MainActivity) getActivity()).showActionBar();
     }
 
     @Override public void setActionBarBackground(int color) {
-        ((MainActivity) getActivity()).getPresenter().getView().setToolbarBkg(color);
+        ((MainActivity) getActivity()).setToolbarBkg(color);
     }
 
     @Override public void setBottomBarIndex(int index) {
-        ((MainActivity) getActivity()).getPresenter().getView().setBottomBarIndex(index);
-    }
-
-    @Override public void showOptionsMenu() {
-        ((MainActivity) getActivity()).getPresenter().getView().showOptionsMenu();
+        ((MainActivity) getActivity()).setBottomBarIndex(index);
     }
 
     @Override public void showDialog2User(String msg) {
@@ -219,6 +215,10 @@ import javax.inject.Inject;
         Bundle args = new Bundle();
         args.putString(PlayGameActivity.GAME_URL, url + "&token=" + QyClient.curUser.getToken());
         startActivity(PlayGameActivity.buildIntent(getContext(), args));
+    }
+
+    @Override public void showSearchView() {
+        ((MainActivity) getActivity()).showSearchView();
     }
 
     private static final int SERVER_FUCKED_UP = 0;
