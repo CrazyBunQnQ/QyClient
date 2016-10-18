@@ -40,6 +40,7 @@
     <activity android:name=".functions.main.home.list.GameListActivity"/>
     <activity android:name=".functions.main.activity.pastactivity.PastListActivity"/>
     <activity android:name=".functions.main.profile.detail.MenuDetailActivity"/>
+    <activity android:name=".functions.main.hi.detail.HiDetailActivity"/>
 
     <activity android:name=".functions.main.gift.giftdetail.GiftDetailActivity"/>
 

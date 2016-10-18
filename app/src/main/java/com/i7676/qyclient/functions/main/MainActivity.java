@@ -96,6 +96,9 @@ import javax.inject.Inject;
                     mCategoryPopupWindow.showAsDropDown(mToolbar);
                 }
                 break;
+            case R.id.edit:
+
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
