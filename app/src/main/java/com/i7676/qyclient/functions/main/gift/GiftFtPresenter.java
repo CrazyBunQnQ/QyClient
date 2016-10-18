@@ -53,11 +53,6 @@ public class GiftFtPresenter  extends BasePresenter<GiftFrView> implements BaseQ
 
 
     }
-    private void doUnsubscribe(Subscription subscription) {
-        if (subscription != null && subscription.isUnsubscribed()) {
-            subscription.unsubscribe();
-        }
-    }
 
     private void  initGiftGet() {
         data= new ArrayList<>();

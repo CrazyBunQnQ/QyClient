@@ -41,12 +41,6 @@ public class ActivityFrPresenter extends BasePresenter<ActivityFrView> {
         doUnsubscribe(actySubscription);
     }
 
-    private void doUnsubscribe(Subscription subscription) {
-        if (subscription != null && subscription.isUnsubscribed()) {
-            subscription.unsubscribe();
-        }
-    }
-
     private void initActivityFrData() {
         //        Observable.from(new String[] { "1", "2", "3" })
         //            .observeOn(AndroidSchedulers.mainThread())
