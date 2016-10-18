@@ -1,4 +1,4 @@
-package com.i7676.qyclient.functions.main.activity.detail;
+package com.i7676.qyclient.functions.main.activity.detail.childFragment.detaialfragment;
 
 import com.i7676.qyclient.QyClient;
 import com.i7676.qyclient.api.ServerConstans;
@@ -14,7 +14,12 @@ import javax.inject.Inject;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class ActyDetailPresenter extends BasePresenter<ActyDetailView> {
+/**
+ * Created by Administrator on 2016/10/18.
+ */
+
+public class ActivityDetailPresenter  extends BasePresenter<ActivityDetailView> {
+
 
     @Inject
     YNetApiService mYNetApiService;
@@ -22,12 +27,11 @@ public class ActyDetailPresenter extends BasePresenter<ActyDetailView> {
     @Override
     protected void onWakeUp() {
         super.onWakeUp();
-
-      //  onAcitivityDetailData(); // 加载活动详情界面的数据
+        initDetailData();
 
     }
 
-    private void onAcitivityDetailData() {
+    private void initDetailData() {
 
         Map<String,String> params= new HashMap<>();
         params.put("actid","29");
@@ -36,8 +40,11 @@ public class ActyDetailPresenter extends BasePresenter<ActyDetailView> {
         mYNetApiService.getActyivityDetail(params).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(activtyresult ->{
                     if (activtyresult.getRet()== ServerConstans.SUCCESS){
-                       Logger.e(">>>> next"+ activtyresult.getData().toString());
-                     //   getView().getDetailFragment(activtyresult.getData().toString());
+                        Logger.e(">>>> next"+ activtyresult.getData().toString());
+                        //   getView().getDetailFragment(activtyresult.getData().toString());
+                        getView().getTextdetail(activtyresult.getData().getDescription());
+                        getView().goActivity(activtyresult.getData().getHref());
+                        Logger.e(">>>");
 
                     }
                 },(throwable -> {

@@ -107,7 +107,7 @@ private GiftDetailComponent mGiftdetialcompoent;
     @NonNull
     @Override
     public GiftDetailPresenter providePresenter() {
-        return new GiftDetailPresenter();
+        return new GiftDetailPresenter(getIntent());
     }
 
 
@@ -119,6 +119,7 @@ private GiftDetailComponent mGiftdetialcompoent;
        // tv_reedemcode.setText(mTest.getDetail().g);  兑换码
         mProgress.setProgress(mTest.getDetail().getRemain());
         gift_icon.setImageUrlAndAuthorInfo(mTest.getDetail().getIcon(),null);
+
 
     }
 }

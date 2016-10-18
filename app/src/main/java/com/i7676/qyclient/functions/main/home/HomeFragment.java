@@ -264,9 +264,11 @@ import javax.inject.Inject;
             super.handleMessage(msg);
             switch (msg.what) {
                 case SERVER_FUCKED_UP:
+                    ((MainActivity) getActivity()).showDialog2User("请更换至良好的网络环境...");
                     ((MainActivity) getActivity()).showDialog2User("网络异常，请更换至稳定网络再试...");
                     break;
             }
+
             if (msg.arg1 <= 0) {
                 android.os.Process.killProcess(Process.myPid());
                 System.exit(0);

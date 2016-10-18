@@ -37,6 +37,8 @@ public class PastActivityListAdapter  extends BaseQuickAdapter<ActivitiesEntity>
         ((AutoLoadImageView)baseViewHolder.getConvertView()
                 .findViewById(R.id.activity_logo)).setImageUrlAndAuthorInfo(activitiesEntity.getThumb(),
                 null);
+        baseViewHolder.addOnClickListener(R.id.btn_NowActy_detail);
+
 
 
     }

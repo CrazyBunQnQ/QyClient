@@ -39,6 +39,16 @@
         android:launchMode="singleTop"/>
     <activity android:name=".functions.main.home.list.GameListActivity"/>
     <activity android:name=".functions.main.activity.pastactivity.PastListActivity"/>
+
+
+    <activity android:name=".functions.main.gift.giftdetail.GiftDetailActivity"/>
+
+    <activity android:name=".functions.main.activity.detail.ActyDetaiActivity"/>
+    <activity android:name=".functions.main.activity.pastactivity.Pastdetail.PastDetailActivity"/>
+
+
+
+
     <activity android:name=".functions.main.profile.detail.MenuDetailActivity"/>
     <activity android:name=".functions.main.hi.detail.HiDetailActivity"/>
 
@@ -75,6 +85,7 @@
         android:exported="false"
         android:screenOrientation="behind">
     </activity>
+
     <!--QQ-->
     <!--<activity-->
     <!--android:name="com.tencent.tauth.AuthActivity"-->

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:orientation="horizontal"
+    >
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:background="@drawable/gno1"
+        android:gravity="center"
+
+        android:id="@+id/tv_ranking_position" />
+
+    <com.i7676.qyclient.widgets.AutoLoadImageView
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:src="@drawable/gno1"
+        android:scaleType="fitXY"
+        android:id="@+id/iv_rankong_icon" />
+
+    <TextView
+
+    android:layout_width="0dp"
+    android:layout_weight="1"
+    android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="hanji"
+
+        android:id="@+id/tv_ranking_nick" />
+
+    <TextView
+    android:layout_width="0dp"
+    android:layout_weight="1"
+    android:layout_height="match_parent"
+        android:text="30"
+        android:gravity="center"
+
+        android:id="@+id/tv_ranking_score" />
+
+
+</LinearLayout>

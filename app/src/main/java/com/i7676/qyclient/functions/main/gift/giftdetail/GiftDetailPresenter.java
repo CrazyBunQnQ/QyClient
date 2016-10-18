@@ -1,5 +1,6 @@
 package com.i7676.qyclient.functions.main.gift.giftdetail;
 
+import android.content.Intent;
 import android.util.Log;
 
 import com.i7676.qyclient.QyClient;
@@ -26,6 +27,13 @@ public class GiftDetailPresenter extends BasePresenter<GiftDetailView> {
     @Inject
     YNetApiService  mYnetApiService;
 
+    Intent args;
+    String bid;
+
+    GiftDetailPresenter(Intent args){
+        this.args = args;
+    }
+
 
     @Override
     protected void onWakeUp() {
@@ -37,8 +45,11 @@ public class GiftDetailPresenter extends BasePresenter<GiftDetailView> {
     }
 
     public void getGiftDetaildata() {
+
+        bid = args.getStringExtra("bid");
+
         HashMap<String,String> params =  new HashMap<>();
-        params.put("bid","50");
+        params.put("bid",bid);
         params.put("token", QyClient.curUser.getToken());
 
 //        mYnetApiService.getGiftDetail(params).subscribe(testReqResult -> {

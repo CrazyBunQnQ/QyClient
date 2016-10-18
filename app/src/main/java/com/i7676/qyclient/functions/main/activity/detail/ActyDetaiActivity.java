@@ -9,9 +9,10 @@ import android.support.v4.app.Fragment;
 import com.i7676.qyclient.QyClient;
 import com.i7676.qyclient.R;
 import com.i7676.qyclient.annotations.Layout;
+import com.i7676.qyclient.entity.ActivitiesEntity;
 import com.i7676.qyclient.functions.BaseActivity;
-import com.i7676.qyclient.functions.main.activity.detail.childFragment.ActivityDetailFrgment;
-import com.i7676.qyclient.functions.main.activity.detail.childFragment.RankingListFrgment;
+import com.i7676.qyclient.functions.main.activity.detail.childFragment.detaialfragment.ActivityDetailFrgment;
+import com.i7676.qyclient.functions.main.activity.detail.childFragment.RankingFragment.RankingListFrgment;
 import com.i7676.qyclient.functions.main.adapters.ActivitiespagerAdapter;
 import com.i7676.qyclient.widgets.MyViewPager;
 
@@ -33,13 +34,29 @@ import java.util.List;
     private String activityid;
     private ActivityDetailFrgment mactivityDetailFrgment;
 
-    @Override public void initViews() {
+
+
+
+    public ActyDetailComponent getAtyComponent() {
+        return mActyDetailcomponent;
+    }
+
+
+
+
+    @Override
+    public void initViews() {
 
         setUpInject();
 
         intent = getIntent();
+
+     //  activityid = intent.getStringExtra("id");
+      //  String description = intent.getStringExtra("description");
+
         activityid = intent.getStringExtra("id");
         String description = intent.getStringExtra("description");
+
         mTitle.add("活动详情");
         mTitle.add("本期活动排行榜");
         mFragment.add(new ActivityDetailFrgment());
@@ -80,5 +97,19 @@ import java.util.List;
 
     @NonNull @Override public ActyDetailPresenter providePresenter() {
         return new ActyDetailPresenter();
+    }
+
+
+    @Override
+    public void getDetailFragment(ActivitiesEntity activitiesEntities) {
+        String description = activitiesEntities.getDescription();
+
+
+
+    }
+
+    @Override
+    public void getRankingFragment() {
+
     }
 }

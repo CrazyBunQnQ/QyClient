@@ -97,7 +97,7 @@ import javax.inject.Inject;
     //    }
 
     @Override public void setupActivityData(List<ActivitiesEntity> activities) {
-        activityFrAdapter.addData(activities);
+        activityFrAdapter.setNewData(activities);
         list = activities;
     }
 

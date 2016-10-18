@@ -13,6 +13,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -24,12 +25,26 @@ import static com.i7676.qyclient.api.ServerConstans.RESPONSE_DATA_IS_NULL;
 public class ActivityFrPresenter extends BasePresenter<ActivityFrView> {
 
     @Inject YNetApiService mYNetApiService;
+    private Subscription actySubscription;
 
     @Override protected void onWakeUp() {
         super.onWakeUp();
         toolbarSetup();
-
         initActivityFrData();
+
+
+    }
+
+    @Override
+    protected void onSleep() {
+        super.onSleep();
+        doUnsubscribe(actySubscription);
+    }
+
+    private void doUnsubscribe(Subscription subscription) {
+        if (subscription != null && subscription.isUnsubscribed()) {
+            subscription.unsubscribe();
+        }
     }
 
     private void initActivityFrData() {
@@ -38,7 +53,7 @@ public class ActivityFrPresenter extends BasePresenter<ActivityFrView> {
         //            .toList()
         //            .subscribe(getView()::setupActivityData);
 
-        mYNetApiService.getCurrentAcitivyList()
+        actySubscription=  mYNetApiService.getCurrentAcitivyList()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(request -> {

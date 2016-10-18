@@ -8,6 +8,7 @@ import com.i7676.qyclient.functions.main.MainActivity;
 import com.i7676.qyclient.functions.main.MainAtyView;
 import com.i7676.qyclient.functions.main.activity.ActivityFragment;
 import com.i7676.qyclient.functions.main.gift.GiftFragment;
+
 import com.i7676.qyclient.functions.main.hi.HiFragment;
 import com.i7676.qyclient.functions.main.home.HomeFragment;
 import com.i7676.qyclient.functions.main.home.list.GameListActivity;
@@ -55,6 +56,7 @@ public class MainAtyNavigator {
             (frCached.get(tabIndex) != null ? frCached.get(tabIndex)
                 : ActivityFragment.create(null)));
     }
+
 
     /**
      * 礼包
