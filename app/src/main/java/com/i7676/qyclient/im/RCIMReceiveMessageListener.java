@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.orhanobut.logger.Logger;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Message;
+import io.rong.message.FileMessage;
 import io.rong.message.TextMessage;
 
 public class RCIMReceiveMessageListener implements RongIMClient.OnReceiveMessageListener {
@@ -16,10 +17,27 @@ public class RCIMReceiveMessageListener implements RongIMClient.OnReceiveMessage
      * @return 收到消息是否处理完成，true 表示走自已的处理方式，false 走融云默认处理方式。
      */
     @Override public boolean onReceived(Message message, int left) {
+        // 这里需要判断类别，详情参考融云可以发送的消息类型
+        if (message.getContent() instanceof TextMessage) {
+            return this.dealWithMsgIfIsATextMessage(message);
+        } else if (message.getContent() instanceof FileMessage) {
+            // this.dealWithMsgIfIsAFileMessage
+            return true;
+        }
+        //ImageMessage等等
+        else {
+            return false;
+        }
+    }
+
+    private void startSomeActivity(Bundle args) {
+        // 启动相应的 Activity
+    }
+
+    private boolean dealWithMsgIfIsATextMessage(Message message) {
         TextMessage txtContent = (TextMessage) message.getContent();
         String content = txtContent.getContent();
         String extra = txtContent.getExtra();
-
         // 根据建学的提示，extra是个json串
         JSONObject jsonObject = null;
         try {
@@ -54,13 +72,9 @@ public class RCIMReceiveMessageListener implements RongIMClient.OnReceiveMessage
                 args.putString("action", action);
                 args.putString("id", id);
                 //......
-                dealWithTheme(args);
+                startSomeActivity(args);
                 break;
         }
         return true;
-    }
-
-    private void dealWithTheme(Bundle args) {
-        // 启动相应的 Activity
     }
 }
