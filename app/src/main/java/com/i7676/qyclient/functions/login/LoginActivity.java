@@ -14,7 +14,11 @@ import com.i7676.qyclient.entity.UserEntity;
 import com.i7676.qyclient.functions.OneHasToolbarActivity;
 import com.i7676.qyclient.functions.login.navigation.LoginNavigator;
 import com.i7676.qyclient.functions.login.rof.RoFFragment;
+import com.i7676.qyclient.im.RCIMReceiveMessageListener;
 import com.i7676.qyclient.util.SharedPreferencesUtil;
+import com.orhanobut.logger.Logger;
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
 import javax.inject.Inject;
 
 /**
@@ -92,7 +96,48 @@ import javax.inject.Inject;
 
     @Override public void signUpSuccess() {
         this.closeDialog();
-        this.finish();
+        this.rongConnection(QyClient.curUser.getRtoken());
+    }
+
+    private void rongConnection(String rToken) {
+        // FIXME 这个 process 的判断是做什么用的？
+        //if (getApplicationInfo().packageName.equals(
+        //    QyClient.getCurProcessName(getApplicationContext()))) {
+
+        // 在这儿之前注册 RCIM 的接收器
+        /**
+         *  设置接收消息的监听器。
+         */
+        RongIM.setOnReceiveMessageListener(new RCIMReceiveMessageListener());
+        /**
+         * IMKit SDK调用第二步,建立与服务器的连接
+         */
+        RongIM.connect(rToken, new RongIMClient.ConnectCallback() {
+            /**
+             * Token 错误，在线上环境下主要是因为 Token 已经过期，您需要向 App Server 重新请求一个新的 Token
+             */
+            @Override public void onTokenIncorrect() {
+                Logger.d("--onTokenIncorrect");
+            }
+
+            /**
+             * 连接融云成功
+             * @param userid 当前 token
+             */
+            @Override public void onSuccess(String userid) {
+                Logger.d("--onSuccess" + userid);
+                //startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                finish();
+            }
+
+            /**
+             * 连接融云失败
+             * @param errorCode 错误码，可到官网 查看错误码对应的注释
+             */
+            @Override public void onError(RongIMClient.ErrorCode errorCode) {
+                Logger.d("--onError" + errorCode);
+            }
+        });
     }
 
     @Override public void signUpFailed(String msg) {

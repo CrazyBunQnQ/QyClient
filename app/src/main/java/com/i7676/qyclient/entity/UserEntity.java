@@ -13,6 +13,15 @@ public class UserEntity implements Serializable {
     private String nickname;
     private String avatar;
     private String token;
+    private String rtoken;
+
+    public String getRtoken() {
+        return rtoken;
+    }
+
+    public void setRtoken(String rtoken) {
+        this.rtoken = rtoken;
+    }
 
     public String getToken() {
         return token;

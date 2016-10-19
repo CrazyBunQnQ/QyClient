@@ -6,6 +6,7 @@ import com.i7676.qyclient.util.SharedPreferencesUtil;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.Settings;
+import io.rong.imkit.RongIM;
 import javax.inject.Singleton;
 
 /**
@@ -27,6 +28,9 @@ import javax.inject.Singleton;
         // 载入用户
         curUser = (UserEntity) SharedPreferencesUtil.getInstance(this)
             .restoreSerializable(CURRENT_USER_SP_TAG);
+
+        // 融云
+        RongIM.init(this);
     }
 
     private void init3rdPartyLibs(boolean isDebug) {
