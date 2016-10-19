@@ -50,6 +50,7 @@ public class RCIMReceiveMessageListener implements RongIMClient.OnReceiveMessage
         switch (type) {
             case IMConstants.TYPE_THEME:
                 final Bundle args = new Bundle();
+                args.putString("content", content);
                 args.putString("action", action);
                 args.putString("id", id);
                 //......
